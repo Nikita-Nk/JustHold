@@ -11,15 +11,21 @@
 		18A554DE289B0C7900A9D48E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A554DD289B0C7900A9D48E /* ViewController.swift */; };
 		18A554E3289B0C7A00A9D48E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18A554E2289B0C7A00A9D48E /* Assets.xcassets */; };
 		18A554E6289B0C7A00A9D48E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18A554E4289B0C7A00A9D48E /* LaunchScreen.storyboard */; };
+		18A8A04B28A28C210092031D /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A8A04A28A28C210092031D /* Extensions.swift */; };
+		86EDB64C2EA418146DBA15EA /* Pods_JustHold.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC91E898C3B8F4132F87A9E5 /* Pods_JustHold.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		02BE00F7FE6E4750DD44AD53 /* Pods-JustHold.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JustHold.debug.xcconfig"; path = "Target Support Files/Pods-JustHold/Pods-JustHold.debug.xcconfig"; sourceTree = "<group>"; };
 		18A554D6289B0C7900A9D48E /* JustHold.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JustHold.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18A554D9289B0C7900A9D48E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		18A554DD289B0C7900A9D48E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		18A554E2289B0C7A00A9D48E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		18A554E5289B0C7A00A9D48E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		18A554E7289B0C7A00A9D48E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		18A8A04A28A28C210092031D /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		829C7701F78BA64E7E0A6722 /* Pods-JustHold.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JustHold.release.xcconfig"; path = "Target Support Files/Pods-JustHold/Pods-JustHold.release.xcconfig"; sourceTree = "<group>"; };
+		CC91E898C3B8F4132F87A9E5 /* Pods_JustHold.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JustHold.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -27,17 +33,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86EDB64C2EA418146DBA15EA /* Pods_JustHold.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0F1478549860DF79E839FA99 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CC91E898C3B8F4132F87A9E5 /* Pods_JustHold.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		18A554CD289B0C7900A9D48E = {
 			isa = PBXGroup;
 			children = (
 				18A554D8289B0C7900A9D48E /* JustHold */,
 				18A554D7289B0C7900A9D48E /* Products */,
+				674ECCF6205792C1C85D5D62 /* Pods */,
+				0F1478549860DF79E839FA99 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -52,13 +69,63 @@
 		18A554D8289B0C7900A9D48E /* JustHold */ = {
 			isa = PBXGroup;
 			children = (
-				18A554D9289B0C7900A9D48E /* AppDelegate.swift */,
+				18A8A04528A28BBB0092031D /* Other */,
+				18A8A04628A28BC70092031D /* Managers */,
+				18A8A04728A28BD20092031D /* Controllers */,
+				18A8A04828A28BDF0092031D /* Views */,
+				18A8A04928A28BF30092031D /* Models */,
 				18A554DD289B0C7900A9D48E /* ViewController.swift */,
-				18A554E2289B0C7A00A9D48E /* Assets.xcassets */,
-				18A554E4289B0C7A00A9D48E /* LaunchScreen.storyboard */,
-				18A554E7289B0C7A00A9D48E /* Info.plist */,
 			);
 			path = JustHold;
+			sourceTree = "<group>";
+		};
+		18A8A04528A28BBB0092031D /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				18A554E7289B0C7A00A9D48E /* Info.plist */,
+				18A554E2289B0C7A00A9D48E /* Assets.xcassets */,
+				18A554D9289B0C7900A9D48E /* AppDelegate.swift */,
+				18A8A04A28A28C210092031D /* Extensions.swift */,
+			);
+			path = Other;
+			sourceTree = "<group>";
+		};
+		18A8A04628A28BC70092031D /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		18A8A04728A28BD20092031D /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		18A8A04828A28BDF0092031D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				18A554E4289B0C7A00A9D48E /* LaunchScreen.storyboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		18A8A04928A28BF30092031D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		674ECCF6205792C1C85D5D62 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				02BE00F7FE6E4750DD44AD53 /* Pods-JustHold.debug.xcconfig */,
+				829C7701F78BA64E7E0A6722 /* Pods-JustHold.release.xcconfig */,
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -68,9 +135,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 18A554EA289B0C7A00A9D48E /* Build configuration list for PBXNativeTarget "JustHold" */;
 			buildPhases = (
+				E9A03CB48C14900E69D0EA44 /* [CP] Check Pods Manifest.lock */,
 				18A554D2289B0C7900A9D48E /* Sources */,
 				18A554D3289B0C7900A9D48E /* Frameworks */,
 				18A554D4289B0C7900A9D48E /* Resources */,
+				9390E9D7F3FD00322E423075 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -126,12 +195,55 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		9390E9D7F3FD00322E423075 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-JustHold/Pods-JustHold-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-JustHold/Pods-JustHold-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-JustHold/Pods-JustHold-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E9A03CB48C14900E69D0EA44 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-JustHold-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		18A554D2289B0C7900A9D48E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				18A554DE289B0C7900A9D48E /* ViewController.swift in Sources */,
+				18A8A04B28A28C210092031D /* Extensions.swift in Sources */,
 				18A554DA289B0C7900A9D48E /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -266,6 +378,7 @@
 		};
 		18A554EB289B0C7A00A9D48E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 02BE00F7FE6E4750DD44AD53 /* Pods-JustHold.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -273,7 +386,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 6U223Z5G92;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = JustHold/Info.plist;
+				INFOPLIST_FILE = JustHold/Other/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -294,6 +407,7 @@
 		};
 		18A554EC289B0C7A00A9D48E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 829C7701F78BA64E7E0A6722 /* Pods-JustHold.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -301,7 +415,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 6U223Z5G92;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = JustHold/Info.plist;
+				INFOPLIST_FILE = JustHold/Other/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
