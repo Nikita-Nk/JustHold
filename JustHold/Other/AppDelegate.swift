@@ -10,7 +10,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         window?.backgroundColor = .systemBackground
-        window?.rootViewController = ViewController()
+        
+        window?.rootViewController = MainTabBarController()
+//        window?.rootViewController = TabBarController()
+        
+        UITabBar.appearance().tintColor = .red
+        UITabBar.appearance().unselectedItemTintColor = .orange
         
         return true
     }

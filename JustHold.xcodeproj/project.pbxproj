@@ -12,6 +12,7 @@
 		18A554E3289B0C7A00A9D48E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18A554E2289B0C7A00A9D48E /* Assets.xcassets */; };
 		18A554E6289B0C7A00A9D48E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18A554E4289B0C7A00A9D48E /* LaunchScreen.storyboard */; };
 		18A8A04B28A28C210092031D /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A8A04A28A28C210092031D /* Extensions.swift */; };
+		18A8A04D28A28EE90092031D /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A8A04C28A28EE90092031D /* TabBarController.swift */; };
 		86EDB64C2EA418146DBA15EA /* Pods_JustHold.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC91E898C3B8F4132F87A9E5 /* Pods_JustHold.framework */; };
 /* End PBXBuildFile section */
 
@@ -24,6 +25,7 @@
 		18A554E5289B0C7A00A9D48E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		18A554E7289B0C7A00A9D48E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		18A8A04A28A28C210092031D /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		18A8A04C28A28EE90092031D /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		829C7701F78BA64E7E0A6722 /* Pods-JustHold.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JustHold.release.xcconfig"; path = "Target Support Files/Pods-JustHold/Pods-JustHold.release.xcconfig"; sourceTree = "<group>"; };
 		CC91E898C3B8F4132F87A9E5 /* Pods_JustHold.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JustHold.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -74,7 +76,6 @@
 				18A8A04728A28BD20092031D /* Controllers */,
 				18A8A04828A28BDF0092031D /* Views */,
 				18A8A04928A28BF30092031D /* Models */,
-				18A554DD289B0C7900A9D48E /* ViewController.swift */,
 			);
 			path = JustHold;
 			sourceTree = "<group>";
@@ -100,6 +101,8 @@
 		18A8A04728A28BD20092031D /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				18A8A04C28A28EE90092031D /* TabBarController.swift */,
+				18A554DD289B0C7900A9D48E /* ViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -243,6 +246,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				18A554DE289B0C7900A9D48E /* ViewController.swift in Sources */,
+				18A8A04D28A28EE90092031D /* TabBarController.swift in Sources */,
 				18A8A04B28A28C210092031D /* Extensions.swift in Sources */,
 				18A554DA289B0C7900A9D48E /* AppDelegate.swift in Sources */,
 			);
