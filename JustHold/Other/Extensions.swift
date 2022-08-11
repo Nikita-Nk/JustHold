@@ -1,7 +1,7 @@
 import UIKit
 import RAMAnimatedTabBarController
 
-//MARK: - adds possibility to change tintColor of selected item
+//MARK: - adds possibility to change tintColor of RAMTabBarItem
 
 extension RAMAnimatedTabBarItem {
     convenience init(title: String, image: UIImage?, tag: Int, animation: RAMItemAnimation, selectedColor: UIColor, unselectedColor: UIColor) {
