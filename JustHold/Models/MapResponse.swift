@@ -6,7 +6,7 @@ struct MapResponse: Codable {
 }
 
 // MARK: - Datum
-struct CoinData: Codable {
+struct CoinData: Codable, Equatable { // BinaryInteger
     let id, rank: Int
     let name, symbol, slug: String
     let isActive: Int // 1 if has at least 1 active market. otherwise 0

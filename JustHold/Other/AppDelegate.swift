@@ -14,6 +14,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.backgroundColor = .systemBackground
         window?.rootViewController = TabBarController()
         
+        
+        // if первый раз в приложении - в PersistenceM создать константу, которая берет значение из UserDefaults
+        if UserDefaults.standard.data(forKey: "favoriteCoins") != nil {
+            print("!!!")
+        } else {
+            print("nil nil nil")
+            PersistanceManager.shared.favoriteCoins = [CoinData]() // без этого зависание в момент обращения к этому массиву
+        }
+        
+
         APICaller.shared.getAllCoins()
         
 //        debug()
@@ -24,7 +34,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     private func debug() {
         
-        //
     }
     
 }

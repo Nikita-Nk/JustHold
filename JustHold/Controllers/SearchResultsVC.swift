@@ -68,6 +68,19 @@ extension SearchResultsVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let coin = results[indexPath.row]
+        
+        // добавляю в избранное / удаляю
+        if PersistanceManager.shared.isInFavorites(coin: coin) {
+            PersistanceManager.shared.removeFromFavorites(coin: coin)
+            print(PersistanceManager.shared.favoriteCoins)
+            print("удаляем")
+        } else {
+            PersistanceManager.shared.favoriteCoins.append(coin)
+            print(PersistanceManager.shared.favoriteCoins)
+            print("добавляем")
+        }
+        
         delegate?.searchResultsVCdidSelect(coin: coin) // Выше создали protocol и weak delegate. func из protocol. Тут функцию вызываем, чтобы передать данные в MarketsVC. А описание функции в MarketsVC
+        
     }
 }

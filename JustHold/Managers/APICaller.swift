@@ -37,6 +37,8 @@ final class APICaller {
             
             let sortedCoins = response.value!.data.sorted(by: {$0.rank < $1.rank} )
             PersistanceManager.shared.coinsMap = sortedCoins
+            
+            print("Загружаем монеты")
         }
     }
     

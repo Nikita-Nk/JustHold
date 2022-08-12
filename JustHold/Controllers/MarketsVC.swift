@@ -39,6 +39,7 @@ class MarketsVC: UIViewController {
         let resultVC = SearchResultsVC()
         resultVC.delegate = self // получаем данные из SearchResultsVC с помощью delegate. И ниже в extension прописываем функцию из protocol
         let searchVC = UISearchController(searchResultsController: resultVC)
+        searchVC.searchBar.placeholder = "Искать монеты..."
         searchVC.searchResultsUpdater = self
         navigationItem.searchController = searchVC
     }
@@ -52,13 +53,12 @@ extension MarketsVC: UISearchResultsUpdating {
               let resultsVC = searchController.searchResultsController as? SearchResultsVC else {
             return
         }
-//        print(query)
         
         searchTimer?.invalidate() // сброс таймера. Дальше запускаем снова, чтобы оптимизировать ресурсы и кол-во запросов
         
-        searchTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { _ in
+        searchTimer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false, block: { _ in
             
-            PersistanceManager.shared.isCoinInCoinsMap(query: query) { coins in
+            PersistanceManager.shared.isInCoinsMap(query: query) { coins in
                 DispatchQueue.main.async {
                     resultsVC.update(with: coins) // отправляем результаты поиска в resultsVC
                 }
