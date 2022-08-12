@@ -2,14 +2,14 @@ import UIKit
 
 protocol SearchResultsVCDelegate: AnyObject {
     
-    func searchResultsVCdidSelect(searchResult: SearchResult)
+    func searchResultsVCdidSelect(coin: CoinData)
 }
 
 class SearchResultsVC: UIViewController {
     
     weak var delegate: SearchResultsVCDelegate?
     
-    private var results: [SearchResult] = []
+    private var results: [CoinData] = []
     
     private let tableView: UITableView = {
         let table = UITableView()
@@ -34,7 +34,7 @@ class SearchResultsVC: UIViewController {
     
     //MARK: - Public
     
-    public func update(with results: [SearchResult]) { // с помощью этой функции передаем результаты поиска из SearchController (MarketsVC) сюда, в SearchResultsVC
+    public func update(with results: [CoinData]) { // с помощью этой функции передаем результаты поиска из SearchController (MarketsVC) сюда, в SearchResultsVC
         self.results = results
         tableView.isHidden = results.isEmpty // if isEmpty, tableView isHidden
         tableView.reloadData()
@@ -58,16 +58,16 @@ extension SearchResultsVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultTableViewCell.identifier, for: indexPath)
-        let model = results[indexPath.row]
-        cell.textLabel?.text = model.displaySymbol
-        cell.detailTextLabel?.text = model.description
+        let coin = results[indexPath.row]
+        cell.textLabel?.text = coin.symbol
+        cell.detailTextLabel?.text = coin.name
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let model = results[indexPath.row]
-        delegate?.searchResultsVCdidSelect(searchResult: model) // Выше создали protocol и weak delegate. func из protocol. Тут функцию вызываем, чтобы передать данные в MarketsVC. А описание функции в MarketsVC
+        let coin = results[indexPath.row]
+        delegate?.searchResultsVCdidSelect(coin: coin) // Выше создали protocol и weak delegate. func из protocol. Тут функцию вызываем, чтобы передать данные в MarketsVC. А описание функции в MarketsVC
     }
 }

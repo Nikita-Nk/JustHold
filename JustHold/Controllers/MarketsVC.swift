@@ -47,31 +47,20 @@ class MarketsVC: UIViewController {
 extension MarketsVC: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
-        guard let query = searchController.searchBar.text,
+        guard let query = searchController.searchBar.text?.lowercased(),
               !query.trimmingCharacters(in: .whitespaces).isEmpty,
               let resultsVC = searchController.searchResultsController as? SearchResultsVC else {
             return
         }
 //        print(query)
         
-        // Reset timer -  сбрасываем
-        searchTimer?.invalidate()
+        searchTimer?.invalidate() // сброс таймера. Дальше запускаем снова, чтобы оптимизировать ресурсы и кол-во запросов
         
-        // Kick off new timer - запускаем. Делаем запрос только по прошествии 0.5 секунды
-        // Optimize to reduce number of searches
-        searchTimer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false, block: { _ in
-            // Call API to search
-            APICaller.shared.search(query: query) { result in
-                switch result {
-                case .success(let response):
-                    DispatchQueue.main.async {
-                        resultsVC.update(with: response.result) // отправляем результаты поиска в resultsVC // Update SearchResultsVC
-                    }
-                case .failure(let error):
-                    DispatchQueue.main.async {
-                        resultsVC.update(with: [])
-                    }
-                    print(error)
+        searchTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { _ in
+            
+            PersistanceManager.shared.isCoinInCoinsMap(query: query) { coins in
+                DispatchQueue.main.async {
+                    resultsVC.update(with: coins) // отправляем результаты поиска в resultsVC
                 }
             }
         })
@@ -80,10 +69,11 @@ extension MarketsVC: UISearchResultsUpdating {
 
 extension MarketsVC: SearchResultsVCDelegate {
     
-    func searchResultsVCdidSelect(searchResult: SearchResult) {
+    func searchResultsVCdidSelect(coin: CoinData) {
         
-        print("did select: \(searchResult.displaySymbol)")
+//        print("did select: \(searchResult)") // .displaySymbol
         
+        // Передать данные
         
         // Переход на другую вкладку TBC
         let currentIndex: Int? = self.tabBarController?.selectedIndex

@@ -1,95 +1,62 @@
 import UIKit
+import Alamofire
+
+// Coinmarketcap dashboard with statistics - https://pro.coinmarketcap.com/account
+// API documentation - https://coinmarketcap.com/api/documentation/v1/
+
+//https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=5000&convert=USD
+
+
 
 final class APICaller {
     
     public static let shared = APICaller()
     
     private struct Constants {
-        static let apiKey = "cb5rid2ad3i0dk7b9ca0"
-        static let sandboxApiKey = "sandbox_cb5rid2ad3i0dk7b9cag" // api для тестов (больше возможностей)
-        static let baseUrl = "https://finnhub.io/api/v1/"
+        static let mapUrl = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/map" // список всех монет
+        
+        static let apiKey = "c4dbc3af-5dd2-434a-87f2-d8f22f1b5f34"
+        static let baseURL = "https://pro-api.coinmarketcap.com/v1/"
+        static let headers: HTTPHeaders = ["Accepts": "application/json",
+                                           "X-CMC_PRO_API_KEY": apiKey]
     }
     
     private init() {}
     
     //MARK: - Public
     
-    // get stock info
-    
-    // search coins
-    public func search(query: String,
-                       completion: @escaping (Result<SearchResponse, Error>) -> Void) {
-        guard let safeQuery = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
-            return
+    public func getAllCoins() {
+        
+//        PersistanceManager.shared.checkInspirationDate()
+//        PersistanceManager.shared.coinsUpdateDate = Date()
+        
+        AF.request(Constants.mapUrl,
+                   method: .get,
+                   parameters: nil,
+                   headers: Constants.headers).responseDecodable(of: MapResponse.self) { response in
+            
+            let sortedCoins = response.value!.data.sorted(by: {$0.rank < $1.rank} )
+            PersistanceManager.shared.coinsMap = sortedCoins
         }
-        request(url: url(for: .search,
-                         queryParams: ["q":safeQuery]),
-                expecting: SearchResponse.self,
-                completion: completion)
     }
+    
+    
     
     //MARK: - Private
     
     private enum Endpoint: String {
-        case search // = "search" (если использовать search.rawValue)
+        case cryptocurrency // = "cryptocurrency" (если использовать значение.rawValue) // возвращают данные о криптовалютах, такие как упорядоченные списки криптовалют или данные о ценах и объемах.
+        case exchange // ordered exchange lists and market pair data
+//        case global-metrics // global market cap and BTC dominance.
+        case tools // cryptocurrency and fiat price conversions.
     }
     
-    private enum APIError: Error {
-        case noDataReturned
-        case invalidUrl
-    }
+    // Cryptocurrency and exchange endpoints provide 2 different ways of accessing data depending on purpose
+    // */listings/* - endpoints allow you to sort and filter lists of data like cryptocurrencies by market cap or exchanges by volume.
+    // Item endpoints (*/market-pairs/*) -
     
-    // responsible for creating and returning the URL
-    private func url(for endpoint: Endpoint,
-                     queryParams: [String: String] = [:]) -> URL? {
-        var urlString = Constants.baseUrl + endpoint.rawValue
-        
-        var queryItems = [URLQueryItem]()
-        
-        // Add any parametes
-        for (name, value) in queryParams {
-            queryItems.append(.init(name: name, value: value))
-        }
-        
-        // Add token
-        queryItems.append(.init(name: "token", value: Constants.apiKey)) // init от URLQueryItem
-        
-        // Convert query items to suffix string
-        let queryString = queryItems.map { "\($0.name)=\($0.value ?? "")" }.joined(separator: "&") // из каждого элемента берем name и добавляем к нему value, объединяем их все друг с дургом с разделителем &
-        
-        urlString += "?" + queryString
-        
-        print("\n\(urlString)") // как часто строку принтит, должна быть задержка 0.5с
-        
-        return URL(string: urlString)
-    }
-    
-    private func request<T: Codable>(url: URL?,
-                                     expecting: T.Type, // tries to decode response to given model type
-                                     completion: @escaping(Result<T, Error>) -> Void) {
-        guard let url = url else {
-            completion(.failure(APIError.invalidUrl))
-            return
-        }
-        
-        let task = URLSession.shared.dataTask(with: url) { data, _, error in
-            guard let data = data, error == nil else {
-                if let error = error {
-                    completion(.failure(error))
-                } else {
-                    completion(.failure(APIError.noDataReturned))
-                }
-                return
-            }
-            
-            do {
-                let result = try JSONDecoder().decode(expecting, from: data)
-                completion(.success(result))
-            }
-            catch {
-                completion(.failure(error))
-            }
-        }
-        task.resume()
-    }
+    // Endpoint paths follow a pattern matching the type of data provided
+    // */latest - Latest market ticker quotes and averages for cryptocurrencies and exchanges
+    // */historical - Intervals of historic market data like OHLCV data or data for use in charting libraries.
+    // */info - Cryptocurrency and exchange metadata like block explorer URLs and logos
 }
