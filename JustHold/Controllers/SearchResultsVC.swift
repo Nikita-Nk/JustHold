@@ -70,13 +70,13 @@ extension SearchResultsVC: UITableViewDelegate, UITableViewDataSource {
         let coin = results[indexPath.row]
         
         // добавляю в избранное / удаляю
-        if PersistanceManager.shared.isInFavorites(coin: coin) {
-            PersistanceManager.shared.removeFromFavorites(coin: coin)
-            print(PersistanceManager.shared.favoriteCoins)
+        if PersistenceManager.shared.isInFavorites(coin: coin) {
+            PersistenceManager.shared.removeFromFavorites(coin: coin)
+            print(PersistenceManager.shared.favoriteCoins)
             print("удаляем")
         } else {
-            PersistanceManager.shared.favoriteCoins.append(coin)
-            print(PersistanceManager.shared.favoriteCoins)
+            PersistenceManager.shared.favoriteCoins.append(coin)
+            print(PersistenceManager.shared.favoriteCoins)
             print("добавляем")
         }
         

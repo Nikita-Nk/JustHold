@@ -1,7 +1,5 @@
 import UIKit
 
-import Alamofire
-
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
@@ -17,12 +15,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // if первый раз в приложении - в PersistenceM создать константу, которая берет значение из UserDefaults
         if UserDefaults.standard.data(forKey: "favoriteCoins") != nil {
-            print("!!!")
+            print("not nil")
         } else {
             print("nil nil nil")
-            PersistanceManager.shared.favoriteCoins = [CoinData]() // без этого зависание в момент обращения к этому массиву
+            PersistenceManager.shared.favoriteCoins = [CoinData]() // без этого зависание в момент обращения к этому массиву. Т.к. надо сначала хоть что-то проинициализировать?
         }
         
+        // Теперь ошибки нет, даже если нет значений
+        if PersistenceManager.shared.favoriteCoins.isEmpty {
+            print("Пусто")
+        }
 
         APICaller.shared.getAllCoins()
         
@@ -31,10 +33,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
+//    private func checkIfFirstTime() {
+//
+//    }
     
-    private func debug() {
-        
-    }
-    
+//    private func debug() {
+//
+//    }
 }
 

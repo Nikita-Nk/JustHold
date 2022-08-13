@@ -3,14 +3,19 @@ import Alamofire
 
 // Coinmarketcap dashboard with statistics - https://pro.coinmarketcap.com/account
 // API documentation - https://coinmarketcap.com/api/documentation/v1/
-
-//https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=5000&convert=USD
-
+// Пример ссылки - https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=5000&convert=USD
 
 
 final class APICaller {
     
     public static let shared = APICaller()
+    
+    private var lastCoinsMapUpdate: Date? {
+        get { UserDefaults.standard.object(forKey: "lastCoinsMapUpdate") as? Date }
+        set { UserDefaults.standard.set(newValue, forKey: "lastCoinsMapUpdate") }
+    }
+    
+    private let day: TimeInterval = 60 * 60 * 24 // seconds * minutes * hours
     
     private struct Constants {
         static let mapUrl = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/map" // список всех монет
@@ -27,24 +32,37 @@ final class APICaller {
     
     public func getAllCoins() {
         
-//        PersistanceManager.shared.checkInspirationDate()
-//        PersistanceManager.shared.coinsUpdateDate = Date()
-        
-        AF.request(Constants.mapUrl,
-                   method: .get,
-                   parameters: nil,
-                   headers: Constants.headers).responseDecodable(of: MapResponse.self) { response in
-            
-            let sortedCoins = response.value!.data.sorted(by: {$0.rank < $1.rank} )
-            PersistanceManager.shared.coinsMap = sortedCoins
-            
-            print("Загружаем монеты")
+        if isTimeToUpdate() {
+            AF.request(Constants.mapUrl,
+                       method: .get,
+                       parameters: nil,
+                       headers: Constants.headers).responseDecodable(of: MapResponse.self) { response in
+                
+                let sortedCoins = response.value!.data.sorted(by: {$0.rank < $1.rank} )
+                PersistenceManager.shared.coinsMap = sortedCoins
+                
+                self.lastCoinsMapUpdate = Date() //
+                print("Загружаем монеты")
+            }
+        }
+    }
+    
+    //MARK: - Private
+    
+    private func isTimeToUpdate() -> Bool {
+        let today = Date()
+        if today - day >= lastCoinsMapUpdate ?? (today - day * 2) { // 11:00 12.08 >= 15:00 12.08
+            print("Обновить")
+            return true
+        } else {
+            print(lastCoinsMapUpdate)
+            print(today)
+            print("Рано обновлять")
+            return false
         }
     }
     
     
-    
-    //MARK: - Private
     
     private enum Endpoint: String {
         case cryptocurrency // = "cryptocurrency" (если использовать значение.rawValue) // возвращают данные о криптовалютах, такие как упорядоченные списки криптовалют или данные о ценах и объемах.

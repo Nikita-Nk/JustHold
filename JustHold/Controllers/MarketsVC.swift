@@ -58,7 +58,7 @@ extension MarketsVC: UISearchResultsUpdating {
         
         searchTimer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false, block: { _ in
             
-            PersistanceManager.shared.isInCoinsMap(query: query) { coins in
+            PersistenceManager.shared.isInCoinsMap(query: query) { coins in
                 DispatchQueue.main.async {
                     resultsVC.update(with: coins) // отправляем результаты поиска в resultsVC
                 }
