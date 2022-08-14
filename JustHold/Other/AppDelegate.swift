@@ -12,7 +12,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.backgroundColor = .systemBackground
         window?.rootViewController = TabBarController()
         
+//        checkIfFirstTime()
+        APICaller.shared.getAllCoins()
         
+//        debug()
+        
+        return true
+    }
+    
+    private func debug() {
+
+    }
+    
+    // Доделать
+    private func checkIfFirstTime() {
         // if первый раз в приложении - в PersistenceM создать константу, которая берет значение из UserDefaults
         if UserDefaults.standard.data(forKey: "favoriteCoins") != nil {
             print("not nil")
@@ -25,20 +38,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if PersistenceManager.shared.favoriteCoins.isEmpty {
             print("Пусто")
         }
-
-        APICaller.shared.getAllCoins()
-        
-//        debug()
-        
-        return true
     }
-    
-//    private func checkIfFirstTime() {
-//
-//    }
-    
-//    private func debug() {
-//
-//    }
 }
 

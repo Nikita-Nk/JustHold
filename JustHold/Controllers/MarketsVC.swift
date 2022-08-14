@@ -10,15 +10,28 @@ class MarketsVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = .systemBackground
         setupSearchController()
-        setUpTitleView()
-        
-        view.backgroundColor = .systemGreen
+        setUpNavigationBar()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+//        tableView.frame = view.bounds
     }
     
     //MARK: - Private
     
-    private func setUpTitleView() {
+    @objc private func favoritesTapped() {
+        print("Избранные монеты")
+    }
+    
+    private func setUpNavigationBar() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "star.slash"), // star.fill / star / star.slash.fill
+                                                            style: .plain,
+                                                            target: self,
+                                                            action: #selector(favoritesTapped))
+        
         let titleView = UIView(frame: CGRect(x: 0,
                                              y: 0,
                                              width: view.width,
@@ -36,9 +49,9 @@ class MarketsVC: UIViewController {
     }
     
     private func setupSearchController() {
-        let resultVC = SearchResultsVC()
-        resultVC.delegate = self // получаем данные из SearchResultsVC с помощью delegate. И ниже в extension прописываем функцию из protocol
-        let searchVC = UISearchController(searchResultsController: resultVC)
+        let searchResultsVC = SearchResultsVC()
+        searchResultsVC.delegate = self // получаем данные из SearchResultsVC с помощью delegate. И ниже в extension прописываем функцию из protocol
+        let searchVC = UISearchController(searchResultsController: searchResultsVC)
         searchVC.searchBar.placeholder = "Искать монеты..."
         searchVC.searchResultsUpdater = self
         navigationItem.searchController = searchVC
@@ -50,7 +63,7 @@ extension MarketsVC: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let query = searchController.searchBar.text?.lowercased(),
               !query.trimmingCharacters(in: .whitespaces).isEmpty,
-              let resultsVC = searchController.searchResultsController as? SearchResultsVC else {
+              let searchResultsVC = searchController.searchResultsController as? SearchResultsVC else {
             return
         }
         
@@ -60,20 +73,16 @@ extension MarketsVC: UISearchResultsUpdating {
             
             PersistenceManager.shared.isInCoinsMap(query: query) { coins in
                 DispatchQueue.main.async {
-                    resultsVC.update(with: coins) // отправляем результаты поиска в resultsVC
+                    searchResultsVC.update(with: coins) // отправляем результаты поиска в resultsVC
                 }
             }
         })
     }
 }
 
-extension MarketsVC: SearchResultsVCDelegate {
+extension MarketsVC: SearchResultsVCDelegate { // Получается, что не надо. Переключение в другом месте делать?
     
     func searchResultsVCdidSelect(coin: CoinData) {
-        
-//        print("did select: \(searchResult)") // .displaySymbol
-        
-        // Передать данные
         
         // Переход на другую вкладку TBC
         let currentIndex: Int? = self.tabBarController?.selectedIndex

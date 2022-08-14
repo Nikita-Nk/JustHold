@@ -23,7 +23,7 @@ final class PersistenceManager {
         set { saveCoins(array: newValue, key: Constants.coinsMap) }
     }
     
-    public var favoriteCoins: [CoinData] { // Может лучше использовать [CoinData]? без инициализации в AppDelegate? Тогда ?? []
+    public var favoriteCoins: [CoinData] { // Или лучше использовать [CoinData]? без инициализации в AppDelegate? Тогда ?? []
         get { getDataFromUserD(key: Constants.favoriteCoins) }
         set { saveCoins(array: newValue, key: Constants.favoriteCoins) }
     }

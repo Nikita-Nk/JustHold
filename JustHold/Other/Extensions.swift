@@ -42,3 +42,13 @@ extension UIView {
         return self.frame.size.width + self.frame.origin.x
     }
 }
+
+//MARK: - Add subviews
+
+extension UIView {
+    func addSubviews(_ views: UIView...) {
+        views.forEach {
+            addSubview($0)
+        }
+    }
+}

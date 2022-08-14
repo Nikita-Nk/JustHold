@@ -3,8 +3,6 @@ import Alamofire
 
 // Coinmarketcap dashboard with statistics - https://pro.coinmarketcap.com/account
 // API documentation - https://coinmarketcap.com/api/documentation/v1/
-// Пример ссылки - https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=5000&convert=USD
-
 
 final class APICaller {
     
@@ -19,6 +17,8 @@ final class APICaller {
     
     private struct Constants {
         static let mapUrl = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/map" // список всех монет
+        static let infoUrl = "https://pro-api.coinmarketcap.com/v2/cryptocurrency/info" // https://pro-api.coinmarketcap.com/v2/cryptocurrency/info?aux=logo%2Cdescription&id=1%2C2
+        // Пример - https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=5000&convert=USD
         
         static let apiKey = "c4dbc3af-5dd2-434a-87f2-d8f22f1b5f34"
         static let baseURL = "https://pro-api.coinmarketcap.com/v1/"
@@ -80,3 +80,32 @@ final class APICaller {
     // */historical - Intervals of historic market data like OHLCV data or data for use in charting libraries.
     // */info - Cryptocurrency and exchange metadata like block explorer URLs and logos
 }
+
+
+
+
+
+// getInfo не надо, т.к. я могу сам ссылку создать без запроса
+//    public func getInfo(ids: String) { // , completion: @escaping () -> Void)
+//        var queryParams = ["id": ids,
+//                           "aux": "logo"] // description - nil тогда
+//        AF.request(Constants.infoUrl,
+//                   method: .get,
+//                   parameters: queryParams,
+//                   headers: Constants.headers).responseDecodable(of: InfoResponse.self) { response in
+//            print(response.value?.data["1"]?.logo) // лого элемента dictionary с key "1"
+//        }
+//    }
+//
+//// MARK: - InfoResponse
+//struct InfoResponse: Codable {
+//    let data: [String: Info] // String: Info
+////    let status: Status
+//}
+//
+//// MARK: - Info
+//struct Info: Codable {
+//    let logo: String
+//    let id: Int
+////    let description: String
+//}

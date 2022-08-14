@@ -12,6 +12,8 @@ struct CoinData: Codable, Equatable {
     let isActive: Int // 1 if has at least 1 active market. otherwise 0
     let firstHistoricalData, lastHistoricalData: String
     
+    lazy var logoUrl = "https://s2.coinmarketcap.com/static/img/coins/64x64/\(id).png"
+    
     let inFavorites = false // на будущее
 
     enum CodingKeys: String, CodingKey {
