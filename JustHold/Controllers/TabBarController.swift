@@ -18,13 +18,13 @@ class TabBarController: RAMAnimatedTabBarController {
     }
     
     override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         changeHeightOfTabbar()
     }
     
     //MARK: - Private
 
     private func changeHeightOfTabbar(){
-
         if UIDevice().userInterfaceIdiom == .phone {
             var tabFrame            = tabBar.frame
             tabFrame.size.height    = 100
@@ -34,7 +34,6 @@ class TabBarController: RAMAnimatedTabBarController {
     }
     
     private func changeRadiusOfTabbar(){
-
         self.tabBar.layer.masksToBounds = true
         self.tabBar.isTranslucent = true
         self.tabBar.layer.cornerRadius = 30
@@ -42,24 +41,22 @@ class TabBarController: RAMAnimatedTabBarController {
     }
 
     private func configure() {
-        
         tabBar.isTranslucent = false
         self.tabBar.backgroundColor = .systemBackground
         
-        let vc1 = UINavigationController(rootViewController: ViewController())
+        let vc1 = UINavigationController(rootViewController: MarketsVC())
         let vc2 = ViewController()
         let vc3 = ViewController()
         let vc4 = ViewController()
         let vc5 = ViewController()
         
-        vc1.view.backgroundColor = .systemGreen
         vc2.view.backgroundColor = .systemRed
         vc3.view.backgroundColor = .systemOrange
         vc4.view.backgroundColor = .systemPink
-        vc5.view.backgroundColor = .systemMint
+        vc5.view.backgroundColor = .systemMint // 
         
-        vc1.tabBarItem = RAMAnimatedTabBarItem(title: "Монеты",
-                                               image: UIImage(systemName: "house"),
+        vc1.tabBarItem = RAMAnimatedTabBarItem(title: "Монеты", // монеты / криптовалюты / главная
+                                               image: UIImage(systemName: "star"), // star / house
                                                tag: 1,
                                                animation: RAMBounceAnimation(),
                                                selectedColor: selectedColor,
