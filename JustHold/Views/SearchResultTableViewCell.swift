@@ -6,18 +6,9 @@ class SearchResultTableViewCell: UITableViewCell {
     
     static let identifier = "SearchResultTableViewCell"
     
-    static let preferredHeight: CGFloat = 60
+    static let preferredHeight: CGFloat = 65
     
     private var coin = CoinData(id: 1, rank: 1, name: "1", symbol: "1", slug: "1", firstHistoricalData: "1", lastHistoricalData: "1")
-    
-//    struct CoinModel {
-//        let id: Int
-//        let name: String
-//        let symbol: String
-//        let slug: String
-//        let logoUrl: String
-//        let inFavorites: Bool
-//    }
     
     private let nameLabel: UILabel = {
         let label = UILabel()
@@ -29,7 +20,7 @@ class SearchResultTableViewCell: UITableViewCell {
     private let symbolLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14, weight: .regular)
-        label.textColor = .systemGray
+        label.textColor = .secondaryLabel // .systemGray
         return label
     }()
     
@@ -38,7 +29,7 @@ class SearchResultTableViewCell: UITableViewCell {
         imageView.image = UIImage(systemName: "bitcoinsign.circle")
         imageView.backgroundColor = .white // чтобы png на черном фоне видеть
         imageView.contentMode = .scaleAspectFit
-        imageView.layer.cornerRadius = 20
+        imageView.layer.cornerRadius = 17.5
         imageView.layer.masksToBounds = true
         
         return imageView
@@ -46,9 +37,30 @@ class SearchResultTableViewCell: UITableViewCell {
     
     private let toFavoriteButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "star"), for: .normal) // star.fill / star.slash / star.slash.fill
+        button.setImage(UIImage(systemName: "star"), for: .normal)
         button.backgroundColor = .clear
         return button
+    }()
+    
+    private class RankLabel: UILabel { // чтобы менять размер фона у label в зависимости от длины текста
+        override var intrinsicContentSize: CGSize {
+            let originalContentSize = super.intrinsicContentSize
+            let height = originalContentSize.height + 6
+            return CGSize(width: originalContentSize.width + 14, height: height)
+        }
+    }
+
+    private let rankLabel: RankLabel = {
+        let label = RankLabel()
+        label.layer.cornerRadius = 5
+        label.layer.masksToBounds = true
+        label.text = ""
+        label.frame.size = label.intrinsicContentSize
+        label.font = .systemFont(ofSize: 12)
+        label.backgroundColor = .systemGray6
+        label.textColor = .secondaryLabel
+        label.textAlignment = .center
+        return label
     }()
     
     //MARK: - Init
@@ -56,7 +68,7 @@ class SearchResultTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
         
-        addSubviews(logoView, nameLabel, symbolLabel)
+        addSubviews(logoView, nameLabel, symbolLabel, rankLabel)
         contentView.addSubviews(toFavoriteButton) // чтобы кнопка была кликабельной, добавляем на contentView
         
         toFavoriteButton.addTarget(self, action: #selector(didTapFavoriteButton), for: .touchUpInside)
@@ -73,7 +85,7 @@ class SearchResultTableViewCell: UITableViewCell {
         let width = contentView.frame.width
         
         logoView.snp.makeConstraints { make in
-            make.width.height.equalTo(height/3*2)
+            make.width.height.equalTo(35)
             make.centerY.equalTo(contentView.center.y)
             make.leftMargin.equalTo(contentView.left).inset(10)
         }
@@ -81,17 +93,20 @@ class SearchResultTableViewCell: UITableViewCell {
             make.height.equalTo(height/3)
             make.width.equalTo(width/2)
             make.topMargin.equalTo(contentView.top).inset(15)
-            make.leftMargin.equalTo(logoView.snp.right).offset(30)
+            make.leftMargin.equalTo(logoView.snp.right).offset(20)
+        }
+        rankLabel.snp.makeConstraints { make in
+            make.bottomMargin.equalTo(contentView.bottom).inset(15)
+            make.leftMargin.equalTo(nameLabel.snp.leftMargin)
         }
         symbolLabel.snp.makeConstraints { make in
             make.height.equalTo(height/3)
             make.width.equalTo(width/2)
-            make.topMargin.equalTo(nameLabel.snp.bottom).offset(10)
-            make.leftMargin.equalTo(logoView.snp.right).offset(30)
+            make.centerY.equalTo(rankLabel.snp.centerY)
+            make.leftMargin.equalTo(rankLabel.snp.right).offset(15)
         }
         toFavoriteButton.snp.makeConstraints { make in
-            make.height.equalTo(height/2)
-            make.width.equalTo(height/2)
+            make.height.width.equalTo(height/2)
             make.rightMargin.equalTo(contentView.right).inset(10)
             make.centerY.equalTo(contentView.center.y)
         }
@@ -101,6 +116,7 @@ class SearchResultTableViewCell: UITableViewCell {
         super.prepareForReuse()
         nameLabel.text = nil
         symbolLabel.text = nil
+        rankLabel.text = nil
         logoView.image = nil
         toFavoriteButton.imageView?.image = nil
     }
@@ -110,6 +126,7 @@ class SearchResultTableViewCell: UITableViewCell {
         
         nameLabel.text = self.coin.name
         symbolLabel.text = self.coin.symbol
+        rankLabel.text = "\(self.coin.rank)"
         logoView.sd_setImage(with: URL(string: self.coin.logoUrl))
         setUpFavoriteButton(inFavorites: PersistenceManager.shared.isInFavorites(coin: self.coin))
     }

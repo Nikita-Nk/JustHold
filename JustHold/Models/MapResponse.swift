@@ -9,8 +9,8 @@ struct MapResponse: Codable {
 struct CoinData: Codable, Equatable {
     let id, rank: Int
     let name, symbol, slug: String
-//    let isActive: Int // 1 if has at least 1 active market. otherwise 0 // У всех монет == 1. Из 10.000 монет ни у одной нет 0
     let firstHistoricalData, lastHistoricalData: String
+//    let isActive: Int // 1 if has at least 1 active market. otherwise 0 // У всех монет == 1. Из 10.000 монет ни у одной нет 0
     
     lazy var logoUrl = "https://s2.coinmarketcap.com/static/img/coins/64x64/\(id).png"
     
