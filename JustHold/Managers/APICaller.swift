@@ -41,7 +41,7 @@ final class APICaller {
                 let sortedCoins = response.value!.data.sorted(by: {$0.rank < $1.rank} )
                 PersistenceManager.shared.coinsMap = sortedCoins
                 
-                self.lastCoinsMapUpdate = Date() //
+                self.lastCoinsMapUpdate = Date()
                 print("Загружаем монеты")
             }
         }
@@ -52,7 +52,7 @@ final class APICaller {
     private func isTimeToUpdate() -> Bool {
         let today = Date()
         if today - day >= lastCoinsMapUpdate ?? (today - day * 2) { // 11:00 12.08 >= 15:00 12.08
-            print("Обновить")
+            print("Время обновить")
             return true
         } else {
             print(lastCoinsMapUpdate)

@@ -23,7 +23,7 @@ class MarketsVC: UIViewController {
     //MARK: - Private
     
     @objc private func favoritesTapped() {
-        print("Избранные монеты")
+        print(PersistenceManager.shared.favoriteCoins)
     }
     
     private func setUpNavigationBar() {

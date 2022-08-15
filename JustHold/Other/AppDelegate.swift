@@ -12,7 +12,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.backgroundColor = .systemBackground
         window?.rootViewController = TabBarController()
         
-//        checkIfFirstTime()
+        checkIfFirstTime()
         APICaller.shared.getAllCoins()
         
 //        debug()

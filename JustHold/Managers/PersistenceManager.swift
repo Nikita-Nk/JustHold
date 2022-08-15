@@ -43,7 +43,7 @@ final class PersistenceManager {
     }
     
     public func isInFavorites(coin: CoinData) -> Bool {
-        return favoriteCoins.contains(coin)
+        return favoriteCoins.map {$0.id == coin.id}.contains(true)
     }
     
     public func addToFavorites(coin: CoinData) {

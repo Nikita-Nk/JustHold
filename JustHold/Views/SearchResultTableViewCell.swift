@@ -8,7 +8,7 @@ class SearchResultTableViewCell: UITableViewCell {
     
     static let preferredHeight: CGFloat = 60
     
-    private var coin = CoinData(id: 1, rank: 1, name: "1", symbol: "1", slug: "1", isActive: 1, firstHistoricalData: "1", lastHistoricalData: "1")
+    private var coin = CoinData(id: 1, rank: 1, name: "1", symbol: "1", slug: "1", firstHistoricalData: "1", lastHistoricalData: "1")
     
 //    struct CoinModel {
 //        let id: Int
@@ -75,7 +75,7 @@ class SearchResultTableViewCell: UITableViewCell {
         logoView.snp.makeConstraints { make in
             make.width.height.equalTo(height/3*2)
             make.centerY.equalTo(contentView.center.y)
-            make.leftMargin.equalTo(contentView.left).inset(15)
+            make.leftMargin.equalTo(contentView.left).inset(10)
         }
         nameLabel.snp.makeConstraints { make in
             make.height.equalTo(height/3)
