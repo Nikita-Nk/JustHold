@@ -8,7 +8,7 @@ class SearchResultTableViewCell: UITableViewCell {
     
     static let preferredHeight: CGFloat = 65
     
-    private var coin = CoinData(id: 1, rank: 1, name: "1", symbol: "1", slug: "1", firstHistoricalData: "1", lastHistoricalData: "1")
+    private var coin = CoinMapData(id: 1, rank: 1, name: "", symbol: "", slug: "", firstHistoricalData: "", lastHistoricalData: "")
     
     private let nameLabel: UILabel = {
         let label = UILabel()
@@ -121,14 +121,14 @@ class SearchResultTableViewCell: UITableViewCell {
         toFavoriteButton.imageView?.image = nil
     }
     
-    public func configure(with coin: CoinData) {
+    public func configure(with coin: CoinMapData) {
         self.coin = coin
         
         nameLabel.text = self.coin.name
         symbolLabel.text = self.coin.symbol
         rankLabel.text = "\(self.coin.rank)"
         logoView.sd_setImage(with: URL(string: self.coin.logoUrl))
-        setUpFavoriteButton(inFavorites: PersistenceManager.shared.isInFavorites(coin: self.coin))
+        setUpFavoriteButton(inFavorites: PersistenceManager.shared.isInFavorites(coinID: self.coin.id))
     }
     
     //MARK: - Init
@@ -145,15 +145,15 @@ class SearchResultTableViewCell: UITableViewCell {
     
     @objc private func didTapFavoriteButton() {
         
-        if PersistenceManager.shared.isInFavorites(coin: coin) {
-            PersistenceManager.shared.removeFromFavorites(coin: coin)
+        if PersistenceManager.shared.isInFavorites(coinID: coin.id) {
+            PersistenceManager.shared.removeFromFavorites(coinID: coin.id)
             
             toFavoriteButton.setImage(UIImage(systemName: "star"), for: .normal)
             toFavoriteButton.tintColor = .systemGray
             
             print("Удалили. Количество - \(PersistenceManager.shared.favoriteCoins.count)")
         } else {
-            PersistenceManager.shared.favoriteCoins.append(coin)
+            PersistenceManager.shared.favoriteCoins.append(coin.id)
             
             toFavoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
             toFavoriteButton.tintColor = .systemYellow

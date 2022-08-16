@@ -15,10 +15,10 @@ final class APICaller {
     
     private let day: TimeInterval = 60 * 60 * 24 // seconds * minutes * hours
     
-    private struct Constants {
+    // временно
+    public struct Constants {
         static let mapUrl = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/map" // список всех монет
-        static let infoUrl = "https://pro-api.coinmarketcap.com/v2/cryptocurrency/info" // https://pro-api.coinmarketcap.com/v2/cryptocurrency/info?aux=logo%2Cdescription&id=1%2C2
-        // Пример - https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=5000&convert=USD
+        static let listingUrl = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest" // топ монет с котировками
         
         static let apiKey = "c4dbc3af-5dd2-434a-87f2-d8f22f1b5f34"
         static let baseURL = "https://pro-api.coinmarketcap.com/v1/"
@@ -30,7 +30,7 @@ final class APICaller {
     
     //MARK: - Public
     
-    public func getAllCoins() {
+    public func fetchAllCoins() {
         
         if isTimeToUpdate() {
             AF.request(Constants.mapUrl,
@@ -47,38 +47,33 @@ final class APICaller {
         }
     }
     
+    // queryParams ["sort": "", "sort_dir": "asc"(desc)] // market_cap (default), date_added, percent_change_24h, percent_change_7d
+    public func fetchListing() { // @escaping
+        
+        AF.request(Constants.listingUrl,
+                   method: .get,
+                   parameters: ["limit": "100"],
+                   headers: APICaller.Constants.headers).responseDecodable(of: ListingResponse.self) { response in
+
+            print(response) //
+        }
+    }
+    
+    // fetchQuotes - инфо по конкретным монетам, queryParams
+    // public func fetchQuotes()
+    
     //MARK: - Private
     
-    private func isTimeToUpdate() -> Bool {
+    private func isTimeToUpdate() -> Bool { // небольшое ограничение, чтобы снизить количество запросов
         let today = Date()
         if today - day >= lastCoinsMapUpdate ?? (today - day * 2) { // 11:00 12.08 >= 15:00 12.08
             print("Время обновить")
             return true
         } else {
-            print(lastCoinsMapUpdate)
-            print(today)
-            print("Рано обновлять")
+            print("Рано обновлять. Последнее обновление:", lastCoinsMapUpdate ?? "")
             return false
         }
     }
-    
-    
-    
-    private enum Endpoint: String {
-        case cryptocurrency // = "cryptocurrency" (если использовать значение.rawValue) // возвращают данные о криптовалютах, такие как упорядоченные списки криптовалют или данные о ценах и объемах.
-        case exchange // ordered exchange lists and market pair data
-//        case global-metrics // global market cap and BTC dominance.
-        case tools // cryptocurrency and fiat price conversions.
-    }
-    
-    // Cryptocurrency and exchange endpoints provide 2 different ways of accessing data depending on purpose
-    // */listings/* - endpoints allow you to sort and filter lists of data like cryptocurrencies by market cap or exchanges by volume.
-    // Item endpoints (*/market-pairs/*) -
-    
-    // Endpoint paths follow a pattern matching the type of data provided
-    // */latest - Latest market ticker quotes and averages for cryptocurrencies and exchanges
-    // */historical - Intervals of historic market data like OHLCV data or data for use in charting libraries.
-    // */info - Cryptocurrency and exchange metadata like block explorer URLs and logos
 }
 
 

@@ -1,4 +1,5 @@
 import UIKit
+import SDWebImage
 import RAMAnimatedTabBarController
 
 class MarketsVC: UIViewController {
@@ -27,7 +28,7 @@ class MarketsVC: UIViewController {
     }
     
     private func setUpNavigationBar() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "star.slash"), // star.fill / star / star.slash.fill
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "star"), // star.fill / star.slash / star.slash.fill
                                                             style: .plain,
                                                             target: self,
                                                             action: #selector(favoritesTapped))
@@ -68,21 +69,20 @@ extension MarketsVC: UISearchResultsUpdating {
         }
         
         searchTimer?.invalidate() // сброс таймера. Дальше запускаем снова, чтобы оптимизировать ресурсы и кол-во запросов
+        // На самом деле сейчас не нужно, т.к. для поиска не делаем запрос, а ищем по загруженному списку
         
         searchTimer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false, block: { _ in
             
-            PersistenceManager.shared.isInCoinsMap(query: query) { coins in
-                DispatchQueue.main.async {
-                    searchResultsVC.update(with: coins) // отправляем результаты поиска в resultsVC
-                }
+            PersistenceManager.shared.searchInCoinsMap(query: query) { coins in
+                searchResultsVC.update(with: coins) // отправляем результаты поиска в searchResultsVC
             }
         })
     }
 }
 
-extension MarketsVC: SearchResultsVCDelegate { // Получается, что не надо. Переключение в другом месте делать?
+extension MarketsVC: SearchResultsVCDelegate { // Нужно для переключения вкладки TabBar
     
-    func searchResultsVCdidSelect(coin: CoinData) {
+    func searchResultsVCdidSelect(coin: CoinMapData) {
         
         // Переход на другую вкладку TBC
         let currentIndex: Int? = self.tabBarController?.selectedIndex
@@ -91,5 +91,7 @@ extension MarketsVC: SearchResultsVCDelegate { // Получается, что �
            let current = currentIndex {
             ramTBC.setSelectIndex(from: current, to: 1)
         }
+        
+        // Передать coin? - https://developer.apple.com/forums/thread/119037
     }
 }

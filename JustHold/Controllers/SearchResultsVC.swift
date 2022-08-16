@@ -1,15 +1,14 @@
 import UIKit
 
 protocol SearchResultsVCDelegate: AnyObject {
-    
-    func searchResultsVCdidSelect(coin: CoinData)
+    func searchResultsVCdidSelect(coin: CoinMapData)
 }
 
 class SearchResultsVC: UIViewController {
     
     weak var delegate: SearchResultsVCDelegate?
     
-    private var results: [CoinData] = []
+    private var results: [CoinMapData] = []
     
     private let tableView: UITableView = {
         let table = UITableView()
@@ -34,7 +33,7 @@ class SearchResultsVC: UIViewController {
     
     //MARK: - Public
     
-    public func update(with results: [CoinData]) { // вызываем в SearchController (MarketsVC) и передаем данные сюда, в SearchResultsVC
+    public func update(with results: [CoinMapData]) { // вызываем в SearchController (MarketsVC) и передаем данные сюда, в SearchResultsVC
         self.results = results
         tableView.isHidden = results.isEmpty // if isEmpty, tableView isHidden
         tableView.reloadData()
@@ -74,10 +73,8 @@ extension SearchResultsVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        var coin = results[indexPath.row]
+        let coin = results[indexPath.row]
         
-        
-        // ? Это надо? Данные же решил передавать во 2-ую вкладку, а не в MarketsVC
-        delegate?.searchResultsVCdidSelect(coin: coin) // Выше создали protocol и weak delegate. func из protocol. Тут функцию вызываем, чтобы передать данные в MarketsVC. А описание функции в MarketsVC
+        delegate?.searchResultsVCdidSelect(coin: coin) // Выше создали protocol и weak delegate. func из protocol. Тут функцию вызываем, чтобы передать данные в MarketsVC. Описание функции в MarketsVC
     }
 }
