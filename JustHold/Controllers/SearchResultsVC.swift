@@ -31,6 +31,10 @@ class SearchResultsVC: UIViewController {
         tableView.frame = view.bounds
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        tableView.reloadData()
+    }
+    
     //MARK: - Public
     
     public func update(with results: [CoinMapData]) { // вызываем в SearchController (MarketsVC) и передаем данные сюда, в SearchResultsVC

@@ -71,7 +71,7 @@ class SearchResultTableViewCell: UITableViewCell {
         addSubviews(logoView, nameLabel, symbolLabel, rankLabel)
         contentView.addSubviews(toFavoriteButton) // чтобы кнопка была кликабельной, добавляем на contentView
         
-        toFavoriteButton.addTarget(self, action: #selector(didTapFavoriteButton), for: .touchUpInside)
+        toFavoriteButton.addTarget(self, action: #selector(didTapFavoriteButton), for: .touchUpInside) // тут не сработало как в MarketsTableViewCell, поэтому addTarget здесь пишу, а не выше, т.к. в том случае при нажатии ничего не происходит
     }
     
     required init?(coder: NSCoder) {
@@ -82,7 +82,7 @@ class SearchResultTableViewCell: UITableViewCell {
         super.layoutSubviews()
         
         let height = SearchResultTableViewCell.preferredHeight
-        let width = contentView.frame.width
+        let width = contentView.width
         
         logoView.snp.makeConstraints { make in
             make.width.height.equalTo(35)
@@ -131,7 +131,7 @@ class SearchResultTableViewCell: UITableViewCell {
         setUpFavoriteButton(inFavorites: PersistenceManager.shared.isInFavorites(coinID: self.coin.id))
     }
     
-    //MARK: - Init
+    //MARK: - Private
     
     private func setUpFavoriteButton(inFavorites: Bool) {
         if inFavorites {

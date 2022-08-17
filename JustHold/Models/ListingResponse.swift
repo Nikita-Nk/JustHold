@@ -12,7 +12,7 @@ struct CoinListingData: Codable {
     let name, symbol, slug: String
     let rank: Int // cmcRank
     let circulatingSupply, totalSupply, maxSupply: Double?
-    let lastUpdated, dateAdded: String
+    let lastUpdated, dateAdded: String?
     let quote: [String: Quote]
     
     lazy var logoUrl = "https://s2.coinmarketcap.com/static/img/coins/64x64/\(id).png"
