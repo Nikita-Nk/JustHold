@@ -12,6 +12,7 @@ final class PersistenceManager {
     private struct Constants {
         static let coinsMap = "coinsMap"
         static let favoriteCoins = "favoriteCoins"
+        static let latestSearches = "latestSearches"
     }
     
     private init() {}
@@ -26,6 +27,11 @@ final class PersistenceManager {
     public var favoriteCoins: [Int] {
         get { userDefaults.array(forKey: Constants.favoriteCoins) as? [Int] ?? [] }
         set { userDefaults.setValue(newValue, forKey: Constants.favoriteCoins) }
+    }
+    
+    public var latestSearches: [CoinMapData] {
+        get { getDataFromUserD(key: Constants.latestSearches) }
+        set { saveCoins(array: newValue, key: Constants.latestSearches) }
     }
     
     public func searchInCoinsMap(query: String,
@@ -54,6 +60,20 @@ final class PersistenceManager {
         favoriteCoins = favoriteCoins.filter { $0 != coinID}
     }
     
+    public func addToLatestSearches(coin: CoinMapData) {
+        for (index, search) in latestSearches.enumerated() {
+            if search.id == coin.id {
+                latestSearches.remove(at: index)
+            }
+        }
+        
+        if latestSearches.count > 5 {
+            latestSearches.removeLast()
+        }
+        
+        latestSearches.insert(coin, at: 0)
+    }
+    
     //MARK: - Private
     
     private func saveCoins(array: [CoinMapData], key: String) {
@@ -66,13 +86,13 @@ final class PersistenceManager {
     }
     
     private func getDataFromUserD(key: String) -> [CoinMapData] {
-        guard let data = UserDefaults.standard.data(forKey: key) else { return coinsMap }
+        guard let data = UserDefaults.standard.data(forKey: key) else { return [CoinMapData]() }
         do {
             let coinsArray = try decoder.decode([CoinMapData].self, from: data)
             return coinsArray
         } catch {
             print(error)
         }
-        return coinsMap
+        return [CoinMapData]()
     }
 }

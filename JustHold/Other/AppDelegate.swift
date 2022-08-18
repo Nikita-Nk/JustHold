@@ -29,22 +29,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            print(response)
 //        }
     }
-    
-    
-    
-//    private func checkIfFirstTime() {
-//        // if первый раз в приложении - в PersistenceM создать константу, которая берет значение из UserDefaults
-//        if UserDefaults.standard.data(forKey: "favoriteCoins") != nil {
-//            print("not nil")
-//        } else {
-//            print("nil nil nil")
-//            PersistenceManager.shared.favoriteCoins = [Int]() // без этого зависание в момент обращения к этому массиву. Т.к. надо сначала хоть что-то проинициализировать?
-//        }
-//
-//        // Теперь ошибки нет, даже если нет значений
-//        if PersistenceManager.shared.favoriteCoins.isEmpty {
-//            print("Пусто")
-//        }
-//    }
 }
 

@@ -18,6 +18,8 @@ class MarketsVC: UIViewController {
     
     private let activityIndicator = UIActivityIndicatorView(style: .large)
     
+    private var canUpdateSearch = true
+    
     //MARK: - Lifecycle
 
     override func viewDidLoad() {
@@ -27,8 +29,8 @@ class MarketsVC: UIViewController {
         tableView.refreshControl = refreshControl
         view.backgroundColor = .systemBackground
         setUpTable()
-        setupSearchController()
         setUpNavigationBar()
+        setupSearchController()
         
         view.addSubview(activityIndicator)
         activityIndicator.startAnimating()
@@ -97,6 +99,8 @@ class MarketsVC: UIViewController {
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self // для обработки "Cancel"
         navigationItem.searchController = searchController
+        
+        searchResultsVC.offsetForTableView = searchController.searchBar.height + (navigationItem.titleView?.height ?? 44) // Передаем отступ для tableView
     }
 }
 
@@ -123,7 +127,7 @@ extension MarketsVC: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { // переделать
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { // переписать переход на другую вкладку
         tableView.deselectRow(at: indexPath, animated: true)
 //        let coin = coins[indexPath.row] // для передачи
         
@@ -142,12 +146,13 @@ extension MarketsVC: UITableViewDelegate, UITableViewDataSource {
 extension MarketsVC: UISearchBarDelegate {
     
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+        canUpdateSearch = true
         tableView.isHidden = true
         return true
     }
     
-    
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        canUpdateSearch = false
         tableView.isHidden = false
         tableView.reloadData()
     }
@@ -159,18 +164,26 @@ extension MarketsVC: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
         guard let query = searchController.searchBar.text?.lowercased(),
-              !query.trimmingCharacters(in: .whitespaces).isEmpty,
-              let searchResultsVC = searchController.searchResultsController as? SearchResultsVC else {
+              let searchResultsVC = searchController.searchResultsController as? SearchResultsVC,
+              canUpdateSearch else {
             return
         }
         
         searchTimer?.invalidate() // сброс таймера. Дальше запускаем снова, чтобы оптимизировать ресурсы и кол-во запросов
-        // На самом деле сейчас не нужно, т.к. для поиска не делаем запрос, а ищем по загруженному списку
-        
+//         На самом деле, сейчас не нужно, т.к. ищем по уже загруженному списку
+
         searchTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false, block: { _ in
-            
-            PersistenceManager.shared.searchInCoinsMap(query: query) { coins in
-                searchResultsVC.update(with: coins) // отправляем результаты поиска в searchResultsVC
+            if query.trimmingCharacters(in: .whitespaces).isEmpty {
+                searchController.searchResultsController?.view.isHidden = false // без этого tableView просто не будет отображаться до тех пор, пока не введу хоть какой-то символ
+
+                searchResultsVC.titleForHeader = "Недавние поиски"
+                searchResultsVC.update(with: PersistenceManager.shared.latestSearches)
+            }
+            else if !query.trimmingCharacters(in: .whitespaces).isEmpty {
+                searchResultsVC.titleForHeader = nil
+                PersistenceManager.shared.searchInCoinsMap(query: query) { coins in
+                    searchResultsVC.update(with: coins) // отправляем результаты поиска в searchResultsVC
+                }
             }
         })
     }

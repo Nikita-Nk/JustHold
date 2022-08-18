@@ -10,6 +10,10 @@ class SearchResultsVC: UIViewController {
     
     private var results: [CoinMapData] = []
     
+    public var titleForHeader: String?
+    
+    public var offsetForTableView: CGFloat?
+    
     private let tableView: UITableView = {
         let table = UITableView()
         table.register(SearchResultTableViewCell.self,
@@ -29,6 +33,7 @@ class SearchResultsVC: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
+        tableView.frame.origin.y = offsetForTableView ?? 100
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -50,10 +55,15 @@ class SearchResultsVC: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
     }
-    
 }
 
+//MARK: - UITableViewDelegate
+
 extension SearchResultsVC: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return titleForHeader
+    }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return SearchResultTableViewCell.preferredHeight
@@ -78,6 +88,7 @@ extension SearchResultsVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let coin = results[indexPath.row]
+        PersistenceManager.shared.addToLatestSearches(coin: coin)
         
         delegate?.searchResultsVCdidSelect(coin: coin) // Выше создали protocol и weak delegate. func из protocol. Тут функцию вызываем, чтобы передать данные в MarketsVC. Описание функции в MarketsVC
     }

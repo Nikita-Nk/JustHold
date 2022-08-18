@@ -15,8 +15,7 @@ final class APICaller {
     
     private let day: TimeInterval = 60 * 60 * 24 // seconds * minutes * hours
     
-    // временно
-    public struct Constants {
+    private struct Constants {
         static let mapUrl = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/map" // список всех монет
         static let listingUrl = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest" // топ монет с котировками
         
