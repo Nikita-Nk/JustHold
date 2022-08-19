@@ -7,6 +7,7 @@ struct ListingResponse: Codable {
 }
 
 // MARK: - Datum
+// data["1"]?.quote["USD"]?.price ?? 0 // Пример доступа, такой вариант вроде немного хуже
 struct CoinListingData: Codable {
     let id: Int
     let name, symbol, slug: String

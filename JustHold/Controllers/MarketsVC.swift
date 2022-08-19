@@ -20,6 +20,8 @@ class MarketsVC: UIViewController {
     
     private var canUpdateSearch = true
     
+    private var favoritesAreHidden = true
+    
     //MARK: - Lifecycle
 
     override func viewDidLoad() {
@@ -46,7 +48,7 @@ class MarketsVC: UIViewController {
     //MARK: - Private
     
     @objc private func refresh(sender: UIRefreshControl) {
-        fetchListing()
+        favoritesAreHidden ? fetchListing() : fetchQuotes()
         DispatchQueue.main.asyncAfter(deadline: .now()+1) {
             self.refreshControl.endRefreshing()
         }
@@ -59,23 +61,71 @@ class MarketsVC: UIViewController {
     }
     
     @objc private func favoritesTapped() {
-        print(PersistenceManager.shared.favoriteCoins)
+        if favoritesAreHidden {
+            fetchQuotes()
+            favoritesAreHidden = false
+            if let favButton = navigationItem.rightBarButtonItems?[0] {
+                favButton.tintColor = .systemYellow
+                favButton.image = UIImage(systemName: "star.slash.fill")
+            }
+            if let listButton = navigationItem.rightBarButtonItems?[1] {
+                listButton.isEnabled = true
+                listButton.tintColor = .systemBlue
+            }
+        }
+        else {
+            fetchListing()
+            favoritesAreHidden = true
+            if let favButton = navigationItem.rightBarButtonItems?[0] {
+                favButton.tintColor = .systemBlue
+                favButton.image = UIImage(systemName: "star")
+            }
+            if let listButton = navigationItem.rightBarButtonItems?[1] {
+                listButton.isEnabled = false
+                listButton.tintColor = .clear
+            }
+            if tableView.isEditing {
+                tableView.isEditing = false
+            }
+        }
+    }
+    
+    @objc private func didTapSort() {
+        if tableView.isEditing {
+            tableView.isEditing = false
+        } else {
+            tableView.isEditing = true
+        }
+    }
+    
+    private func fetchQuotes() {
+        APICaller.shared.fetchQuotes(ids: PersistenceManager.shared.favoriteCoinsIDs) { quotes in
+            self.coins = quotes
+            self.tableView.reloadData()
+        }
     }
     
     private func fetchListing() {
         APICaller.shared.fetchListing(queryParams: ["limit": "100"]) { [weak self] response in // weak self ?
-            self?.coins = response.data
+            self?.coins = response
             self?.tableView.reloadData()
             self?.activityIndicator.stopAnimating()
         }
     }
     
     private func setUpNavigationBar() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "star"), // star.fill / star.slash / star.slash.fill
-                                                            style: .plain,
-                                                            target: self,
-                                                            action: #selector(favoritesTapped))
-        
+        navigationItem.rightBarButtonItems = [UIBarButtonItem(image: UIImage(systemName: "star"),
+                                                              style: .plain,
+                                                              target: self,
+                                                              action: #selector(favoritesTapped)),
+                                              UIBarButtonItem(image: UIImage(systemName: "list.number"),
+                                                              style: .plain,
+                                                              target: self,
+                                                              action: #selector(didTapSort))]
+        if let listButton = navigationItem.rightBarButtonItems?[1] {
+            listButton.isEnabled = false
+            listButton.tintColor = .clear
+        }
         let titleView = UIView(frame: CGRect(x: 0,
                                              y: 0,
                                              width: view.width,
@@ -87,7 +137,6 @@ class MarketsVC: UIViewController {
         label.text = "Криптовалюты"
         label.font = .systemFont(ofSize: 32, weight: .bold)
         titleView.addSubview(label)
-        
         navigationItem.titleView = titleView
     }
     
@@ -107,6 +156,18 @@ class MarketsVC: UIViewController {
 //MARK: - UITableViewDelegate
 
 extension MarketsVC: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        .none // remove the delete button ⛔️ on table rows in edit mode
+    }
+    
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        PersistenceManager.shared.favoriteCoinsIDs.swapAt(sourceIndexPath.row, destinationIndexPath.row)
+    }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return MarketsTableViewCell.preferredHeight

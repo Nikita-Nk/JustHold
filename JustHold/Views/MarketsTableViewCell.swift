@@ -211,15 +211,15 @@ class MarketsTableViewCell: UITableViewCell {
             toFavoriteButton.setImage(UIImage(systemName: "star"), for: .normal)
             toFavoriteButton.tintColor = .systemGray
             
-            print("Удалили. Количество - \(PersistenceManager.shared.favoriteCoins.count)")
+            print("Удалили. Количество - \(PersistenceManager.shared.favoriteCoinsIDs.count)")
         }
         else {
-            PersistenceManager.shared.favoriteCoins.append(coin.id)
+            PersistenceManager.shared.favoriteCoinsIDs.append(coin.id)
             
             toFavoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
             toFavoriteButton.tintColor = .systemYellow
             
-            print("Добавили. Количество - \(PersistenceManager.shared.favoriteCoins.count)")
+            print("Добавили. Количество - \(PersistenceManager.shared.favoriteCoinsIDs.count)")
         }
     }
 }

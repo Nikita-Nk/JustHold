@@ -5,6 +5,7 @@ import UIKit
 // MARK: - MapResponse
 struct MapResponse: Codable {
     let data: [CoinMapData]
+    let status: Status
 }
 
 // MARK: - CoinData

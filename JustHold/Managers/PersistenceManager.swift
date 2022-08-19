@@ -24,7 +24,7 @@ final class PersistenceManager {
         set { saveCoins(array: newValue, key: Constants.coinsMap) }
     }
     
-    public var favoriteCoins: [Int] {
+    public var favoriteCoinsIDs: [Int] {
         get { userDefaults.array(forKey: Constants.favoriteCoins) as? [Int] ?? [] }
         set { userDefaults.setValue(newValue, forKey: Constants.favoriteCoins) }
     }
@@ -37,27 +37,25 @@ final class PersistenceManager {
     public func searchInCoinsMap(query: String,
                                  completion: @escaping ([CoinMapData]) -> Void) {
         var coins = [CoinMapData]()
-        
         for coin in self.coinsMap {
             if coin.symbol.lowercased().contains(query) || coin.name.lowercased().contains(query) {
                 coins.append(coin)
             }
         }
-        
         coins.sort(by: {$0.rank < $1.rank})
         completion(coins)
     }
     
     public func isInFavorites(coinID: Int) -> Bool {
-        return favoriteCoins.map {$0 == coinID}.contains(true)
+        return favoriteCoinsIDs.map {$0 == coinID}.contains(true)
     }
     
     public func addToFavorites(coinID: Int) {
-        favoriteCoins.append(coinID)
+        favoriteCoinsIDs.append(coinID)
     }
     
     public func removeFromFavorites(coinID: Int) {
-        favoriteCoins = favoriteCoins.filter { $0 != coinID}
+        favoriteCoinsIDs = favoriteCoinsIDs.filter { $0 != coinID}
     }
     
     public func addToLatestSearches(coin: CoinMapData) {
@@ -66,11 +64,9 @@ final class PersistenceManager {
                 latestSearches.remove(at: index)
             }
         }
-        
         if latestSearches.count > 5 {
             latestSearches.removeLast()
         }
-        
         latestSearches.insert(coin, at: 0)
     }
     
