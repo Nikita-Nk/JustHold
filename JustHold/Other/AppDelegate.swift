@@ -12,8 +12,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.backgroundColor = .systemBackground
         window?.rootViewController = TabBarController()
         
-        checkIfFirstTime()
-        APICaller.shared.getAllCoins()
+        APICaller.shared.fetchAllCoins()
         
 //        debug()
         
@@ -21,23 +20,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     private func debug() {
-
-    }
-    
-    // Доделать
-    private func checkIfFirstTime() {
-        // if первый раз в приложении - в PersistenceM создать константу, которая берет значение из UserDefaults
-        if UserDefaults.standard.data(forKey: "favoriteCoins") != nil {
-            print("not nil")
-        } else {
-            print("nil nil nil")
-            PersistenceManager.shared.favoriteCoins = [CoinData]() // без этого зависание в момент обращения к этому массиву. Т.к. надо сначала хоть что-то проинициализировать?
-        }
         
-        // Теперь ошибки нет, даже если нет значений
-        if PersistenceManager.shared.favoriteCoins.isEmpty {
-            print("Пусто")
-        }
+        // Для проверки
+//        AF.request("https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest",
+//                   method: .get,
+//                   parameters: ["id": "1,2,3"],
+//                   headers: APICaller.Constants.headers).responseJSON { response in
+//            print(response)
+//        }
     }
 }
 

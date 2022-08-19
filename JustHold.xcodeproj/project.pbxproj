@@ -19,6 +19,9 @@
 		18A8A05728A5698D0092031D /* SearchResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A8A05628A5698C0092031D /* SearchResultTableViewCell.swift */; };
 		18A8A05B28A67EF00092031D /* MapResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A8A05A28A67EEF0092031D /* MapResponse.swift */; };
 		18A8A05D28A698A40092031D /* PersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A8A05C28A698A40092031D /* PersistenceManager.swift */; };
+		18A8A06328ABADC90092031D /* MarketsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A8A06228ABADC80092031D /* MarketsTableViewCell.swift */; };
+		18A8A06528ABB00B0092031D /* ListingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A8A06428ABB00B0092031D /* ListingResponse.swift */; };
+		18A8A06728AE5A1F0092031D /* QuotesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A8A06628AE5A1E0092031D /* QuotesResponse.swift */; };
 		86EDB64C2EA418146DBA15EA /* Pods_JustHold.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC91E898C3B8F4132F87A9E5 /* Pods_JustHold.framework */; };
 /* End PBXBuildFile section */
 
@@ -38,6 +41,9 @@
 		18A8A05628A5698C0092031D /* SearchResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultTableViewCell.swift; sourceTree = "<group>"; };
 		18A8A05A28A67EEF0092031D /* MapResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapResponse.swift; sourceTree = "<group>"; };
 		18A8A05C28A698A40092031D /* PersistenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceManager.swift; sourceTree = "<group>"; };
+		18A8A06228ABADC80092031D /* MarketsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketsTableViewCell.swift; sourceTree = "<group>"; };
+		18A8A06428ABB00B0092031D /* ListingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingResponse.swift; sourceTree = "<group>"; };
+		18A8A06628AE5A1E0092031D /* QuotesResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotesResponse.swift; sourceTree = "<group>"; };
 		829C7701F78BA64E7E0A6722 /* Pods-JustHold.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JustHold.release.xcconfig"; path = "Target Support Files/Pods-JustHold/Pods-JustHold.release.xcconfig"; sourceTree = "<group>"; };
 		CC91E898C3B8F4132F87A9E5 /* Pods_JustHold.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JustHold.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -127,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				18A554E4289B0C7A00A9D48E /* LaunchScreen.storyboard */,
+				18A8A06228ABADC80092031D /* MarketsTableViewCell.swift */,
 				18A8A05628A5698C0092031D /* SearchResultTableViewCell.swift */,
 			);
 			path = Views;
@@ -136,6 +143,8 @@
 			isa = PBXGroup;
 			children = (
 				18A8A05A28A67EEF0092031D /* MapResponse.swift */,
+				18A8A06428ABB00B0092031D /* ListingResponse.swift */,
+				18A8A06628AE5A1E0092031D /* QuotesResponse.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -264,6 +273,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				18A554DE289B0C7900A9D48E /* ViewController.swift in Sources */,
+				18A8A06528ABB00B0092031D /* ListingResponse.swift in Sources */,
+				18A8A06728AE5A1F0092031D /* QuotesResponse.swift in Sources */,
+				18A8A06328ABADC90092031D /* MarketsTableViewCell.swift in Sources */,
 				18A8A05B28A67EF00092031D /* MapResponse.swift in Sources */,
 				18A8A05528A4F7950092031D /* SearchResultsVC.swift in Sources */,
 				18A8A05728A5698D0092031D /* SearchResultTableViewCell.swift in Sources */,

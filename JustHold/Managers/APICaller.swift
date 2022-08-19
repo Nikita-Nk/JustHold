@@ -4,6 +4,17 @@ import Alamofire
 // Coinmarketcap dashboard with statistics - https://pro.coinmarketcap.com/account
 // API documentation - https://coinmarketcap.com/api/documentation/v1/
 
+
+// Позже. Сделать проверку на время последнего обновления монет, похожее на isTimeToUpdateMap, чтобы оптимизировать кол-во запросов
+
+// Попробовать такой вариант. Будет работать или нет смысла в таком? Как тогда передавать queryParams? (в контроллере сохранять queryParams в PersistenceManager, а во время запроса брать оттуда queryParams)
+// В Persistence manager создать public var coinsListing (или private set попробовать) для хранения монет с запроса
+// В коде я обращаюсь сразу к coinsListing, чтобы получить монеты
+// У coinsListing в get прописана проверка на время (запрос не чаще раза в минуту), если запрос был больше минуты назад, то там же вызывать метод из APICaller, который загрузит новые данные для монет
+
+// Для FetchQuotes сначала делать проверку на время, а потом проверку на то, остался ли список монет(ids) таким же. Если минута не прошла и список не поменялся, то запрос не выполняется, а возвращаются старые монеты
+
+
 final class APICaller {
     
     public static let shared = APICaller()
@@ -17,8 +28,8 @@ final class APICaller {
     
     private struct Constants {
         static let mapUrl = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/map" // список всех монет
-        static let infoUrl = "https://pro-api.coinmarketcap.com/v2/cryptocurrency/info" // https://pro-api.coinmarketcap.com/v2/cryptocurrency/info?aux=logo%2Cdescription&id=1%2C2
-        // Пример - https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=5000&convert=USD
+        static let listingUrl = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest" // топ монет с котировками
+        static let quotesUrl = "https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest" // котировки монет по ID
         
         static let apiKey = "c4dbc3af-5dd2-434a-87f2-d8f22f1b5f34"
         static let baseURL = "https://pro-api.coinmarketcap.com/v1/"
@@ -30,82 +41,83 @@ final class APICaller {
     
     //MARK: - Public
     
-    public func getAllCoins() {
+    public func fetchAllCoins() {
         
-        if isTimeToUpdate() {
+        if timeToUpdateMap() {
             AF.request(Constants.mapUrl,
                        method: .get,
                        parameters: nil,
                        headers: Constants.headers).responseDecodable(of: MapResponse.self) { response in
                 
-                let sortedCoins = response.value!.data.sorted(by: {$0.rank < $1.rank} )
-                PersistenceManager.shared.coinsMap = sortedCoins
-                
-                self.lastCoinsMapUpdate = Date()
-                print("Загружаем монеты")
+                switch response.result {
+                case .success(let data):
+                    let sortedCoins = data.data.sorted(by: {$0.rank < $1.rank} )
+                    PersistenceManager.shared.coinsMap = sortedCoins
+                    self.lastCoinsMapUpdate = Date()
+                    print("Загружаем монеты")
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        }
+    }
+    
+    // В MarketsVC добавить collectionView с кнопками для запроса с другой сортировкой - наибольший рост, падение, дата добавления.
+    // Enum для queryParam с вариантами ?
+    // queryParams ["sort": "", "sort_dir": "asc"(desc)] // market_cap (default), date_added, percent_change_24h, percent_change_7d
+    public func fetchListing(queryParams: [String: String],
+                             completion: @escaping (([CoinListingData]) -> Void)) {
+        
+        AF.request(Constants.listingUrl,
+                   method: .get,
+                   parameters: queryParams, // ["limit": "100"]
+                   headers: APICaller.Constants.headers).responseDecodable(of: ListingResponse.self) { response in
+            
+            switch response.result {
+            case .success(let data):
+                completion(data.data)
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    public func fetchQuotes(ids: [Int],
+                            completion: @escaping (([CoinListingData]) -> Void)) {
+        let strIds = ids.map { String($0) }.joined(separator: ",")
+        
+        AF.request(Constants.quotesUrl,
+                   method: .get,
+                   parameters: ["id": strIds],
+                   headers: APICaller.Constants.headers).responseDecodable(of: QuotesResponse.self) { response in
+            
+            switch response.result {
+            case .success(let data):
+                var sortedFavoriteCoins = [CoinListingData]()
+                for id in ids { // сортировка, чтобы вернуть список монет в том же порядке, что и полученные IDs
+                    for respCoin in data.data.values {
+                        if id == respCoin.id {
+                            sortedFavoriteCoins.append(respCoin)
+                        }
+                    }
+                }
+                completion(sortedFavoriteCoins)
+            case .failure(let error):
+                print(error)
             }
         }
     }
     
     //MARK: - Private
     
-    private func isTimeToUpdate() -> Bool {
+    private func timeToUpdateMap() -> Bool { // небольшое ограничение на обновление раз в 6 часов, чтобы снизить количество запросов
         let today = Date()
-        if today - day >= lastCoinsMapUpdate ?? (today - day * 2) { // 11:00 12.08 >= 15:00 12.08
+        if today - (day/4) >= lastCoinsMapUpdate ?? (today - day * 2) { // 11:00 12.08 >= 15:00 12.08
             print("Время обновить")
             return true
         } else {
-            print(lastCoinsMapUpdate)
-            print(today)
-            print("Рано обновлять")
+            print("Рано обновлять. Последнее обновление:", lastCoinsMapUpdate ?? "")
             return false
         }
     }
-    
-    
-    
-    private enum Endpoint: String {
-        case cryptocurrency // = "cryptocurrency" (если использовать значение.rawValue) // возвращают данные о криптовалютах, такие как упорядоченные списки криптовалют или данные о ценах и объемах.
-        case exchange // ordered exchange lists and market pair data
-//        case global-metrics // global market cap and BTC dominance.
-        case tools // cryptocurrency and fiat price conversions.
-    }
-    
-    // Cryptocurrency and exchange endpoints provide 2 different ways of accessing data depending on purpose
-    // */listings/* - endpoints allow you to sort and filter lists of data like cryptocurrencies by market cap or exchanges by volume.
-    // Item endpoints (*/market-pairs/*) -
-    
-    // Endpoint paths follow a pattern matching the type of data provided
-    // */latest - Latest market ticker quotes and averages for cryptocurrencies and exchanges
-    // */historical - Intervals of historic market data like OHLCV data or data for use in charting libraries.
-    // */info - Cryptocurrency and exchange metadata like block explorer URLs and logos
 }
-
-
-
-
-
-// getInfo не надо, т.к. я могу сам ссылку создать без запроса
-//    public func getInfo(ids: String) { // , completion: @escaping () -> Void)
-//        var queryParams = ["id": ids,
-//                           "aux": "logo"] // description - nil тогда
-//        AF.request(Constants.infoUrl,
-//                   method: .get,
-//                   parameters: queryParams,
-//                   headers: Constants.headers).responseDecodable(of: InfoResponse.self) { response in
-//            print(response.value?.data["1"]?.logo) // лого элемента dictionary с key "1"
-//        }
-//    }
-//
-//// MARK: - InfoResponse
-//struct InfoResponse: Codable {
-//    let data: [String: Info] // String: Info
-////    let status: Status
-//}
-//
-//// MARK: - Info
-//struct Info: Codable {
-//    let logo: String
-//    let id: Int
-////    let description: String
-//}
