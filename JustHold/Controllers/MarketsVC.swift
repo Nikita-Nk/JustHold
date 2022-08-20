@@ -62,7 +62,6 @@ class MarketsVC: UIViewController {
     
     @objc private func favoritesTapped() {
         if favoritesAreHidden {
-            fetchQuotes()
             favoritesAreHidden = false
             if let favButton = navigationItem.rightBarButtonItems?[0] {
                 favButton.tintColor = .systemYellow
@@ -72,8 +71,14 @@ class MarketsVC: UIViewController {
                 listButton.isEnabled = true
                 listButton.tintColor = .systemBlue
             }
+            if PersistenceManager.shared.favoriteCoinsIDs.isEmpty {
+                tableView.isHidden = true
+                return
+            }
+            fetchQuotes()
         }
         else {
+            tableView.isHidden = false
             fetchListing()
             favoritesAreHidden = true
             if let favButton = navigationItem.rightBarButtonItems?[0] {

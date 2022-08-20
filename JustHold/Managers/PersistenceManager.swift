@@ -13,6 +13,7 @@ final class PersistenceManager {
         static let coinsMap = "coinsMap"
         static let favoriteCoins = "favoriteCoins"
         static let latestSearches = "latestSearches"
+        static let darkModeIsOn = "darkModeIsOn"
     }
     
     private init() {}
@@ -32,6 +33,11 @@ final class PersistenceManager {
     public var latestSearches: [CoinMapData] {
         get { getDataFromUserD(key: Constants.latestSearches) }
         set { saveCoins(array: newValue, key: Constants.latestSearches) }
+    }
+    
+    public var darkModeIsOn: Bool {
+        get { userDefaults.bool(forKey: Constants.darkModeIsOn) }
+        set { userDefaults.set(newValue, forKey: Constants.darkModeIsOn) }
     }
     
     public func searchInCoinsMap(query: String,

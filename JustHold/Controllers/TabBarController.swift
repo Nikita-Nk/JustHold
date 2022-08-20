@@ -48,12 +48,11 @@ class TabBarController: RAMAnimatedTabBarController {
         let vc2 = ViewController()
         let vc3 = ViewController()
         let vc4 = ViewController()
-        let vc5 = ViewController()
+        let vc5 = UINavigationController(rootViewController: SettingsVC())
         
         vc2.view.backgroundColor = .systemRed
         vc3.view.backgroundColor = .systemOrange
         vc4.view.backgroundColor = .systemPink
-        vc5.view.backgroundColor = .systemMint // 
         
         vc1.tabBarItem = RAMAnimatedTabBarItem(title: "Монеты", // монеты / криптовалюты / главная
                                                image: UIImage(systemName: "star"), // star / house
