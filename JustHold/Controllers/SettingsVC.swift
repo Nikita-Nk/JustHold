@@ -1,4 +1,5 @@
 import UIKit
+import LocalAuthentication
 
 struct Section {
     let title: String
@@ -68,25 +69,60 @@ class SettingsVC: UIViewController {
         let backgroundColor = UIColor.clear
         
         sections.append(Section(title: "Поддержать проект", options: [
-            .staticCell(model: SettingsOption(text: "Оценить приложение", icon: UIImage(systemName: "star"), iconBackgroundColor: backgroundColor, handler: {
-                print("Оценить приложение")
-            }))
+            .staticCell(model: SettingsOption(
+                text: "Оценить приложение",
+                icon: UIImage(systemName: "star"),
+                iconBackgroundColor: backgroundColor,
+                handler: {
+                    print("Оценить приложение")
+                    HapticsManager.shared.vibrateSlightly()
+                }))
         ]))
         
         sections.append(Section(title: "Оформление", options: [
-            .switchCell(model: SettingsSwitchOption(text: "Тёмная тема", icon: UIImage(systemName: "paintpalette"), iconBackgroundColor: backgroundColor, isOn: self.traitCollection.userInterfaceStyle == .dark ? true : false, handler: {
-                NotificationCenter.default.post(name: Notification.Name("switchToDark"), object: nil)
-                print("Вкл/Выкл темную тему")
-            })),
-            .switchCell(model: SettingsSwitchOption(text: "Тёмная тема для графиков", icon: UIImage(systemName: "paintbrush"), iconBackgroundColor: backgroundColor, isOn: false, handler: {
-                print("Вкл/Выкл темную тему для графиков")
-            }))
+            .switchCell(model: SettingsSwitchOption(
+                text: "Тёмная тема",
+                icon: UIImage(systemName: "paintpalette"),
+                iconBackgroundColor: backgroundColor,
+                isOn: self.traitCollection.userInterfaceStyle == .dark ? true : false,
+                handler: {
+                    NotificationCenter.default.post(name: Notification.Name("switchToDark"), object: nil)
+                })),
+            .switchCell(model: SettingsSwitchOption(
+                text: "Тёмная тема для графиков",
+                icon: UIImage(systemName: "paintbrush"),
+                iconBackgroundColor: backgroundColor,
+                isOn: false,
+                handler: {
+                    print("Вкл/Выкл темную тему для графиков")
+                }))
         ]))
         
+        let currentBiometricType = LAContext().biometricType
+        var text = ""
+        var icon = ""
+        
+        switch currentBiometricType {
+        case .none:
+            text = "Пароль"
+            icon = "lock"
+        case .touchID:
+            text = "Touch ID"
+            icon = "touchid"
+        case .faceID:
+            text = "Face ID"
+            icon = "faceid"
+        }
+        
         sections.append(Section(title: "Безопасность", options: [
-            .switchCell(model: SettingsSwitchOption(text: "Face ID", icon: UIImage(systemName: "faceid"), iconBackgroundColor: backgroundColor, isOn: false, handler: {
-                print("Вкл/Выкл Face ID")
-            }))
+            .switchCell(model: SettingsSwitchOption(
+                text: text,
+                icon: UIImage(systemName: icon),
+                iconBackgroundColor: backgroundColor,
+                isOn: PersistenceManager.shared.securityIsOn,
+                handler: {
+                    PersistenceManager.shared.securityIsOn.toggle()
+                }))
         ]))
     }
 }
@@ -147,6 +183,7 @@ extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        HapticsManager.shared.vibrateSlightly()
         tableView.deselectRow(at: indexPath, animated: true)
         let model = sections[indexPath.section].options[indexPath.row]
         

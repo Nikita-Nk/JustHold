@@ -17,18 +17,18 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="mlo-K8-ixV">
-                                <rect key="frame" x="60" y="297" width="304" height="302"/>
+                                <rect key="frame" x="82" y="223" width="250" height="250"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="mlo-K8-ixV" secondAttribute="height" multiplier="374:371" id="k4D-yB-XnK"/>
+                                    <constraint firstAttribute="height" constant="250" id="9dB-aH-p5X"/>
+                                    <constraint firstAttribute="width" constant="250" id="Hmm-qn-oNV"/>
                                 </constraints>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="mlo-K8-ixV" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="a0d-xR-sp0"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="mlo-K8-ixV" secondAttribute="trailing" constant="50" id="mF8-vL-Uze"/>
-                            <constraint firstItem="mlo-K8-ixV" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="60" id="y8M-vd-KjB"/>
+                            <constraint firstItem="mlo-K8-ixV" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="-100" id="lN6-sV-m8h"/>
+                            <constraint firstItem="mlo-K8-ixV" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="xAZ-TI-7mI"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -38,7 +38,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="logo" width="512" height="512"/>
+        <image name="logo" width="1080" height="1080"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

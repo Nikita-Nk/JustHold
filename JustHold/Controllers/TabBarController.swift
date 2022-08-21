@@ -22,6 +22,20 @@ class TabBarController: RAMAnimatedTabBarController {
         changeHeightOfTabbar()
     }
     
+    override func viewWillAppear(_ animated: Bool) { // скрываем navigationBar
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) { // возвращаем, если в дальше он нужен
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
+    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        HapticsManager.shared.vibrateSlightly()
+    }
+    
     //MARK: - Private
 
     private func changeHeightOfTabbar(){
