@@ -31,7 +31,6 @@ class SearchResultTableViewCell: UITableViewCell {
         imageView.contentMode = .scaleAspectFit
         imageView.layer.cornerRadius = 17.5
         imageView.layer.masksToBounds = true
-        
         return imageView
     }()
     
@@ -144,6 +143,7 @@ class SearchResultTableViewCell: UITableViewCell {
     }
     
     @objc private func didTapFavoriteButton() {
+        HapticsManager.shared.vibrateSlightly()
         
         if PersistenceManager.shared.isInFavorites(coinID: coin.id) {
             PersistenceManager.shared.removeFromFavorites(coinID: coin.id)

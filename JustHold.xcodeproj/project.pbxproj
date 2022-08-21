@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		189BD2B028AFA4CD00E5FD55 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189BD2AF28AFA4CD00E5FD55 /* SettingsVC.swift */; };
+		189BD2B428AFF6B000E5FD55 /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189BD2B328AFF6B000E5FD55 /* SettingTableViewCell.swift */; };
+		189BD2B628B0164B00E5FD55 /* SwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189BD2B528B0164B00E5FD55 /* SwitchTableViewCell.swift */; };
+		189BD2BA28B24BE700E5FD55 /* SecurityVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189BD2B928B24BE600E5FD55 /* SecurityVC.swift */; };
+		189BD2BE28B27A2600E5FD55 /* HapticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189BD2BD28B27A2600E5FD55 /* HapticsManager.swift */; };
 		18A554DA289B0C7900A9D48E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A554D9289B0C7900A9D48E /* AppDelegate.swift */; };
 		18A554DE289B0C7900A9D48E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A554DD289B0C7900A9D48E /* ViewController.swift */; };
 		18A554E3289B0C7A00A9D48E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18A554E2289B0C7A00A9D48E /* Assets.xcassets */; };
@@ -27,6 +32,11 @@
 
 /* Begin PBXFileReference section */
 		02BE00F7FE6E4750DD44AD53 /* Pods-JustHold.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JustHold.debug.xcconfig"; path = "Target Support Files/Pods-JustHold/Pods-JustHold.debug.xcconfig"; sourceTree = "<group>"; };
+		189BD2AF28AFA4CD00E5FD55 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
+		189BD2B328AFF6B000E5FD55 /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
+		189BD2B528B0164B00E5FD55 /* SwitchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchTableViewCell.swift; sourceTree = "<group>"; };
+		189BD2B928B24BE600E5FD55 /* SecurityVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityVC.swift; sourceTree = "<group>"; };
+		189BD2BD28B27A2600E5FD55 /* HapticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsManager.swift; sourceTree = "<group>"; };
 		18A554D6289B0C7900A9D48E /* JustHold.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JustHold.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18A554D9289B0C7900A9D48E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		18A554DD289B0C7900A9D48E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -114,6 +124,7 @@
 			children = (
 				18A8A04E28A4EB470092031D /* APICaller.swift */,
 				18A8A05C28A698A40092031D /* PersistenceManager.swift */,
+				189BD2BD28B27A2600E5FD55 /* HapticsManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -121,9 +132,11 @@
 		18A8A04728A28BD20092031D /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				189BD2B928B24BE600E5FD55 /* SecurityVC.swift */,
 				18A8A04C28A28EE90092031D /* TabBarController.swift */,
 				18A8A05028A4EE900092031D /* MarketsVC.swift */,
 				18A8A05428A4F7950092031D /* SearchResultsVC.swift */,
+				189BD2AF28AFA4CD00E5FD55 /* SettingsVC.swift */,
 				18A554DD289B0C7900A9D48E /* ViewController.swift */,
 			);
 			path = Controllers;
@@ -135,6 +148,8 @@
 				18A554E4289B0C7A00A9D48E /* LaunchScreen.storyboard */,
 				18A8A06228ABADC80092031D /* MarketsTableViewCell.swift */,
 				18A8A05628A5698C0092031D /* SearchResultTableViewCell.swift */,
+				189BD2B328AFF6B000E5FD55 /* SettingTableViewCell.swift */,
+				189BD2B528B0164B00E5FD55 /* SwitchTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -272,19 +287,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				189BD2BE28B27A2600E5FD55 /* HapticsManager.swift in Sources */,
 				18A554DE289B0C7900A9D48E /* ViewController.swift in Sources */,
 				18A8A06528ABB00B0092031D /* ListingResponse.swift in Sources */,
 				18A8A06728AE5A1F0092031D /* QuotesResponse.swift in Sources */,
 				18A8A06328ABADC90092031D /* MarketsTableViewCell.swift in Sources */,
 				18A8A05B28A67EF00092031D /* MapResponse.swift in Sources */,
 				18A8A05528A4F7950092031D /* SearchResultsVC.swift in Sources */,
+				189BD2B428AFF6B000E5FD55 /* SettingTableViewCell.swift in Sources */,
 				18A8A05728A5698D0092031D /* SearchResultTableViewCell.swift in Sources */,
 				18A8A04D28A28EE90092031D /* TabBarController.swift in Sources */,
+				189BD2BA28B24BE700E5FD55 /* SecurityVC.swift in Sources */,
+				189BD2B628B0164B00E5FD55 /* SwitchTableViewCell.swift in Sources */,
 				18A8A05128A4EE900092031D /* MarketsVC.swift in Sources */,
 				18A8A04B28A28C210092031D /* Extensions.swift in Sources */,
 				18A8A04F28A4EB470092031D /* APICaller.swift in Sources */,
 				18A554DA289B0C7900A9D48E /* AppDelegate.swift in Sources */,
 				18A8A05D28A698A40092031D /* PersistenceManager.swift in Sources */,
+				189BD2B028AFA4CD00E5FD55 /* SettingsVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

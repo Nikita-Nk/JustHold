@@ -22,6 +22,20 @@ class TabBarController: RAMAnimatedTabBarController {
         changeHeightOfTabbar()
     }
     
+    override func viewWillAppear(_ animated: Bool) { // скрываем navigationBar
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) { // возвращаем, если в дальше он нужен
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
+    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        HapticsManager.shared.vibrateSlightly()
+    }
+    
     //MARK: - Private
 
     private func changeHeightOfTabbar(){
@@ -48,12 +62,11 @@ class TabBarController: RAMAnimatedTabBarController {
         let vc2 = ViewController()
         let vc3 = ViewController()
         let vc4 = ViewController()
-        let vc5 = ViewController()
+        let vc5 = UINavigationController(rootViewController: SettingsVC())
         
         vc2.view.backgroundColor = .systemRed
         vc3.view.backgroundColor = .systemOrange
         vc4.view.backgroundColor = .systemPink
-        vc5.view.backgroundColor = .systemMint // 
         
         vc1.tabBarItem = RAMAnimatedTabBarItem(title: "Монеты", // монеты / криптовалюты / главная
                                                image: UIImage(systemName: "star"), // star / house

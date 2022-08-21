@@ -61,8 +61,8 @@ class MarketsVC: UIViewController {
     }
     
     @objc private func favoritesTapped() {
+        HapticsManager.shared.vibrateSlightly()
         if favoritesAreHidden {
-            fetchQuotes()
             favoritesAreHidden = false
             if let favButton = navigationItem.rightBarButtonItems?[0] {
                 favButton.tintColor = .systemYellow
@@ -72,8 +72,14 @@ class MarketsVC: UIViewController {
                 listButton.isEnabled = true
                 listButton.tintColor = .systemBlue
             }
+            if PersistenceManager.shared.favoriteCoinsIDs.isEmpty {
+                tableView.isHidden = true
+                return
+            }
+            fetchQuotes()
         }
         else {
+            tableView.isHidden = false
             fetchListing()
             favoritesAreHidden = true
             if let favButton = navigationItem.rightBarButtonItems?[0] {
@@ -91,6 +97,7 @@ class MarketsVC: UIViewController {
     }
     
     @objc private func didTapSort() {
+        HapticsManager.shared.vibrate(for: .success)
         if tableView.isEditing {
             tableView.isEditing = false
         } else {
@@ -189,6 +196,7 @@ extension MarketsVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { // переписать переход на другую вкладку
+        HapticsManager.shared.vibrateSlightly()
         tableView.deselectRow(at: indexPath, animated: true)
 //        let coin = coins[indexPath.row] // для передачи
         
@@ -207,12 +215,14 @@ extension MarketsVC: UITableViewDelegate, UITableViewDataSource {
 extension MarketsVC: UISearchBarDelegate {
     
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+        HapticsManager.shared.vibrateSlightly()
         canUpdateSearch = true
         tableView.isHidden = true
         return true
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        HapticsManager.shared.vibrateSlightly()
         canUpdateSearch = false
         tableView.isHidden = false
         tableView.reloadData()

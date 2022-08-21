@@ -31,7 +31,6 @@ class MarketsTableViewCell: UITableViewCell {
         imageView.contentMode = .scaleAspectFit
         imageView.layer.cornerRadius = 17.5
         imageView.layer.masksToBounds = true
-        
         return imageView
     }()
     
@@ -204,6 +203,7 @@ class MarketsTableViewCell: UITableViewCell {
     }
     
     @objc private func didTapFavoriteButton(_: UIButton) {
+        HapticsManager.shared.vibrateSlightly()
         
         if PersistenceManager.shared.isInFavorites(coinID: coin.id) {
             PersistenceManager.shared.removeFromFavorites(coinID: coin.id)

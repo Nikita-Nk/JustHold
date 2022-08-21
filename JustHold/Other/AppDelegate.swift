@@ -10,9 +10,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         window?.backgroundColor = .systemBackground
-        window?.rootViewController = TabBarController()
+        window?.rootViewController = PersistenceManager.shared.securityIsOn ? SecurityVC() : TabBarController()
         
         APICaller.shared.fetchAllCoins()
+        checkColorMode()
+        NotificationCenter.default.addObserver(self, selector: #selector(switchToDark), name: Notification.Name("switchToDark"), object: nil)
         
 //        debug()
         
@@ -28,6 +30,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //                   headers: APICaller.Constants.headers).responseJSON { response in
 //            print(response)
 //        }
+    }
+    
+    //MARK: - Check and change interface style
+    
+    private func checkColorMode() {
+        switch PersistenceManager.shared.darkModeIsOn {
+        case true:
+            window?.overrideUserInterfaceStyle = .dark
+        case false:
+            window?.overrideUserInterfaceStyle = .light
+        }
+    }
+    
+    @objc func switchToDark(_ notification: Notification) {
+        switch PersistenceManager.shared.darkModeIsOn {
+        case true:
+            window?.overrideUserInterfaceStyle = .light
+            PersistenceManager.shared.darkModeIsOn = false
+        case false:
+            window?.overrideUserInterfaceStyle = .dark
+            PersistenceManager.shared.darkModeIsOn = true
+        }
     }
 }
 
