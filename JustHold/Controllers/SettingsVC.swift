@@ -1,5 +1,6 @@
 import UIKit
 import LocalAuthentication
+import Lottie
 
 struct Section {
     let title: String
@@ -39,6 +40,8 @@ class SettingsVC: UIViewController {
     
     private var sections = [Section]()
     
+    let animationView = AnimationView()
+    
     //MARK: - Lifecycle
 
     override func viewDidLoad() {
@@ -50,11 +53,16 @@ class SettingsVC: UIViewController {
         view.backgroundColor = .systemBackground
         setUpTable()
         configureSections()
+        setupAnimation()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        animationView.play()
     }
     
     //MARK: - Private
@@ -63,6 +71,21 @@ class SettingsVC: UIViewController {
         view.addSubview(tableView)
         tableView.delegate = self
         tableView.dataSource = self
+    }
+    
+    private func setupAnimation() {
+        guard UIScreen.main.bounds.height > 700 else {
+            return
+        }
+        animationView.animation = Animation.named("portfolioAnimation")
+        animationView.backgroundColor = .clear
+        animationView.contentMode = .scaleAspectFit
+        animationView.loopMode = .loop
+        animationView.animationSpeed = 1.1
+        animationView.play()
+        animationView.frame = CGRect(x: 0, y: view.bottom - 300, width: 400, height: 200)
+        animationView.center.x = view.center.x
+        view.addSubview(animationView)
     }
     
     private func configureSections() {
@@ -168,6 +191,7 @@ extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
                 return UITableViewCell()
             }
             cell.configure(with: model)
+            cell.selectionStyle = .none // нажатие на switch-ячейку никак не отображается
             return cell
         }
     }
@@ -177,7 +201,7 @@ extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
         switch model.self {
         case .staticCell(_):
             return indexPath
-        case .switchCell(_): // делаем ячейки со Switch не кликабельными
+        case .switchCell(_): // при нажатии на switch-ячейку, действие из handler не выполнится
             return nil
         }
     }

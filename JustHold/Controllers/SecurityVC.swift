@@ -1,17 +1,17 @@
 import UIKit
 import LocalAuthentication
 import SnapKit
-import UniformTypeIdentifiers
+import Lottie
 
 class SecurityVC: UIViewController {
     
-    private let logoView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "logo")
-        imageView.backgroundColor = .systemBackground
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
+//    private let logoView: UIImageView = {
+//        let imageView = UIImageView()
+//        imageView.image = UIImage(named: "logo")
+//        imageView.backgroundColor = .systemBackground
+//        imageView.contentMode = .scaleAspectFit
+//        return imageView
+//    }()
     
     private let authButton: UIButton = {
         let button = UIButton()
@@ -27,21 +27,24 @@ class SecurityVC: UIViewController {
         return button
     }()
     
+    let animationView = AnimationView()
+    
     //MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .systemBackground
-        view.addSubviews(logoView, authButton)
+        view.addSubviews(animationView, authButton)
+        setupAnimation()
         authenticate()
     }
     
     override func viewDidLayoutSubviews() {
-        logoView.snp.makeConstraints { make in
-            make.height.width.equalTo(250)
-            make.centerY.equalTo(view.snp.centerY).offset(-100)
-            make.centerX.equalTo(view.snp.centerX)
+        animationView.snp.makeConstraints { make in
+            make.leftMargin.equalTo(view.snp.leftMargin).offset(-9)
+            make.rightMargin.equalTo(view.snp.rightMargin)
+            make.centerY.equalTo(view.snp.centerY).offset(-150)
         }
         authButton.snp.makeConstraints { make in
             make.width.equalTo(180)
@@ -52,6 +55,15 @@ class SecurityVC: UIViewController {
     }
     
     //MARK: - Private
+    
+    private func setupAnimation() {
+        animationView.animation = Animation.named("chartAnimation")
+        animationView.backgroundColor = .systemBackground
+        animationView.contentMode = .scaleAspectFit
+        animationView.loopMode = .loop
+        animationView.animationSpeed = 1.1
+        animationView.play()
+    }
     
     @objc private func authenticate() {
         HapticsManager.shared.vibrateSlightly()

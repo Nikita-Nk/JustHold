@@ -55,13 +55,13 @@ class TabBarController: RAMAnimatedTabBarController {
     }
 
     private func configure() {
-        tabBar.isTranslucent = false
-        self.tabBar.backgroundColor = .systemBackground
+//        self.tabBar.isTranslucent = true
+        self.tabBar.backgroundColor = .secondarySystemBackground
         
         let vc1 = UINavigationController(rootViewController: MarketsVC())
-        let vc2 = ViewController()
-        let vc3 = ViewController()
-        let vc4 = ViewController()
+        let vc2 = UINavigationController(rootViewController: ViewController())
+        let vc3 = UINavigationController(rootViewController: ViewController())
+        let vc4 = UINavigationController(rootViewController: ViewController())
         let vc5 = UINavigationController(rootViewController: SettingsVC())
         
         vc2.view.backgroundColor = .systemRed
