@@ -14,6 +14,13 @@
 		189BD2BE28B27A2600E5FD55 /* HapticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189BD2BD28B27A2600E5FD55 /* HapticsManager.swift */; };
 		189BD2C428B2CF5D00E5FD55 /* chartAnimation.json in Resources */ = {isa = PBXBuildFile; fileRef = 189BD2C328B2CF5D00E5FD55 /* chartAnimation.json */; };
 		189BD2C828B2D28600E5FD55 /* portfolioAnimation.json in Resources */ = {isa = PBXBuildFile; fileRef = 189BD2C728B2D28600E5FD55 /* portfolioAnimation.json */; };
+		189BD2CC28B386C400E5FD55 /* SymbolsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189BD2CB28B386C400E5FD55 /* SymbolsResponse.swift */; };
+		189BD2CE28B386F700E5FD55 /* CandlesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189BD2CD28B386F700E5FD55 /* CandlesResponse.swift */; };
+		189BD2D028B3871800E5FD55 /* ChartVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189BD2CF28B3871800E5FD55 /* ChartVC.swift */; };
+		189BD2D228B387FF00E5FD55 /* SymbolsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189BD2D128B387FF00E5FD55 /* SymbolsTableViewCell.swift */; };
+		189BD2D428B3881800E5FD55 /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189BD2D328B3881800E5FD55 /* ChartView.swift */; };
+		189BD2D628B3890600E5FD55 /* MetricsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189BD2D528B3890600E5FD55 /* MetricsView.swift */; };
+		189BD2D828B3897300E5FD55 /* MetricCollViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189BD2D728B3897300E5FD55 /* MetricCollViewCell.swift */; };
 		18A554DA289B0C7900A9D48E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A554D9289B0C7900A9D48E /* AppDelegate.swift */; };
 		18A554DE289B0C7900A9D48E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A554DD289B0C7900A9D48E /* ViewController.swift */; };
 		18A554E3289B0C7A00A9D48E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18A554E2289B0C7A00A9D48E /* Assets.xcassets */; };
@@ -41,6 +48,13 @@
 		189BD2BD28B27A2600E5FD55 /* HapticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsManager.swift; sourceTree = "<group>"; };
 		189BD2C328B2CF5D00E5FD55 /* chartAnimation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = chartAnimation.json; sourceTree = "<group>"; };
 		189BD2C728B2D28600E5FD55 /* portfolioAnimation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = portfolioAnimation.json; sourceTree = "<group>"; };
+		189BD2CB28B386C400E5FD55 /* SymbolsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolsResponse.swift; sourceTree = "<group>"; };
+		189BD2CD28B386F700E5FD55 /* CandlesResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandlesResponse.swift; sourceTree = "<group>"; };
+		189BD2CF28B3871800E5FD55 /* ChartVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartVC.swift; sourceTree = "<group>"; };
+		189BD2D128B387FF00E5FD55 /* SymbolsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolsTableViewCell.swift; sourceTree = "<group>"; };
+		189BD2D328B3881800E5FD55 /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
+		189BD2D528B3890600E5FD55 /* MetricsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricsView.swift; sourceTree = "<group>"; };
+		189BD2D728B3897300E5FD55 /* MetricCollViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricCollViewCell.swift; sourceTree = "<group>"; };
 		18A554D6289B0C7900A9D48E /* JustHold.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JustHold.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18A554D9289B0C7900A9D48E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		18A554DD289B0C7900A9D48E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -142,6 +156,7 @@
 				18A8A04C28A28EE90092031D /* TabBarController.swift */,
 				18A8A05028A4EE900092031D /* MarketsVC.swift */,
 				18A8A05428A4F7950092031D /* SearchResultsVC.swift */,
+				189BD2CF28B3871800E5FD55 /* ChartVC.swift */,
 				189BD2AF28AFA4CD00E5FD55 /* SettingsVC.swift */,
 				18A554DD289B0C7900A9D48E /* ViewController.swift */,
 			);
@@ -156,6 +171,10 @@
 				18A8A05628A5698C0092031D /* SearchResultTableViewCell.swift */,
 				189BD2B328AFF6B000E5FD55 /* SettingTableViewCell.swift */,
 				189BD2B528B0164B00E5FD55 /* SwitchTableViewCell.swift */,
+				189BD2D128B387FF00E5FD55 /* SymbolsTableViewCell.swift */,
+				189BD2D328B3881800E5FD55 /* ChartView.swift */,
+				189BD2D528B3890600E5FD55 /* MetricsView.swift */,
+				189BD2D728B3897300E5FD55 /* MetricCollViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -166,6 +185,8 @@
 				18A8A05A28A67EEF0092031D /* MapResponse.swift */,
 				18A8A06428ABB00B0092031D /* ListingResponse.swift */,
 				18A8A06628AE5A1E0092031D /* QuotesResponse.swift */,
+				189BD2CB28B386C400E5FD55 /* SymbolsResponse.swift */,
+				189BD2CD28B386F700E5FD55 /* CandlesResponse.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -295,12 +316,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				189BD2D828B3897300E5FD55 /* MetricCollViewCell.swift in Sources */,
 				189BD2BE28B27A2600E5FD55 /* HapticsManager.swift in Sources */,
 				18A554DE289B0C7900A9D48E /* ViewController.swift in Sources */,
 				18A8A06528ABB00B0092031D /* ListingResponse.swift in Sources */,
+				189BD2D028B3871800E5FD55 /* ChartVC.swift in Sources */,
 				18A8A06728AE5A1F0092031D /* QuotesResponse.swift in Sources */,
+				189BD2D628B3890600E5FD55 /* MetricsView.swift in Sources */,
 				18A8A06328ABADC90092031D /* MarketsTableViewCell.swift in Sources */,
+				189BD2D428B3881800E5FD55 /* ChartView.swift in Sources */,
+				189BD2CE28B386F700E5FD55 /* CandlesResponse.swift in Sources */,
+				189BD2CC28B386C400E5FD55 /* SymbolsResponse.swift in Sources */,
 				18A8A05B28A67EF00092031D /* MapResponse.swift in Sources */,
+				189BD2D228B387FF00E5FD55 /* SymbolsTableViewCell.swift in Sources */,
 				18A8A05528A4F7950092031D /* SearchResultsVC.swift in Sources */,
 				189BD2B428AFF6B000E5FD55 /* SettingTableViewCell.swift in Sources */,
 				18A8A05728A5698D0092031D /* SearchResultTableViewCell.swift in Sources */,

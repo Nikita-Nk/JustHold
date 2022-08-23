@@ -40,7 +40,7 @@ class SettingsVC: UIViewController {
     
     private var sections = [Section]()
     
-    let animationView = AnimationView()
+    private let animationView = AnimationView()
     
     //MARK: - Lifecycle
 
