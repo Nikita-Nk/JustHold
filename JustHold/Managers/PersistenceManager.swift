@@ -26,9 +26,6 @@ final class PersistenceManager {
     public var coinsMap: [CoinMapData] {
         get { getCoinsFromUserDefaults(key: Constants.coinsMap, type: [CoinMapData].self) }
         set { saveCoinsToUsedDefaults(array: newValue, key: Constants.coinsMap) }
-        
-//        get { getDataFromUserD(key: Constants.coinsMap) }
-//        set { saveCoins(array: newValue, key: Constants.coinsMap) }
     }
     
     public var favoriteCoinsIDs: [Int] {
@@ -39,17 +36,11 @@ final class PersistenceManager {
     public var latestSearches: [CoinMapData] {
         get { getCoinsFromUserDefaults(key: Constants.latestSearches, type: [CoinMapData].self) }
         set { saveCoinsToUsedDefaults(array: newValue, key: Constants.latestSearches) }
-        
-//        get { getDataFromUserD(key: Constants.latestSearches) }
-//        set { saveCoins(array: newValue, key: Constants.latestSearches) }
     }
     
     public var cryptoSymbols: [Symbol] {
         get { getCoinsFromUserDefaults(key: Constants.cryptoSymbols, type: [Symbol].self) }
         set { saveCoinsToUsedDefaults(array: newValue, key: Constants.cryptoSymbols) }
-        
-        //get { getDataFromUserD(key: Constants.cryptoSymbols) } //
-        //set { saveCoins(array: newValue, key: Constants.cryptoSymbols) }
     }
     
     public var darkModeIsOn: Bool {
@@ -73,34 +64,15 @@ final class PersistenceManager {
     //
     public func searchInSymbols(coinSymbol: String, completion: @escaping ([Symbol]) -> Void) {
         var symbols = [Symbol]()
-        var secondarySymbols = [Symbol]()
-        
-        
-        print("cryptoSymbols.count tut", cryptoSymbols.count) // 8125
         let coinToSearch = coinSymbol.uppercased() + "/USDT"
-        print(coinToSearch) // SOL/USDT
-        
         
         for symbol in cryptoSymbols {
-//            print(symbol) // принтит без проблем все символы
-            
-            if symbol.displaySymbol == coinToSearch { // вроде работает
-                print(symbol) // принтит нужные символы
+            if symbol.displaySymbol == coinToSearch {
                 symbols.append(symbol)
-                print(symbols.count)
             }
-            
-            
-//            if symbol.displaySymbol.lowercased().contains(coinSymbol + "/usdt") {
-//                symbols.append(symbol)
-//            }
-//            else if symbol.displaySymbol.lowercased().contains(coinSymbol) {
-//                secondarySymbols.append(symbol)
-//            }
+            // else if - можно добавить доп.проверки, чтобы выводить больше вариантов, например, пары с /ETH. И добавлять их в secondarySymbols
         }
-//        symbols += secondarySymbols
-//        completion(symbols)
-        print("symbols.count", symbols.count) // 0
+        completion(symbols)
     }
     
     public func searchInCoinsMap(query: String,
@@ -160,27 +132,4 @@ final class PersistenceManager {
         }
         return type.init()
     }
-    
-    
-    
-    
-//    private func saveCoins(array: [CoinMapData], key: String) {
-//        do {
-//            let coinsArray = try encoder.encode(array)
-//            UserDefaults.standard.set(coinsArray, forKey: key)
-//        } catch {
-//            print(error)
-//        }
-//    }
-//
-//    private func getDataFromUserD(key: String) -> [CoinMapData] {
-//        guard let data = UserDefaults.standard.data(forKey: key) else { return [CoinMapData]() }
-//        do {
-//            let coinsArray = try decoder.decode([CoinMapData].self, from: data)
-//            return coinsArray
-//        } catch {
-//            print(error)
-//        }
-//        return [CoinMapData]()
-//    }
 }

@@ -54,6 +54,23 @@ extension UIView {
     }
 }
 
+//MARK: - Change scientific notation to decimal - 1.3204803049961318e-05 to 0.0000132
+
+extension Formatter {
+    static let avoidNotation: NumberFormatter = {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.maximumFractionDigits = 8
+        numberFormatter.numberStyle = .decimal
+        return numberFormatter
+    }()
+}
+
+extension FloatingPoint {
+    var avoidNotation: String {
+        return Formatter.avoidNotation.string(for: self) ?? ""
+    }
+}
+
 //MARK: - LocalAuthentication
 
 extension LAContext {

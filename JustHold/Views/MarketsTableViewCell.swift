@@ -164,7 +164,13 @@ class MarketsTableViewCell: UITableViewCell {
     //MARK: - Private
     
     private func setUpPriceLabel() {
-        let coinPrice = self.coin.quote["USD"]?.price ?? 0
+        let price = self.coin.quote["USD"]?.price ?? 0
+        let coinPrice: Decimal
+        if price < 100 {
+            coinPrice = Decimal(string: price.avoidNotation) ?? 0
+        } else {
+            coinPrice = Decimal(price)
+        }
         let leftAndRight = "\(coinPrice)".components(separatedBy: ".")
         
         if coinPrice > 0.98 {

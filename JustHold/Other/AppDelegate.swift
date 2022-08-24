@@ -13,23 +13,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController = PersistenceManager.shared.securityIsOn ? SecurityVC() : TabBarController()
         
         APICaller.shared.fetchCoinsMap()
-//        APICaller.shared.fetchAllSymbols()
+        APICaller.shared.fetchAllSymbols()
         checkColorMode()
         NotificationCenter.default.addObserver(self, selector: #selector(switchToDark), name: Notification.Name("switchToDark"), object: nil)
         
-        debug()
+//        debug()
         
         return true
     }
     
     private func debug() {
-        
-        PersistenceManager.shared.searchInSymbols(coinSymbol: "Sol") { symbols in
-//            print(symbols)
-        }
-//        APICaller.shared.fetchCandles { candles in
-//            print("готово")
-//        }
     }
     
     //MARK: - Check and change interface style

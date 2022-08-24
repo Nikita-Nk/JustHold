@@ -122,7 +122,7 @@ final class APICaller {
             return
         }
         let exchanges = ["Binance", "COINBASE", "KRAKEN", "KUCOIN", "BITFINEX", "GEMINI", "HUOBI", "POLONIEX", "BITTREX"] // "ZB", "OKEX"
-        PersistenceManager.shared.cryptoSymbols = []
+        let updatedSymbols = [Symbol]()
         
         for exchange in exchanges {
             let queryParams = ["exchange": exchange, "token": Constants.apiKeyFinnhub]
@@ -135,12 +135,13 @@ final class APICaller {
                 switch response.result {
                 case .success(let symbols):
                     PersistenceManager.shared.cryptoSymbols += symbols
-                    self.lastCoinsMapUpdate = Date()
                 case .failure(let error):
                     print(error)
                 }
             }
         }
+        PersistenceManager.shared.cryptoSymbols = updatedSymbols
+        self.lastSymbolsUpdate = Date()
     }
     
     public func fetchCandles(for symbol: String = "BINANCE:BTCUSDT",
@@ -174,7 +175,7 @@ final class APICaller {
     
     private func timeToUpdate(date: Date?) -> Bool { // небольшое ограничение на обновление раз в 6 часов, чтобы снизить количество запросов
         let today = Date()
-        if today - (Constants.day/6) >= date ?? (today - Constants.day * 2) { // 11:00 12.08 >= 15:00 12.08
+        if today - (Constants.day/4) >= date ?? (today - Constants.day * 2) { // 11:00 12.08 >= 15:00 12.08
             print("Время обновить")
             return true
         } else {
@@ -182,16 +183,4 @@ final class APICaller {
             return false
         }
     }
-    
-    
-//    private func timeToUpdate() -> Bool { // небольшое ограничение на обновление раз в 6 часов, чтобы снизить количество запросов
-//        let today = Date()
-//        if today - (Constants.day/4) >= lastCoinsMapUpdate ?? (today - Constants.day * 2) { // 11:00 12.08 >= 15:00 12.08
-//            print("Время обновить")
-//            return true
-//        } else {
-//            print("Рано обновлять. Последнее обновление:", lastCoinsMapUpdate ?? "")
-//            return false
-//        }
-//    }
 }
