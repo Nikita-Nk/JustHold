@@ -103,3 +103,64 @@ extension LAContext {
         return  self.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) ? .touchID : .none
     }
 }
+
+
+
+
+// Не понадобится?
+//MARK: - CandleStick Sorting
+extension Array where Element == Candle {
+    func getPercentage() -> Double {
+        let latestDate = self[0].date // data заменили на self
+        guard let latestClose = self.first?.close,
+            let priorClose = self.first(where: {
+                !Calendar.current.isDate($0.date, inSameDayAs: latestDate)
+            })?.close
+        else {
+            return 0
+        }
+        
+//        print("\(symbol): Current \(latestDate): \(latestClose) | Prior: \(priorClose)")
+        
+        // 267 / 260
+        let diff = 1 - priorClose/latestClose
+//        print("\(symbol): \(diff)%")
+        return diff
+    }
+}
+
+
+
+extension Double {
+    var prepareValue: String {
+        var coinPrice: Decimal
+//        if self < 100 {
+//            coinPrice = Decimal(string: self.avoidNotation) ?? 0
+//        } else {
+//            coinPrice = Decimal(self)
+//        }
+        
+        if "price".contains("e-") { // нужно, чтобы не было ошибки
+            coinPrice = Decimal(string: self.avoidNotation) ?? 0.00001
+        } else {
+            coinPrice = Decimal(self)
+        }
+        
+        let leftAndRight = "\(coinPrice)".components(separatedBy: ".")
+
+        if self == floor(self) { // если вдруг число целое
+            return "\(self)0"
+        }
+        else if coinPrice > 0.98 {
+            return leftAndRight[0] + "." + leftAndRight[1].prefix(2)
+        }
+        else if coinPrice <= 0.98 {
+            for (index, char) in leftAndRight[1].enumerated() {
+                if char != "0" {
+                    return leftAndRight[0] + "." + leftAndRight[1].prefix(index + 3)
+                }
+            }
+        }
+        return "0.00001"
+    }
+}

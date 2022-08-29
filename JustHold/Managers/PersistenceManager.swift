@@ -17,6 +17,7 @@ final class PersistenceManager {
         static let securityIsOn = "securityIsOn"
         static let cryptoSymbols = "cryptoSymbols"
         static let lastChosenSymbol = "lastChosenSymbol"
+        static let lastChosenID = "lastChosenID"
     }
     
     private init() {}
@@ -58,6 +59,11 @@ final class PersistenceManager {
         set { userDefaults.set(newValue, forKey: Constants.lastChosenSymbol) }
     }
     
+    public var lastChosenID: Int {
+        get { userDefaults.integer(forKey: Constants.lastChosenID) }
+        set { userDefaults.set(newValue, forKey: Constants.lastChosenID) }
+    }
+    
     //MARK: - Public func
     
     public func searchInSymbols(coinSymbol: String, completion: @escaping ([Symbol]) -> Void) {
@@ -67,7 +73,7 @@ final class PersistenceManager {
         for symbol in cryptoSymbols {
             if symbol.displaySymbol == coinToSearch {
                 symbols.append(symbol)
-            } else if symbol.displaySymbol == "USDT/USD" {
+            } else if symbol.displaySymbol == "USDT/USD" && coinSymbol.uppercased() == "USDT" {
                 symbols.append(symbol)
             }
             // else if - можно добавить доп.проверки, чтобы выводить больше вариантов, например, пары с /ETH. И добавлять их в secondarySymbols

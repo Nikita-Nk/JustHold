@@ -94,12 +94,13 @@ extension SearchResultsVC: UITableViewDelegate, UITableViewDataSource {
         let coin = results[indexPath.row]
         PersistenceManager.shared.addToLatestSearches(coin: coin)
         
-        let contentVC = ChooseSymbolVC()
+        let chooseSymbolVC = ChooseSymbolVC()
+        chooseSymbolVC.coinID = coin.id
         PersistenceManager.shared.searchInSymbols(coinSymbol: coin.symbol) { symbols in
-            contentVC.symbols = symbols
+            chooseSymbolVC.symbols = symbols
         }
         floatingPanel.dismiss(animated: false)
-        floatingPanel.set(contentViewController: contentVC)
+        floatingPanel.set(contentViewController: chooseSymbolVC)
         floatingPanel.addPanel(toParent: self)
         floatingPanel.hide()
         floatingPanel.show(animated: true, completion: nil)

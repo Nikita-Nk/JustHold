@@ -20,7 +20,7 @@ class ChooseSymbolVC: UIViewController {
     }()
     
     public var symbols = [Symbol]()
-    public var coinID: Int?
+    public var coinID: Int = 1
     
     //MARK: - Lifecycle
 
@@ -86,6 +86,7 @@ extension ChooseSymbolVC: UITableViewDelegate, UITableViewDataSource {
         
         let symbol = symbols[indexPath.row]
         PersistenceManager.shared.lastChosenSymbol = symbol.symbol
+        PersistenceManager.shared.lastChosenID = coinID
         
         NotificationCenter.default.post(name: Notification.Name("switchToChartVC"), object: nil)
     }

@@ -1,20 +1,6 @@
 import UIKit
 import Alamofire
 
-// Coinmarketcap dashboard with statistics - https://pro.coinmarketcap.com/account
-// API documentation - https://coinmarketcap.com/api/documentation/v1/
-
-
-// Позже. Сделать проверку на время последнего обновления монет, похожее на isTimeToUpdateMap, чтобы оптимизировать кол-во запросов
-
-// Попробовать такой вариант. Будет работать или нет смысла в таком? Как тогда передавать queryParams? (в контроллере сохранять queryParams в PersistenceManager, а во время запроса брать оттуда queryParams)
-// В Persistence manager создать public var coinsListing (или private set попробовать) для хранения монет с запроса
-// В коде я обращаюсь сразу к coinsListing, чтобы получить монеты
-// У coinsListing в get прописана проверка на время (запрос не чаще раза в минуту), если запрос был больше минуты назад, то там же вызывать метод из APICaller, который загрузит новые данные для монет
-
-// Для FetchQuotes сначала делать проверку на время, а потом проверку на то, остался ли список монет(ids) таким же. Если минута не прошла и список не поменялся, то запрос не выполняется, а возвращаются старые монеты
-
-
 final class APICaller {
     
     public static let shared = APICaller()
@@ -69,9 +55,6 @@ final class APICaller {
         }
     }
     
-    // В MarketsVC добавить collectionView с кнопками для запроса с другой сортировкой - наибольший рост, падение, дата добавления.
-    // Enum для queryParam с вариантами ?
-    // queryParams ["sort": "", "sort_dir": "asc"(desc)] // market_cap (default), date_added, percent_change_24h, percent_change_7d
     public func fetchListing(queryParams: [String: String],
                              completion: @escaping (([CoinListingData]) -> Void)) {
         
@@ -145,7 +128,7 @@ final class APICaller {
     }
     
     public func fetchCandles(for symbol: String = "BINANCE:BTCUSDT",
-                             resolution: String = "D", // 1, 5, 15, 30, 60, D, W, M - таймфрейм как в TradingView
+                             resolution: String = "D", // 1, 5, 15, 30, 60, D, W, M - таймфрейм
                              numberOfDays: TimeInterval = 7,
                              completion: @escaping (CandlesData) -> Void) {
         let today = Date()

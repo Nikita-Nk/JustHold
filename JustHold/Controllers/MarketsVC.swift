@@ -221,12 +221,13 @@ extension MarketsVC: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         let coin = coins[indexPath.row]
         
-        let contentVC = ChooseSymbolVC()
+        let chooseSymbolVC = ChooseSymbolVC()
+        chooseSymbolVC.coinID = coin.id
         PersistenceManager.shared.searchInSymbols(coinSymbol: coin.symbol) { symbols in
-            contentVC.symbols = symbols
+            chooseSymbolVC.symbols = symbols
         }
         floatingPanel.dismiss(animated: false)
-        floatingPanel.set(contentViewController: contentVC)
+        floatingPanel.set(contentViewController: chooseSymbolVC)
         floatingPanel.addPanel(toParent: self)
         floatingPanel.hide() // без этого floatingPanel будет появляться без анимации, т.е. сначала надо спрятать, а потом показывать
         floatingPanel.show(animated: true, completion: nil)

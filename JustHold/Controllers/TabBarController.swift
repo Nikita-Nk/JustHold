@@ -85,7 +85,7 @@ class TabBarController: RAMAnimatedTabBarController {
 //                                               selectedColor: selectedColor,
 //                                               unselectedColor: unselectedColor)
 
-        vc4.tabBarItem = RAMAnimatedTabBarItem(title: "Сигналы",
+        vc4.tabBarItem = RAMAnimatedTabBarItem(title: "Оповещения",
                                                image: UIImage(systemName: "bell"),
                                                tag: 4,
                                                animation: RAMBounceAnimation(),

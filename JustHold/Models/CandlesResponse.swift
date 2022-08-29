@@ -21,7 +21,7 @@ struct CandlesData: Codable {
     }
     
     // Конвертируем CandlesData в array Candle (один день - один candle) для удобства
-    var candle: [Candle] {
+    var candles: [Candle] {
         var result = [Candle]()
         
         for index in 0..<open.count {
@@ -30,12 +30,12 @@ struct CandlesData: Codable {
                       high: high[index],
                       low: low[index],
                       open: open[index],
-                      close: close[index])
+                      close: close[index],
+                      volume: volume[index])
             )
         }
         
         let sortedData = result.sorted(by: { $0.date > $1.date })
-//        print(sortedData[0])
         return sortedData
     }
 }
@@ -46,4 +46,5 @@ struct Candle {
     let low: Double
     let open: Double
     let close: Double
+    let volume: Double // объём по конкретной бирже
 }

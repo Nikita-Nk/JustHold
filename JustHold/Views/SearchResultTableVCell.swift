@@ -40,14 +40,6 @@ class SearchResultTableViewCell: UITableViewCell {
         button.backgroundColor = .clear
         return button
     }()
-    
-    private class RankLabel: UILabel { // чтобы менять размер фона у label в зависимости от длины текста
-        override var intrinsicContentSize: CGSize {
-            let originalContentSize = super.intrinsicContentSize
-            let height = originalContentSize.height + 6
-            return CGSize(width: originalContentSize.width + 14, height: height)
-        }
-    }
 
     private let rankLabel: RankLabel = {
         let label = RankLabel()
