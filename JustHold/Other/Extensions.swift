@@ -133,34 +133,40 @@ extension Array where Element == Candle {
 
 extension Double {
     var prepareValue: String {
-        var coinPrice: Decimal
-//        if self < 100 {
-//            coinPrice = Decimal(string: self.avoidNotation) ?? 0
-//        } else {
-//            coinPrice = Decimal(self)
-//        }
+//        var coinPrice: Decimal = Decimal(self)
         
-        if "price".contains("e-") { // нужно, чтобы не было ошибки
-            coinPrice = Decimal(string: self.avoidNotation) ?? 0.00001
-        } else {
-            coinPrice = Decimal(self)
-        }
+        let formatter = NumberFormatter()
+        formatter.minimumFractionDigits = 2
+        formatter.maximumFractionDigits = 2
         
-        let leftAndRight = "\(coinPrice)".components(separatedBy: ".")
-
-        if self == floor(self) { // если вдруг число целое
-            return "\(self)0"
+        if self >= 100000 {
+            formatter.numberStyle = .decimal
+            formatter.locale = Locale(identifier: "en_US")
+            formatter.maximumFractionDigits = 0
+            return formatter.string(from: NSNumber(value: self)) ?? "\(self)"
         }
-        else if coinPrice > 0.98 {
-            return leftAndRight[0] + "." + leftAndRight[1].prefix(2)
+        else if self < 0 {
+            return formatter.string(from: NSNumber(value: self)) ?? "\(self)"
         }
-        else if coinPrice <= 0.98 {
+        else if self == floor(self) { // если вдруг число целое
+            return formatter.string(from: NSNumber(value: self)) ?? "\(self)"
+        }
+        else if self > 0.98 {
+            return formatter.string(from: NSNumber(value: self)) ?? "\(self)"
+        }
+        else if self <= 0.98 {
+            let coinPrice: Decimal = Decimal(self)
+            let leftAndRight = "\(coinPrice)".components(separatedBy: ".")
+            
+            
             for (index, char) in leftAndRight[1].enumerated() {
                 if char != "0" {
-                    return leftAndRight[0] + "." + leftAndRight[1].prefix(index + 3)
+                    formatter.maximumFractionDigits = index + 3
+                    return formatter.string(from: NSNumber(value: self)) ?? "\(self)"
+//                    leftAndRight[0] + "." + leftAndRight[1].prefix(index + 3)
                 }
             }
         }
-        return "0.00001"
+        return "\(self)"
     }
 }

@@ -18,6 +18,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(switchToDark), name: Notification.Name("switchToDark"), object: nil)
         
 //        debug()
+        print(1.0.prepareValue)
+        print(0.prepareValue)
+        print(0.0000007125358.prepareValue)
+        print(123.2897345273438275723.prepareValue)
+        print(2139742.1481.prepareValue)
         
         return true
     }

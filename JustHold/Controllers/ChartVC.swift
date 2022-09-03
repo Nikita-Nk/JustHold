@@ -249,11 +249,13 @@ class ChartVC: UIViewController {
         let percentChange = ((candles[0].close-candles[1].close)/candles[1].close) * 100
         let sign = change > 0 ? "+" : ""
         
+        print(candles[0]) // 
+        
         metricViewModels.append(.init(name: "ОТКР", value: candles[0].open.prepareValue))
         metricViewModels.append(.init(name: "ЗАКР", value: candles[0].close.prepareValue))
         metricViewModels.append(.init(name: "МАКС", value: candles[0].high.prepareValue))
         metricViewModels.append(.init(name: "МИН", value: candles[0].low.prepareValue))
-        metricViewModels.append(.init(name: "ОБЪЁМ", value: String(candles[0].volume.prepareValue + "$"))) //  + "USDT"
+        metricViewModels.append(.init(name: "ОБЪЁМ", value: "$" + String(candles[0].volume.prepareValue)))
         metricViewModels.append(.init(name: "ИЗМ", value: "\(sign)\(change.prepareValue) (\(sign)\(percentChange.prepareValue)%)"))
         
         collectionView.reloadData()
