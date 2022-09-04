@@ -48,7 +48,6 @@ final class APICaller {
                 let sortedCoins = data.data.sorted(by: {$0.rank < $1.rank} )
                 PersistenceManager.shared.coinsMap = sortedCoins
                 self.lastCoinsMapUpdate = Date()
-                print("Загружаем монеты")
             case .failure(let error):
                 print(error)
             }
@@ -130,7 +129,7 @@ final class APICaller {
     public func fetchCandles(for symbol: String = "BINANCE:BTCUSDT",
                              resolution: String = "D", // 1, 5, 15, 30, 60, D, W, M - таймфрейм
                              numberOfDays: TimeInterval = 7,
-                             completion: @escaping (CandlesData) -> Void) {
+                             completion: @escaping (DataResponse<CandlesData, AFError>) -> Void) {
         let today = Date()
         let prior = today.addingTimeInterval(-(Constants.day * numberOfDays))
         
@@ -144,13 +143,7 @@ final class APICaller {
                    method: .get,
                    parameters: queryParams,
                    headers: nil).responseDecodable(of: CandlesData.self) { response in
-
-            switch response.result {
-            case .success(let candles):
-                completion(candles)
-            case .failure(let error):
-                print(error)
-            }
+            completion(response)
         }
     }
     

@@ -1,5 +1,6 @@
 import UIKit
 import SnapKit
+import RAMAnimatedTabBarController
 
 class ChartVC: UIViewController {
     
@@ -11,6 +12,14 @@ class ChartVC: UIViewController {
     private var metricViewModels: [MetricCollectionViewCell.ViewModel] = []
     
     private var queryParams: (resolution: String, days: TimeInterval) = ("D", 365*2)
+    
+    private var isFirstAppearance = true
+    
+    private let blur: UIVisualEffectView = {
+        let blur = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+        blur.alpha = 0
+        return blur
+    }()
     
     private let logoView: UIImageView = {
         let imageView = UIImageView()
@@ -25,7 +34,7 @@ class ChartVC: UIViewController {
         let label = UILabel()
         label.font = .systemFont(ofSize: 22, weight: .semibold)
         label.lineBreakMode = .byWordWrapping
-        label.text = "BTC/USDT"
+        label.text = PersistenceManager.shared.lastChosenSymbol.components(separatedBy: ":")[1]
         label.textColor = .label
         return label
     }()
@@ -45,7 +54,7 @@ class ChartVC: UIViewController {
     
     private let exchangeLabel: UILabel = {
         let label = UILabel()
-        label.text = "Binance"
+        label.text = PersistenceManager.shared.lastChosenSymbol.components(separatedBy: ":")[0]
         label.numberOfLines = 2
         label.font = .systemFont(ofSize: 12, weight: .semibold)
         label.lineBreakMode = .byWordWrapping
@@ -123,12 +132,17 @@ class ChartVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        fetchFinancialData()
+        if !isFirstAppearance {
+            fetchFinancialData()
+        }
+        isFirstAppearance = false
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         let indent: CGFloat = 30
+        
+        blur.frame = view.frame
         
         logoView.snp.makeConstraints { make in
             make.width.height.equalTo(60)
@@ -192,15 +206,22 @@ class ChartVC: UIViewController {
     
     private func fetchFinancialData() {
         let group = DispatchGroup()
+        candles = []
         
         group.enter() // Fetch Candles
         APICaller.shared.fetchCandles(for: PersistenceManager.shared.lastChosenSymbol,
                                       resolution: queryParams.resolution,
-                                      numberOfDays: queryParams.days) { [weak self] candlesData in
+                                      numberOfDays: queryParams.days) { [weak self] response in // candlesData
             defer {
                 group.leave()
             }
-            self?.candles = candlesData.candles
+            
+            switch response.result {
+            case .success(let candlesResponse):
+                self?.candles = candlesResponse.candles
+            case .failure(let error):
+                print(error)
+            }
         }
         
         group.enter() // FetchQuotes // Можно сменить на поиск по ID в сохраненных монетах, т.к. нужны только rank, name и logoUrl
@@ -213,11 +234,34 @@ class ChartVC: UIViewController {
         
         // setUpElements
         group.notify(queue: .main) { [weak self] in
-            self?.prepareLogoAndLabels()
-            self?.setUpFavoriteButton(inFavorites: PersistenceManager.shared.isInFavorites(coinID: PersistenceManager.shared.lastChosenID))
-            self?.prepareMetricViewModels()
-            self?.renderChart()
+            if !(self?.candles.isEmpty ?? false) { // если в запросе нет данных, то не обновляем ничего
+                self?.prepareLogoAndLabels()
+                self?.setUpFavoriteButton(inFavorites: PersistenceManager.shared.isInFavorites(coinID: PersistenceManager.shared.lastChosenID))
+                self?.prepareMetricViewModels()
+                self?.renderChart()
+            }
+            else {
+                self?.showAlert()
+            }
         }
+    }
+    
+    private func showAlert() {
+        view.addSubview(blur)
+        UIView.animate(withDuration: 0.4) {
+            self.blur.alpha = 0.8
+        }
+        
+        let exchange = PersistenceManager.shared.lastChosenSymbol.components(separatedBy: ":")[0]
+        let alert = UIAlertController(title: "К сожалению, данные для выбранной пары на бирже \(exchange) временно не доступны", message: nil, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Выбрать эту пару на другой бирже", style: .cancel, handler: { action in
+            self.blur.removeFromSuperview()
+            self.blur.alpha = 0
+            if let ramTBC = self.tabBarController as? RAMAnimatedTabBarController {
+                ramTBC.setSelectIndex(from: 1, to: 0)
+            }
+        }))
+        present(alert, animated: true)
     }
     
     private func setUpFavoriteButton(inFavorites: Bool) {

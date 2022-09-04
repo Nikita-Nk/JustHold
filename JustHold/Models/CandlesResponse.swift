@@ -8,7 +8,7 @@ struct CandlesData: Codable {
     let open: [Double]
     let volume: [Double]
     let status: String // "ok" or "no_data"
-    let timestamps: [TimeInterval] // Int
+    let timestamps: [TimeInterval]
     
     enum CodingKeys: String, CodingKey {
         case close = "c"
