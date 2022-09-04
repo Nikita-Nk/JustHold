@@ -163,45 +163,19 @@ class MarketsTableViewCell: UITableViewCell {
     
     //MARK: - Private
     
-    private func setUpPriceLabel() { // переделать
-        var price = self.coin.quote["USD"]?.price ?? 0
-        var coinPrice: Decimal
-        
-        if "price".contains("e-") {
-            coinPrice = Decimal(string: price.avoidNotation) ?? 0.00001
-        } else {
-            coinPrice = Decimal(price)
-        }
-            
-        let leftAndRight = "\(coinPrice)".components(separatedBy: ".")
-        
-        
-        if leftAndRight.count == 1 {
-            priceLabel.text = leftAndRight[0] + ".00"
-            return
-        }
-        
-        else if coinPrice > 0.98 {
-            priceLabel.text = leftAndRight[0] + "." + leftAndRight[1].prefix(2)
-        }
-        else if coinPrice <= 0.98 {
-            for (index, char) in leftAndRight[1].enumerated() {
-                if char != "0" {
-                    priceLabel.text = leftAndRight[0] + "." + leftAndRight[1].prefix(index + 3)
-                    break
-                }
-            }
-        }
+    private func setUpPriceLabel() {
+        let price = self.coin.quote["USD"]?.price ?? 0
+        priceLabel.text = price.prepareValue
     }
     
     private func setUpChangeLabel() {
         if let percentChange = coin.quote["USD"]?.percentChange24H {
             if percentChange >= 0 {
                 percentChangeLabel.textColor = .systemGreen
-                percentChangeLabel.text = "+\(percentChange)".prefix(5) + "%"
+                percentChangeLabel.text = "+" + percentChange.preparePercentChange + "%"
             } else {
                 percentChangeLabel.textColor = .red
-                percentChangeLabel.text = "\(percentChange)".prefix(5) + "%"
+                percentChangeLabel.text = percentChange.preparePercentChange + "%"
             }
         }
     }

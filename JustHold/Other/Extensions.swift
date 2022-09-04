@@ -2,7 +2,7 @@ import UIKit
 import RAMAnimatedTabBarController
 import LocalAuthentication
 
-//MARK: - adds possibility to change tintColor of RAMTabBarItem
+//MARK: - Adds possibility to change tintColor of RAMTabBarItem
 
 extension RAMAnimatedTabBarItem {
     convenience init(title: String, image: UIImage?, tag: Int, animation: RAMItemAnimation, selectedColor: UIColor, unselectedColor: UIColor) {
@@ -104,11 +104,54 @@ extension LAContext {
     }
 }
 
+//MARK: - Prepare value and return string
+
+extension Double {
+    
+    var preparePercentChange: String {
+        let formatter = NumberFormatter()
+        formatter.locale = Locale(identifier: "en_US")
+        formatter.minimumFractionDigits = 2
+        formatter.maximumFractionDigits = 2
+        
+        return formatter.string(from: NSNumber(value: self)) ?? "\(self)"
+    }
+    
+    var prepareValue: String {
+        let formatter = NumberFormatter()
+        formatter.locale = Locale(identifier: "en_US")
+        formatter.minimumFractionDigits = 2
+        formatter.maximumFractionDigits = 2
+        
+        if self >= 100000 {
+            formatter.numberStyle = .decimal // применяю, чтобы запятые(,) были только здесь, в больших числах
+            formatter.maximumFractionDigits = 0
+        }
+        else if self == floor(self) { // если вдруг число целое
+        }
+        else if self < 0.10 && self > -0.10 {
+            let coinPrice: Decimal = Decimal(self)
+            let leftAndRight = "\(coinPrice)".components(separatedBy: ".")
+            
+            for (index, char) in leftAndRight[1].enumerated() {
+                if char != "0" {
+                    formatter.maximumFractionDigits = index + 3
+                    return formatter.string(from: NSNumber(value: self)) ?? "\(self)"
+                }
+            }
+        }
+        
+        return formatter.string(from: NSNumber(value: self)) ?? "\(self)"
+    }
+}
+
+
 
 
 
 // Не понадобится?
 //MARK: - CandleStick Sorting
+
 extension Array where Element == Candle {
     func getPercentage() -> Double {
         let latestDate = self[0].date // data заменили на self
@@ -126,47 +169,5 @@ extension Array where Element == Candle {
         let diff = 1 - priorClose/latestClose
 //        print("\(symbol): \(diff)%")
         return diff
-    }
-}
-
-
-
-extension Double {
-    var prepareValue: String {
-//        var coinPrice: Decimal = Decimal(self)
-        
-        let formatter = NumberFormatter()
-        formatter.minimumFractionDigits = 2
-        formatter.maximumFractionDigits = 2
-        
-        if self >= 100000 {
-            formatter.numberStyle = .decimal
-            formatter.locale = Locale(identifier: "en_US")
-            formatter.maximumFractionDigits = 0
-            return formatter.string(from: NSNumber(value: self)) ?? "\(self)"
-        }
-        else if self < 0 {
-            return formatter.string(from: NSNumber(value: self)) ?? "\(self)"
-        }
-        else if self == floor(self) { // если вдруг число целое
-            return formatter.string(from: NSNumber(value: self)) ?? "\(self)"
-        }
-        else if self > 0.98 {
-            return formatter.string(from: NSNumber(value: self)) ?? "\(self)"
-        }
-        else if self <= 0.98 {
-            let coinPrice: Decimal = Decimal(self)
-            let leftAndRight = "\(coinPrice)".components(separatedBy: ".")
-            
-            
-            for (index, char) in leftAndRight[1].enumerated() {
-                if char != "0" {
-                    formatter.maximumFractionDigits = index + 3
-                    return formatter.string(from: NSNumber(value: self)) ?? "\(self)"
-//                    leftAndRight[0] + "." + leftAndRight[1].prefix(index + 3)
-                }
-            }
-        }
-        return "\(self)"
     }
 }
