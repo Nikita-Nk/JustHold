@@ -145,6 +145,21 @@ extension Double {
     }
 }
 
+//MARK: - Date
+
+extension Date {
+    
+    // Compute the difference between two dates
+    static func - (lhs: Date, rhs: Date) -> TimeInterval {
+        return lhs.timeIntervalSinceReferenceDate - rhs.timeIntervalSinceReferenceDate
+    }
+    
+    func toString(dateFormat format: String ) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
+        return dateFormatter.string(from: self)
+    }
+}
 
 
 

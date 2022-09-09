@@ -125,6 +125,7 @@ class ChartVC: UIViewController {
         view.addSubviews(logoView, symbolLabel, rankLabel, exchangeLabel, toFavoriteButton, addAlertButton, plusLabel, chartView, collectionView, resolutionSegmentedControl)
         collectionView.delegate = self
         collectionView.dataSource = self
+        chartView.delegate = self
         
         fetchFinancialData()
     }
@@ -304,9 +305,7 @@ class ChartVC: UIViewController {
     }
     
     private func renderChart() {
-        let change = candles.getPercentage()
-        chartView.configure(with: ChartView.ViewModel(data: candles.reversed().map { $0.close},
-                                                      fillColor: change < 0 ? .systemRed : .systemGreen))
+        chartView.configure(with: candles.reversed()) // reversed, чтобы сменить порядок на более подходящий
     }
     
     @objc private func resolutionDidChange(_ segmentedControl: UISegmentedControl) {
@@ -357,6 +356,27 @@ class ChartVC: UIViewController {
         print("надо добавить alert")
     }
 }
+
+//MARK: - MyChartViewDelegate
+
+extension ChartVC: MyChartViewDelegate {
+    
+    func chartValueSelected(index: Int) {
+        
+        // Переделать метод prepareMetricViewModels() выше
+        metricViewModels = []
+        metricViewModels.append(.init(name: "ОТКР", value: "\(index)"))
+        metricViewModels.append(.init(name: "ЗАКР", value: "1432"))
+        metricViewModels.append(.init(name: "МАКС", value: "12432"))
+        metricViewModels.append(.init(name: "МИН", value: "234  23"))
+        metricViewModels.append(.init(name: "ОБЪЁМ", value: "$"))
+        metricViewModels.append(.init(name: "ИЗМ", value: "%"))
+        
+        collectionView.reloadData()
+    }
+}
+
+//MARK: - UICollectionViewDelegate
 
 extension ChartVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
