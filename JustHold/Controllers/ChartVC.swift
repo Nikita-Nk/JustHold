@@ -9,7 +9,7 @@ class ChartVC: UIViewController {
     
     private var candles = [Candle]()
     
-    private var metricViewModels: [MetricCollectionViewCell.ViewModel] = []
+    private var dataForCollView = (color: UIColor.systemGreen, viewModels: [MetricCollectionViewCell.ViewModel]())
     
     private var queryParams: (resolution: String, days: TimeInterval) = ("D", 365*2)
     
@@ -132,6 +132,7 @@ class ChartVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = true // скрываю, т.к. перекрывает кнопки
         
         if !isFirstAppearance {
             fetchFinancialData()
@@ -139,20 +140,24 @@ class ChartVC: UIViewController {
         isFirstAppearance = false
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.isNavigationBarHidden = false
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        let indent: CGFloat = 30
         
         blur.frame = view.frame
         
         logoView.snp.makeConstraints { make in
             make.width.height.equalTo(60)
-            make.top.equalTo(view.snp.top).offset(60)
-            make.left.equalTo(view.snp.left).offset(indent)
+            make.top.equalTo(view.snp.top).offset(50)
+            make.left.equalTo(view.snp.left).offset(15)
         }
         toFavoriteButton.snp.makeConstraints { make in
             make.height.width.equalTo(40)
-            make.right.equalTo(view.snp.right).inset(20)
+            make.right.equalTo(view.snp.right).inset(15)
             make.centerY.equalTo(logoView.snp.centerY)
         }
         addAlertButton.snp.makeConstraints { make in
@@ -169,7 +174,7 @@ class ChartVC: UIViewController {
         
         symbolLabel.snp.makeConstraints { make in
             make.top.equalTo(logoView.snp.top).offset(3)
-            make.left.equalTo(logoView.snp.right).offset(20)
+            make.left.equalTo(logoView.snp.right).offset(15)
             make.right.equalTo(addAlertButton.snp.left).offset(-10)
         }
         rankLabel.snp.makeConstraints { make in
@@ -184,10 +189,10 @@ class ChartVC: UIViewController {
         }
         
         collectionView.snp.makeConstraints { make in
-            make.height.equalTo(60)
+            make.height.equalTo(80)
             make.top.equalTo(logoView.snp.bottom).offset(20)
             make.left.equalTo(logoView.snp.left)
-            make.right.equalTo(toFavoriteButton.snp.right)
+            make.right.equalTo(view.snp.right) // toFavoriteButton.snp.right
         }
         resolutionSegmentedControl.snp.makeConstraints { make in
             make.left.equalTo(logoView.snp.left)
@@ -219,7 +224,7 @@ class ChartVC: UIViewController {
             
             switch response.result {
             case .success(let candlesResponse):
-                self?.candles = candlesResponse.candles
+                self?.candles = candlesResponse.candles.reversed()
             case .failure(let error):
                 print(error)
             }
@@ -238,7 +243,7 @@ class ChartVC: UIViewController {
             if !(self?.candles.isEmpty ?? false) { // если в запросе нет данных, то не обновляем ничего
                 self?.prepareLogoAndLabels()
                 self?.setUpFavoriteButton(inFavorites: PersistenceManager.shared.isInFavorites(coinID: PersistenceManager.shared.lastChosenID))
-                self?.prepareMetricViewModels()
+                self?.prepareCollectionViewData()
                 self?.renderChart()
             }
             else {
@@ -288,24 +293,37 @@ class ChartVC: UIViewController {
         }
     }
     
-    private func prepareMetricViewModels() {
-        metricViewModels = []
-        let change = candles[0].close - candles[1].close
-        let percentChange = ((candles[0].close-candles[1].close)/candles[1].close) * 100
+    private func prepareCollectionViewData(chosenIndex: Int = -1) {
+        
+        let lastCandleIndex = candles.count - 1
+        var candle = candles[lastCandleIndex] // !? Index out of range - появляется в рандомные моменты, когда нажимаю на разные свечи
+        
+        if chosenIndex == -1 || chosenIndex > lastCandleIndex {
+            // если стандартное значение, либо выбранный индекс больше индекса последней свечи, тогда просто оставляем последнюю свечу
+        } else { // в остальных случаях показываем свечу по выбранному индексу
+            candle = candles[chosenIndex]
+        }
+        
+        let change = candle.close - candle.open
+        let percentChange = ((candle.close-candle.open)/candle.open) * 100
         let sign = change > 0 ? "+" : ""
         
-        metricViewModels.append(.init(name: "ОТКР", value: candles[0].open.prepareValue))
-        metricViewModels.append(.init(name: "ЗАКР", value: candles[0].close.prepareValue))
-        metricViewModels.append(.init(name: "МАКС", value: candles[0].high.prepareValue))
-        metricViewModels.append(.init(name: "МИН", value: candles[0].low.prepareValue))
-        metricViewModels.append(.init(name: "ОБЪЁМ", value: "$" + String(candles[0].volume.prepareValue)))
-        metricViewModels.append(.init(name: "ИЗМ", value: "\(sign)\(change.prepareValue) (\(sign)\(percentChange.preparePercentChange)%)"))
+        dataForCollView.color = change > 0 ? .systemGreen : .systemRed
+        dataForCollView.viewModels = []
+        dataForCollView.viewModels.append(.init(name: "ОТКР", value: candle.open.prepareValue))
+        dataForCollView.viewModels.append(.init(name: "ЗАКР", value: candle.close.prepareValue))
+        dataForCollView.viewModels.append(.init(name: "МАКС", value: candle.high.prepareValue))
+        dataForCollView.viewModels.append(.init(name: "МИН", value: candle.low.prepareValue))
+        dataForCollView.viewModels.append(.init(name: "ИЗМ",
+                                                value: "\(sign)\(change.prepareValue) (\(sign)\(percentChange.preparePercentChange)%)"))
+        dataForCollView.viewModels.append(.init(name: "ОБЪЁМ", value: String(candle.volume.prepareValue))) // "$" + String(candle.volume.prepareValue) // $ убрал, т.к. не совсем понятно, в чем измеряется объём. У CoinBase и Kraken по BTC и ETH очень маленький объём, возможно они его в монетах отображают, а остальные биржи в $
+        dataForCollView.viewModels.append(.init(name: "\(candle.date.toString(dateFormat: "d MMM yyyy HH:mm"))", value: ""))
         
         collectionView.reloadData()
     }
     
     private func renderChart() {
-        chartView.configure(with: candles.reversed()) // reversed, чтобы сменить порядок на более подходящий
+        chartView.configure(with: candles)
     }
     
     @objc private func resolutionDidChange(_ segmentedControl: UISegmentedControl) {
@@ -360,19 +378,8 @@ class ChartVC: UIViewController {
 //MARK: - MyChartViewDelegate
 
 extension ChartVC: MyChartViewDelegate {
-    
     func chartValueSelected(index: Int) {
-        
-        // Переделать метод prepareMetricViewModels() выше
-        metricViewModels = []
-        metricViewModels.append(.init(name: "ОТКР", value: "\(index)"))
-        metricViewModels.append(.init(name: "ЗАКР", value: "1432"))
-        metricViewModels.append(.init(name: "МАКС", value: "12432"))
-        metricViewModels.append(.init(name: "МИН", value: "234  23"))
-        metricViewModels.append(.init(name: "ОБЪЁМ", value: "$"))
-        metricViewModels.append(.init(name: "ИЗМ", value: "%"))
-        
-        collectionView.reloadData()
+        prepareCollectionViewData(chosenIndex: index)
     }
 }
 
@@ -381,23 +388,22 @@ extension ChartVC: MyChartViewDelegate {
 extension ChartVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return metricViewModels.count
+        return dataForCollView.viewModels.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let viewModel = metricViewModels[indexPath.row]
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: MetricCollectionViewCell.identifier,
             for: indexPath) as? MetricCollectionViewCell else {
             fatalError()
         }
         
-        cell.configure(with: viewModel,
-                       color: candles[0].close >= candles[0].open ? .systemGreen : .systemRed)
+        cell.configure(with: dataForCollView.viewModels[indexPath.row],
+                       color: dataForCollView.color)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (view.width-50)/2, height: 20)
+        return CGSize(width: (view.width-30)/2, height: 20) // 30 = 15 отступ слева и 15 на расстояние между ячейками
     }
 }

@@ -103,7 +103,12 @@ class ChartView: UIView {
         let lastCandleIndex = candles.count - 1
         var lastDate = candles[lastCandleIndex].date
         
-        for i in 1...Int(Double(candles.count)*0.2) {
+        var candlesCountToAdd = Int(Double(candles.count) * 0.2) // Если вдруг общее число свечей меньше 5, то добавим хотя бы 1 пустую свечу
+        if candlesCountToAdd < 1 {
+            candlesCountToAdd = 1
+        }
+        
+        for i in 1...candlesCountToAdd {
             // Добавляю 20% пустых entries, чтобы при долистывании графика до правого угла, была свободная зона и не видно было пропажи графика
             entries.append(.init(x: Double(i + lastCandleIndex),
                                  shadowH: candles[lastCandleIndex].close,
@@ -120,8 +125,8 @@ class ChartView: UIView {
         
         let dataSet = CandleChartDataSet(entries: entries)
         
-        dataSet.decreasingColor = .systemGreen
-        dataSet.increasingColor = .systemRed
+        dataSet.decreasingColor = .systemRed
+        dataSet.increasingColor = .systemGreen
         dataSet.neutralColor = .clear
         dataSet.increasingFilled = true
         dataSet.decreasingFilled = true
@@ -146,14 +151,13 @@ class ChartView: UIView {
 extension ChartView: ChartViewDelegate {
     
     func chartValueNothingSelected(_ chartView: ChartViewBase) {
-        print("123") // вызывается, когда убираю highlight
-        
-        // Вызывать delegate?.chartValueSelected и выводить данные за последнюю свечу
+        HapticsManager.shared.vibrateSlightly()
+        delegate?.chartValueSelected(index: -1)
     }
 
     public func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
-        // entry содержит index x и среднюю цену y (между open и close)
-        
+        // entry содержит index x и среднюю цену y (между high и low)
+        HapticsManager.shared.vibrateSlightly()
         delegate?.chartValueSelected(index: Int(entry.x))
     }
 }
