@@ -2,6 +2,14 @@ import UIKit
 import SDWebImage
 import SnapKit
 
+class RankLabel: UILabel { // чтобы менять размер фона у label в зависимости от длины текста
+    override var intrinsicContentSize: CGSize {
+        let originalContentSize = super.intrinsicContentSize
+        let height = originalContentSize.height + 6
+        return CGSize(width: originalContentSize.width + 14, height: height)
+    }
+}
+
 class MarketsTableViewCell: UITableViewCell {
     
     static let identifier = "MarketsTableViewCell"
@@ -41,14 +49,6 @@ class MarketsTableViewCell: UITableViewCell {
         button.addTarget(self, action: #selector(didTapFavoriteButton(_:)), for: .touchUpInside) // (_:) - чтобы не было ошибки. ! Но если написать MarketsTableViewCell.self, как в warning, то будет ошибка
         return button
     }()
-    
-    private class RankLabel: UILabel {
-        override var intrinsicContentSize: CGSize {
-            let originalContentSize = super.intrinsicContentSize
-            let height = originalContentSize.height + 6
-            return CGSize(width: originalContentSize.width + 14, height: height)
-        }
-    }
 
     private let rankLabel: RankLabel = {
         let label = RankLabel()
@@ -164,30 +164,18 @@ class MarketsTableViewCell: UITableViewCell {
     //MARK: - Private
     
     private func setUpPriceLabel() {
-        let coinPrice = self.coin.quote["USD"]?.price ?? 0
-        let leftAndRight = "\(coinPrice)".components(separatedBy: ".")
-        
-        if coinPrice > 0.98 {
-            priceLabel.text = leftAndRight[0] + "." + leftAndRight[1].prefix(2)
-        }
-        else if coinPrice <= 0.98 {
-            for (index, char) in leftAndRight[1].enumerated() {
-                if char != "0" {
-                    priceLabel.text = leftAndRight[0] + "." + leftAndRight[1].prefix(index + 3)
-                    break
-                }
-            }
-        }
+        let price = self.coin.quote["USD"]?.price ?? 0
+        priceLabel.text = price.prepareValue
     }
     
     private func setUpChangeLabel() {
         if let percentChange = coin.quote["USD"]?.percentChange24H {
             if percentChange >= 0 {
                 percentChangeLabel.textColor = .systemGreen
-                percentChangeLabel.text = "+\(percentChange)".prefix(5) + "%"
+                percentChangeLabel.text = "+" + percentChange.preparePercentChange + "%"
             } else {
                 percentChangeLabel.textColor = .red
-                percentChangeLabel.text = "\(percentChange)".prefix(5) + "%"
+                percentChangeLabel.text = percentChange.preparePercentChange + "%"
             }
         }
     }
@@ -207,19 +195,13 @@ class MarketsTableViewCell: UITableViewCell {
         
         if PersistenceManager.shared.isInFavorites(coinID: coin.id) {
             PersistenceManager.shared.removeFromFavorites(coinID: coin.id)
-            
             toFavoriteButton.setImage(UIImage(systemName: "star"), for: .normal)
             toFavoriteButton.tintColor = .systemGray
-            
-            print("Удалили. Количество - \(PersistenceManager.shared.favoriteCoinsIDs.count)")
         }
         else {
             PersistenceManager.shared.favoriteCoinsIDs.append(coin.id)
-            
             toFavoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
             toFavoriteButton.tintColor = .systemYellow
-            
-            print("Добавили. Количество - \(PersistenceManager.shared.favoriteCoinsIDs.count)")
         }
     }
 }

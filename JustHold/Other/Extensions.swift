@@ -2,7 +2,7 @@ import UIKit
 import RAMAnimatedTabBarController
 import LocalAuthentication
 
-//MARK: - adds possibility to change tintColor of RAMTabBarItem
+//MARK: - Adds possibility to change tintColor of RAMTabBarItem
 
 extension RAMAnimatedTabBarItem {
     convenience init(title: String, image: UIImage?, tag: Int, animation: RAMItemAnimation, selectedColor: UIColor, unselectedColor: UIColor) {
@@ -54,6 +54,23 @@ extension UIView {
     }
 }
 
+//MARK: - Change scientific notation to decimal - 1.3204803049961318e-05 to 0.0000132
+
+extension Formatter {
+    static let avoidNotation: NumberFormatter = {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.maximumFractionDigits = 8
+        numberFormatter.numberStyle = .decimal
+        return numberFormatter
+    }()
+}
+
+extension FloatingPoint {
+    var avoidNotation: String {
+        return Formatter.avoidNotation.string(for: self) ?? ""
+    }
+}
+
 //MARK: - LocalAuthentication
 
 extension LAContext {
@@ -84,5 +101,88 @@ extension LAContext {
         }
         
         return  self.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) ? .touchID : .none
+    }
+}
+
+//MARK: - Prepare value and return string
+
+extension Double {
+    
+    var preparePercentChange: String {
+        let formatter = NumberFormatter()
+        formatter.locale = Locale(identifier: "en_US")
+        formatter.minimumFractionDigits = 2
+        formatter.maximumFractionDigits = 2
+        
+        return formatter.string(from: NSNumber(value: self)) ?? "\(self)"
+    }
+    
+    var prepareValue: String {
+        let formatter = NumberFormatter()
+        formatter.locale = Locale(identifier: "en_US")
+        formatter.minimumFractionDigits = 2
+        formatter.maximumFractionDigits = 2
+        
+        if self >= 100000 {
+            formatter.numberStyle = .decimal // применяю, чтобы запятые(,) были только здесь, в больших числах
+            formatter.maximumFractionDigits = 0
+        }
+        else if self == floor(self) { // если вдруг число целое
+        }
+        else if self < 0.10 && self > -0.10 {
+            let coinPrice: Decimal = Decimal(self)
+            let leftAndRight = "\(coinPrice)".components(separatedBy: ".")
+            
+            for (index, char) in leftAndRight[1].enumerated() {
+                if char != "0" {
+                    formatter.maximumFractionDigits = index + 3
+                    return formatter.string(from: NSNumber(value: self)) ?? "\(self)"
+                }
+            }
+        }
+        
+        return formatter.string(from: NSNumber(value: self)) ?? "\(self)"
+    }
+}
+
+//MARK: - Date
+
+extension Date {
+    
+    // Compute the difference between two dates
+    static func - (lhs: Date, rhs: Date) -> TimeInterval {
+        return lhs.timeIntervalSinceReferenceDate - rhs.timeIntervalSinceReferenceDate
+    }
+    
+    func toString(dateFormat format: String ) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
+        return dateFormatter.string(from: self)
+    }
+}
+
+
+
+
+// Не понадобится?
+//MARK: - CandleStick Sorting
+
+extension Array where Element == Candle {
+    func getPercentage() -> Double {
+        let latestDate = self[0].date // data заменили на self
+        guard let latestClose = self.first?.close,
+            let priorClose = self.first(where: {
+                !Calendar.current.isDate($0.date, inSameDayAs: latestDate)
+            })?.close
+        else {
+            return 0
+        }
+        
+//        print("\(symbol): Current \(latestDate): \(latestClose) | Prior: \(priorClose)")
+        
+        // 267 / 260
+        let diff = 1 - priorClose/latestClose
+//        print("\(symbol): \(diff)%")
+        return diff
     }
 }

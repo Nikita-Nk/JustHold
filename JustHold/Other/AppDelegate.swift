@@ -12,7 +12,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.backgroundColor = .systemBackground
         window?.rootViewController = PersistenceManager.shared.securityIsOn ? SecurityVC() : TabBarController()
         
-        APICaller.shared.fetchAllCoins()
+        APICaller.shared.fetchCoinsMap()
+        APICaller.shared.fetchAllSymbols()
         checkColorMode()
         NotificationCenter.default.addObserver(self, selector: #selector(switchToDark), name: Notification.Name("switchToDark"), object: nil)
         
@@ -22,14 +23,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     private func debug() {
-        
-        // Для проверки
-//        AF.request("https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest",
-//                   method: .get,
-//                   parameters: ["id": "1,2,3"],
-//                   headers: APICaller.Constants.headers).responseJSON { response in
-//            print(response)
-//        }
     }
     
     //MARK: - Check and change interface style
@@ -43,7 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    @objc func switchToDark(_ notification: Notification) {
+    @objc private func switchToDark(_ notification: Notification) {
         switch PersistenceManager.shared.darkModeIsOn {
         case true:
             window?.overrideUserInterfaceStyle = .light

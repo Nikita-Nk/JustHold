@@ -1,18 +1,15 @@
 import UIKit
-
-protocol SearchResultsVCDelegate: AnyObject {
-    func searchResultsVCdidSelect(coin: CoinMapData)
-}
+import FloatingPanel
 
 class SearchResultsVC: UIViewController {
-    
-    weak var delegate: SearchResultsVCDelegate?
     
     private var results: [CoinMapData] = []
     
     public var titleForHeader: String?
     
     public var offsetForTableView: CGFloat?
+    
+    public let floatingPanel = FloatingPanelController()
     
     private let tableView: UITableView = {
         let table = UITableView()
@@ -28,6 +25,7 @@ class SearchResultsVC: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setUpTable()
+        setUpFloatingPanel()
     }
     
     override func viewDidLayoutSubviews() {
@@ -54,6 +52,12 @@ class SearchResultsVC: UIViewController {
         view.addSubview(tableView)
         tableView.delegate = self
         tableView.dataSource = self
+    }
+    
+    private func setUpFloatingPanel() {
+        floatingPanel.delegate = self
+        floatingPanel.isRemovalInteractionEnabled = true
+        floatingPanel.hide()
     }
 }
 
@@ -90,6 +94,20 @@ extension SearchResultsVC: UITableViewDelegate, UITableViewDataSource {
         let coin = results[indexPath.row]
         PersistenceManager.shared.addToLatestSearches(coin: coin)
         
-        delegate?.searchResultsVCdidSelect(coin: coin) // Выше создали protocol и weak delegate. func из protocol. Тут функцию вызываем, чтобы передать данные в MarketsVC. Описание функции в MarketsVC
+        let chooseSymbolVC = ChooseSymbolVC()
+        chooseSymbolVC.coinID = coin.id
+        PersistenceManager.shared.searchInSymbols(coinSymbol: coin.symbol) { symbols in
+            chooseSymbolVC.symbols = symbols
+        }
+        floatingPanel.dismiss(animated: false)
+        floatingPanel.set(contentViewController: chooseSymbolVC)
+        floatingPanel.addPanel(toParent: self)
+        floatingPanel.hide()
+        floatingPanel.show(animated: true, completion: nil)
     }
+}
+
+//MARK: - FloatingPanelControllerDelegate
+
+extension SearchResultsVC: FloatingPanelControllerDelegate {
 }

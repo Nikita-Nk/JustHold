@@ -1,9 +1,12 @@
 import UIKit
+import FloatingPanel
 import RAMAnimatedTabBarController
 
 class MarketsVC: UIViewController {
     
     private var searchTimer: Timer?
+    
+    private let searchResultsVC = SearchResultsVC()
     
     private var coins: [CoinListingData] = []
     
@@ -17,6 +20,8 @@ class MarketsVC: UIViewController {
     private let refreshControl = UIRefreshControl()
     
     private let activityIndicator = UIActivityIndicatorView(style: .large)
+    
+    private let floatingPanel = FloatingPanelController()
     
     private var canUpdateSearch = true
     
@@ -33,10 +38,12 @@ class MarketsVC: UIViewController {
         setUpTable()
         setUpNavigationBar()
         setupSearchController()
+        setUpFloatingPanel()
         
         view.addSubview(activityIndicator)
         activityIndicator.startAnimating()
         refreshControl.addTarget(self, action: #selector(refresh(sender:)), for: .valueChanged) // не срабатывает, либо выдает ошибку, если добавить выше в refreshControl
+        NotificationCenter.default.addObserver(self, selector: #selector(switchToChartVC), name: Notification.Name("switchToChartVC"), object: nil)
     }
     
     override func viewDidLayoutSubviews() {
@@ -60,8 +67,24 @@ class MarketsVC: UIViewController {
         tableView.dataSource = self
     }
     
+    private func setUpFloatingPanel() {
+        floatingPanel.delegate = self
+        floatingPanel.isRemovalInteractionEnabled = true
+        floatingPanel.hide()
+    }
+    
+    @objc func switchToChartVC(_ notification: Notification) {
+        let currentIndex: Int? = self.tabBarController?.selectedIndex
+        if let ramTBC = self.tabBarController as? RAMAnimatedTabBarController,
+           let current = currentIndex {
+            ramTBC.setSelectIndex(from: current, to: 1)
+        }
+    }
+    
     @objc private func favoritesTapped() {
         HapticsManager.shared.vibrateSlightly()
+        floatingPanel.dismiss(animated: true)
+        
         if favoritesAreHidden {
             favoritesAreHidden = false
             if let favButton = navigationItem.rightBarButtonItems?[0] {
@@ -148,8 +171,6 @@ class MarketsVC: UIViewController {
     }
     
     private func setupSearchController() {
-        let searchResultsVC = SearchResultsVC()
-        searchResultsVC.delegate = self // получаем данные из SearchResultsVC с помощью delegate. И ниже в extension прописываем функцию из protocol
         let searchController = UISearchController(searchResultsController: searchResultsVC)
         searchController.searchBar.placeholder = "Искать монеты"
         searchController.searchResultsUpdater = self
@@ -195,18 +216,21 @@ extension MarketsVC: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { // переписать переход на другую вкладку
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         HapticsManager.shared.vibrateSlightly()
         tableView.deselectRow(at: indexPath, animated: true)
-//        let coin = coins[indexPath.row] // для передачи
+        let coin = coins[indexPath.row]
         
-        // Переход на другую вкладку TBC - сделать отдельную функцию и вызывать её здесь и в extension
-        let currentIndex: Int? = self.tabBarController?.selectedIndex
-        
-        if let ramTBC = self.tabBarController as? RAMAnimatedTabBarController,
-           let current = currentIndex {
-            ramTBC.setSelectIndex(from: current, to: 1)
+        let chooseSymbolVC = ChooseSymbolVC()
+        chooseSymbolVC.coinID = coin.id
+        PersistenceManager.shared.searchInSymbols(coinSymbol: coin.symbol) { symbols in
+            chooseSymbolVC.symbols = symbols
         }
+        floatingPanel.dismiss(animated: false)
+        floatingPanel.set(contentViewController: chooseSymbolVC)
+        floatingPanel.addPanel(toParent: self)
+        floatingPanel.hide() // без этого floatingPanel будет появляться без анимации, т.е. сначала надо спрятать, а потом показывать
+        floatingPanel.show(animated: true, completion: nil)
     }
 }
 
@@ -218,6 +242,7 @@ extension MarketsVC: UISearchBarDelegate {
         HapticsManager.shared.vibrateSlightly()
         canUpdateSearch = true
         tableView.isHidden = true
+        floatingPanel.dismiss(animated: false)
         return true
     }
     
@@ -226,6 +251,7 @@ extension MarketsVC: UISearchBarDelegate {
         canUpdateSearch = false
         tableView.isHidden = false
         tableView.reloadData()
+        searchResultsVC.floatingPanel.dismiss(animated: false)
     }
 }
 
@@ -234,6 +260,8 @@ extension MarketsVC: UISearchBarDelegate {
 extension MarketsVC: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
+        searchResultsVC.floatingPanel.dismiss(animated: false)
+        
         guard let query = searchController.searchBar.text?.lowercased(),
               let searchResultsVC = searchController.searchResultsController as? SearchResultsVC,
               canUpdateSearch else {
@@ -260,20 +288,12 @@ extension MarketsVC: UISearchResultsUpdating {
     }
 }
 
-//MARK: - SearchResultsVCDelegate - переделать
+//MARK: - FloatingPanelControllerDelegate
 
-extension MarketsVC: SearchResultsVCDelegate { // Нужно для переключения вкладки TabBar
+extension MarketsVC: FloatingPanelControllerDelegate {
     
-    func searchResultsVCdidSelect(coin: CoinMapData) {
-        
-        // Переход на другую вкладку TBC
-        let currentIndex: Int? = self.tabBarController?.selectedIndex
-        
-        if let ramTBC = self.tabBarController as? RAMAnimatedTabBarController,
-           let current = currentIndex {
-            ramTBC.setSelectIndex(from: current, to: 1)
-        }
-        
-        // Передать coin? - https://developer.apple.com/forums/thread/119037
+    func floatingPanelDidRemove(_ fpc: FloatingPanelController) {
+//        floatingPanel.dismiss(animated: true) // это действие и так происходит, когда делается свайп вниз
+//        print(floatingPanel.state)
     }
 }

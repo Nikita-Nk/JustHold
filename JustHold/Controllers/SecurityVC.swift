@@ -27,7 +27,7 @@ class SecurityVC: UIViewController {
         return button
     }()
     
-    let animationView = AnimationView()
+    private let animationView = AnimationView()
     
     //MARK: - Lifecycle
 
@@ -92,7 +92,7 @@ class SecurityVC: UIViewController {
         }
         else {
             // если пользователь не дал разрешение на использование функции
-            let alert = UIAlertController(title: "Недоступно", message: "Вы не можете использовать эту функцию", preferredStyle: .alert)
+            let alert = UIAlertController(title: "Недоступно", message: "Вы не можете использовать эту функцию. Включите FaceID в настройках приложения JustHold", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Отменить", style: .cancel, handler: nil))
             self.present(alert, animated: true)
         }

@@ -59,14 +59,10 @@ class TabBarController: RAMAnimatedTabBarController {
         self.tabBar.backgroundColor = .secondarySystemBackground
         
         let vc1 = UINavigationController(rootViewController: MarketsVC())
-        let vc2 = UINavigationController(rootViewController: ViewController())
-        let vc3 = UINavigationController(rootViewController: ViewController())
+        let vc2 = UINavigationController(rootViewController: ChartVC())
+//        let vc3 = UINavigationController(rootViewController: ViewController())
         let vc4 = UINavigationController(rootViewController: ViewController())
         let vc5 = UINavigationController(rootViewController: SettingsVC())
-        
-        vc2.view.backgroundColor = .systemRed
-        vc3.view.backgroundColor = .systemOrange
-        vc4.view.backgroundColor = .systemPink
         
         vc1.tabBarItem = RAMAnimatedTabBarItem(title: "Монеты", // монеты / криптовалюты / главная
                                                image: UIImage(systemName: "star"), // star / house
@@ -82,14 +78,14 @@ class TabBarController: RAMAnimatedTabBarController {
                                                selectedColor: selectedColor,
                                                unselectedColor: unselectedColor)
         
-        vc3.tabBarItem = RAMAnimatedTabBarItem(title: "Портфолио",
-                                               image: UIImage(systemName: "case"),
-                                               tag: 3,
-                                               animation: RAMFlipLeftTransitionItemAnimations(),
-                                               selectedColor: selectedColor,
-                                               unselectedColor: unselectedColor)
+//        vc3.tabBarItem = RAMAnimatedTabBarItem(title: "Портфолио",
+//                                               image: UIImage(systemName: "case"),
+//                                               tag: 3,
+//                                               animation: RAMFlipLeftTransitionItemAnimations(),
+//                                               selectedColor: selectedColor,
+//                                               unselectedColor: unselectedColor)
 
-        vc4.tabBarItem = RAMAnimatedTabBarItem(title: "Сигналы",
+        vc4.tabBarItem = RAMAnimatedTabBarItem(title: "Оповещения",
                                                image: UIImage(systemName: "bell"),
                                                tag: 4,
                                                animation: RAMBounceAnimation(),
@@ -103,7 +99,7 @@ class TabBarController: RAMAnimatedTabBarController {
                                                selectedColor: selectedColor,
                                                unselectedColor: unselectedColor)
         
-        setViewControllers([vc1, vc2, vc3, vc4, vc5], animated: false)
+        setViewControllers([vc1, vc2, vc4, vc5], animated: false) // vc3,
     }
 }
 
