@@ -54,23 +54,6 @@ extension UIView {
     }
 }
 
-//MARK: - Change scientific notation to decimal - 1.3204803049961318e-05 to 0.0000132
-
-extension Formatter {
-    static let avoidNotation: NumberFormatter = {
-        let numberFormatter = NumberFormatter()
-        numberFormatter.maximumFractionDigits = 8
-        numberFormatter.numberStyle = .decimal
-        return numberFormatter
-    }()
-}
-
-extension FloatingPoint {
-    var avoidNotation: String {
-        return Formatter.avoidNotation.string(for: self) ?? ""
-    }
-}
-
 //MARK: - LocalAuthentication
 
 extension LAContext {
@@ -158,31 +141,5 @@ extension Date {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = format
         return dateFormatter.string(from: self)
-    }
-}
-
-
-
-
-// Не понадобится?
-//MARK: - CandleStick Sorting
-
-extension Array where Element == Candle {
-    func getPercentage() -> Double {
-        let latestDate = self[0].date // data заменили на self
-        guard let latestClose = self.first?.close,
-            let priorClose = self.first(where: {
-                !Calendar.current.isDate($0.date, inSameDayAs: latestDate)
-            })?.close
-        else {
-            return 0
-        }
-        
-//        print("\(symbol): Current \(latestDate): \(latestClose) | Prior: \(priorClose)")
-        
-        // 267 / 260
-        let diff = 1 - priorClose/latestClose
-//        print("\(symbol): \(diff)%")
-        return diff
     }
 }
