@@ -35,6 +35,10 @@
 		18A8A06328ABADC90092031D /* MarketsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A8A06228ABADC80092031D /* MarketsTableViewCell.swift */; };
 		18A8A06528ABB00B0092031D /* ListingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A8A06428ABB00B0092031D /* ListingResponse.swift */; };
 		18A8A06728AE5A1F0092031D /* QuotesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A8A06628AE5A1E0092031D /* QuotesResponse.swift */; };
+		18B8D26E28D39A10000F9BCE /* AddAlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B8D26D28D39A10000F9BCE /* AddAlertVC.swift */; };
+		18B8D27028D49D6B000F9BCE /* TextIconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B8D26F28D49D6B000F9BCE /* TextIconButton.swift */; };
+		18B8D27228D8BF5A000F9BCE /* CheckBoxButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B8D27128D8BF5A000F9BCE /* CheckBoxButton.swift */; };
+		18B8D27428D9078E000F9BCE /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B8D27328D9078D000F9BCE /* AlertModel.swift */; };
 		86EDB64C2EA418146DBA15EA /* Pods_JustHold.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC91E898C3B8F4132F87A9E5 /* Pods_JustHold.framework */; };
 /* End PBXBuildFile section */
 
@@ -70,6 +74,10 @@
 		18A8A06228ABADC80092031D /* MarketsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketsTableViewCell.swift; sourceTree = "<group>"; };
 		18A8A06428ABB00B0092031D /* ListingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingResponse.swift; sourceTree = "<group>"; };
 		18A8A06628AE5A1E0092031D /* QuotesResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotesResponse.swift; sourceTree = "<group>"; };
+		18B8D26D28D39A10000F9BCE /* AddAlertVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAlertVC.swift; sourceTree = "<group>"; };
+		18B8D26F28D49D6B000F9BCE /* TextIconButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextIconButton.swift; sourceTree = "<group>"; };
+		18B8D27128D8BF5A000F9BCE /* CheckBoxButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBoxButton.swift; sourceTree = "<group>"; };
+		18B8D27328D9078D000F9BCE /* AlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
 		829C7701F78BA64E7E0A6722 /* Pods-JustHold.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JustHold.release.xcconfig"; path = "Target Support Files/Pods-JustHold/Pods-JustHold.release.xcconfig"; sourceTree = "<group>"; };
 		CC91E898C3B8F4132F87A9E5 /* Pods_JustHold.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JustHold.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -156,6 +164,7 @@
 				18A8A05428A4F7950092031D /* SearchResultsVC.swift */,
 				189BD2DB28B6873100E5FD55 /* ChooseSymbolVC.swift */,
 				189BD2CF28B3871800E5FD55 /* ChartVC.swift */,
+				18B8D26D28D39A10000F9BCE /* AddAlertVC.swift */,
 				18A554DD289B0C7900A9D48E /* ViewController.swift */,
 				189BD2AF28AFA4CD00E5FD55 /* SettingsVC.swift */,
 			);
@@ -170,6 +179,8 @@
 				18A8A05628A5698C0092031D /* SearchResultTableVCell.swift */,
 				189BD2D328B3881800E5FD55 /* ChartView.swift */,
 				189BD2D728B3897300E5FD55 /* MetricCollectionViewCell.swift */,
+				18B8D27128D8BF5A000F9BCE /* CheckBoxButton.swift */,
+				18B8D26F28D49D6B000F9BCE /* TextIconButton.swift */,
 				189BD2B328AFF6B000E5FD55 /* SettingTableViewCell.swift */,
 				189BD2B528B0164B00E5FD55 /* SwitchTableViewCell.swift */,
 			);
@@ -184,6 +195,7 @@
 				18A8A06628AE5A1E0092031D /* QuotesResponse.swift */,
 				189BD2CB28B386C400E5FD55 /* SymbolsResponse.swift */,
 				189BD2CD28B386F700E5FD55 /* CandlesResponse.swift */,
+				18B8D27328D9078D000F9BCE /* AlertModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -314,9 +326,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				189BD2D828B3897300E5FD55 /* MetricCollectionViewCell.swift in Sources */,
+				18B8D26E28D39A10000F9BCE /* AddAlertVC.swift in Sources */,
 				189BD2BE28B27A2600E5FD55 /* HapticsManager.swift in Sources */,
 				18A554DE289B0C7900A9D48E /* ViewController.swift in Sources */,
+				18B8D27428D9078E000F9BCE /* AlertModel.swift in Sources */,
 				18A8A06528ABB00B0092031D /* ListingResponse.swift in Sources */,
+				18B8D27028D49D6B000F9BCE /* TextIconButton.swift in Sources */,
 				189BD2D028B3871800E5FD55 /* ChartVC.swift in Sources */,
 				18A8A06728AE5A1F0092031D /* QuotesResponse.swift in Sources */,
 				18A8A06328ABADC90092031D /* MarketsTableViewCell.swift in Sources */,
@@ -324,6 +339,7 @@
 				189BD2CE28B386F700E5FD55 /* CandlesResponse.swift in Sources */,
 				189BD2CC28B386C400E5FD55 /* SymbolsResponse.swift in Sources */,
 				18A8A05B28A67EF00092031D /* MapResponse.swift in Sources */,
+				18B8D27228D8BF5A000F9BCE /* CheckBoxButton.swift in Sources */,
 				189BD2DC28B6873100E5FD55 /* ChooseSymbolVC.swift in Sources */,
 				18A8A05528A4F7950092031D /* SearchResultsVC.swift in Sources */,
 				189BD2B428AFF6B000E5FD55 /* SettingTableViewCell.swift in Sources */,

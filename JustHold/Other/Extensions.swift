@@ -143,3 +143,51 @@ extension Date {
         return dateFormatter.string(from: self)
     }
 }
+
+//MARK: - UITextField
+
+extension UITextField {
+    
+    // Добавляет отступ слева у текста в TextField
+    func indent(x: CGFloat) {
+        self.leftView = UIView(frame: CGRect(x: self.frame.minX, y: self.frame.minY, width: x, height: self.frame.height))
+        self.leftViewMode = .always
+    }
+    
+    // Добавляет done button к textField
+    func addDoneButtonOnKeyboard() {
+        let keyboardToolbar = UIToolbar()
+        keyboardToolbar.backgroundColor = .secondarySystemBackground
+        keyboardToolbar.sizeToFit()
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
+                                            target: nil,
+                                            action: nil)
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done,
+                                         target: self,
+                                         action: #selector(resignFirstResponder))
+        keyboardToolbar.items = [flexibleSpace, doneButton]
+        keyboardToolbar.tintColor = .label
+        self.inputAccessoryView = keyboardToolbar
+    }
+}
+
+//MARK: - UITextField
+
+extension UITextView { // одна и та же функция addDoneButtonOnKeyboard() для UITextField и UITextView. Как переделать?
+    
+    // Добавляет done button к textView
+    func addDoneButtonOnKeyboard() {
+        let keyboardToolbar = UIToolbar()
+        keyboardToolbar.backgroundColor = .secondarySystemBackground
+        keyboardToolbar.sizeToFit()
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
+                                            target: nil,
+                                            action: nil)
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done,
+                                         target: self,
+                                         action: #selector(resignFirstResponder))
+        keyboardToolbar.items = [flexibleSpace, doneButton]
+        keyboardToolbar.tintColor = .label
+        self.inputAccessoryView = keyboardToolbar
+    }
+}

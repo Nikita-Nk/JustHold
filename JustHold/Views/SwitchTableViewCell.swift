@@ -91,7 +91,7 @@ class SwitchTableViewCell: UITableViewCell {
         switchToDark.isOn = model.isOn
     }
     
-    //MARK: - Init
+    //MARK: - Private
     
     @objc private func didTapSwitch() {
         model.handler()
