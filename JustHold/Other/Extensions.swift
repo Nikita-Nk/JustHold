@@ -148,13 +148,11 @@ extension Date {
 
 extension UITextField {
     
-    // Добавляет отступ слева у текста в TextField
-    func indent(x: CGFloat) {
+    func leftIndent(x: CGFloat) {
         self.leftView = UIView(frame: CGRect(x: self.frame.minX, y: self.frame.minY, width: x, height: self.frame.height))
         self.leftViewMode = .always
     }
     
-    // Добавляет done button к textField
     func addDoneButtonOnKeyboard() {
         let keyboardToolbar = UIToolbar()
         keyboardToolbar.backgroundColor = .secondarySystemBackground
@@ -171,23 +169,17 @@ extension UITextField {
     }
 }
 
-//MARK: - UITextField
+//MARK: - UIViewController
 
-extension UITextView { // одна и та же функция addDoneButtonOnKeyboard() для UITextField и UITextView. Как переделать?
+extension UIViewController {
     
-    // Добавляет done button к textView
-    func addDoneButtonOnKeyboard() {
-        let keyboardToolbar = UIToolbar()
-        keyboardToolbar.backgroundColor = .secondarySystemBackground
-        keyboardToolbar.sizeToFit()
-        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
-                                            target: nil,
-                                            action: nil)
-        let doneButton = UIBarButtonItem(barButtonSystemItem: .done,
-                                         target: self,
-                                         action: #selector(resignFirstResponder))
-        keyboardToolbar.items = [flexibleSpace, doneButton]
-        keyboardToolbar.tintColor = .label
-        self.inputAccessoryView = keyboardToolbar
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
     }
 }
