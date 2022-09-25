@@ -144,6 +144,32 @@ extension Date {
     }
 }
 
+//MARK: - UIDatePicker
+
+extension UIDatePicker {
+  
+  private func traverse(view: UIView) {
+    for subview in view.subviews {
+      self.traverse(view: subview)
+      subview.alpha = 0.02 // Setting alpha to 0 disables userInteraction.
+    }
+  }
+  
+  func paintClear() {
+    self.traverse(view: self)
+  }
+}
+
+//MARK: - String
+
+extension String {
+    var isNumeric: Bool {
+        guard self.count > 0 else { return false }
+        let nums: Set<Character> = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."]
+        return Set(self).isSubset(of: nums)
+    }
+}
+
 //MARK: - UITextField
 
 extension UITextField {

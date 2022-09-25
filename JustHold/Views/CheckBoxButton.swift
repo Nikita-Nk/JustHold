@@ -1,9 +1,5 @@
 import UIKit
 
-struct CheckBoxButtonViewModel {
-    let text: String
-}
-
 class CheckBoxButton: UIButton {
     
     override init(frame: CGRect) {
@@ -35,7 +31,7 @@ class CheckBoxButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func configure(with viewModel: CheckBoxButtonViewModel) {
-        self.setTitle(viewModel.text, for: .normal)
+    public func configure(label: String) {
+        self.setTitle(label, for: .normal)
     }
 }

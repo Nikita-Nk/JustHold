@@ -39,6 +39,8 @@
 		18B8D27028D49D6B000F9BCE /* TextIconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B8D26F28D49D6B000F9BCE /* TextIconButton.swift */; };
 		18B8D27228D8BF5A000F9BCE /* CheckBoxButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B8D27128D8BF5A000F9BCE /* CheckBoxButton.swift */; };
 		18B8D27428D9078E000F9BCE /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B8D27328D9078D000F9BCE /* AlertModel.swift */; };
+		18B8D27628DCC688000F9BCE /* UIButtonScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B8D27528DCC686000F9BCE /* UIButtonScrollView.swift */; };
+		18DD8B9328DF9A9D0083F743 /* AddAlertVCViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DD8B9228DF9A9D0083F743 /* AddAlertVCViewModel.swift */; };
 		86EDB64C2EA418146DBA15EA /* Pods_JustHold.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC91E898C3B8F4132F87A9E5 /* Pods_JustHold.framework */; };
 /* End PBXBuildFile section */
 
@@ -78,6 +80,8 @@
 		18B8D26F28D49D6B000F9BCE /* TextIconButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextIconButton.swift; sourceTree = "<group>"; };
 		18B8D27128D8BF5A000F9BCE /* CheckBoxButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBoxButton.swift; sourceTree = "<group>"; };
 		18B8D27328D9078D000F9BCE /* AlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
+		18B8D27528DCC686000F9BCE /* UIButtonScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonScrollView.swift; sourceTree = "<group>"; };
+		18DD8B9228DF9A9D0083F743 /* AddAlertVCViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAlertVCViewModel.swift; sourceTree = "<group>"; };
 		829C7701F78BA64E7E0A6722 /* Pods-JustHold.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JustHold.release.xcconfig"; path = "Target Support Files/Pods-JustHold/Pods-JustHold.release.xcconfig"; sourceTree = "<group>"; };
 		CC91E898C3B8F4132F87A9E5 /* Pods_JustHold.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JustHold.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -127,6 +131,7 @@
 				18A8A04628A28BC70092031D /* Managers */,
 				18A8A04728A28BD20092031D /* Controllers */,
 				18A8A04828A28BDF0092031D /* Views */,
+				18DD8B9128DF9A030083F743 /* ViewModels */,
 				18A8A04928A28BF30092031D /* Models */,
 			);
 			path = JustHold;
@@ -179,6 +184,7 @@
 				18A8A05628A5698C0092031D /* SearchResultTableVCell.swift */,
 				189BD2D328B3881800E5FD55 /* ChartView.swift */,
 				189BD2D728B3897300E5FD55 /* MetricCollectionViewCell.swift */,
+				18B8D27528DCC686000F9BCE /* UIButtonScrollView.swift */,
 				18B8D27128D8BF5A000F9BCE /* CheckBoxButton.swift */,
 				18B8D26F28D49D6B000F9BCE /* TextIconButton.swift */,
 				189BD2B328AFF6B000E5FD55 /* SettingTableViewCell.swift */,
@@ -198,6 +204,14 @@
 				18B8D27328D9078D000F9BCE /* AlertModel.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		18DD8B9128DF9A030083F743 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				18DD8B9228DF9A9D0083F743 /* AddAlertVCViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		674ECCF6205792C1C85D5D62 /* Pods */ = {
@@ -326,6 +340,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				189BD2D828B3897300E5FD55 /* MetricCollectionViewCell.swift in Sources */,
+				18B8D27628DCC688000F9BCE /* UIButtonScrollView.swift in Sources */,
+				18DD8B9328DF9A9D0083F743 /* AddAlertVCViewModel.swift in Sources */,
 				18B8D26E28D39A10000F9BCE /* AddAlertVC.swift in Sources */,
 				189BD2BE28B27A2600E5FD55 /* HapticsManager.swift in Sources */,
 				18A554DE289B0C7900A9D48E /* ViewController.swift in Sources */,

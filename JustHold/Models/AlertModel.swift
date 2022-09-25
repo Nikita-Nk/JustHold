@@ -2,20 +2,25 @@ import UIKit
 
 struct AlertModel: Codable {
     
-    enum Condition: Codable {
-        case greaterThan
-        case lessThan
+    enum Condition: String, Codable {
+        case greaterThan = "Больше, чем"
+        case lessThan = "Меньше, чем"
     }
     
-    let isActive: Bool
-    let lastNotificationDate: Date?
+    let id: Int
+    lazy var logoUrl = "https://s2.coinmarketcap.com/static/img/coins/64x64/\(id).png"
+    let coinSymbolFinnhub: String
+    let coinName: String
     
-    let priceCondition: Condition
-    let price: Double // Decimal?
-    let notifyOnce: Bool
-    let pushNotificationsEnabled: Bool
-    let expirationDate: Date
-    let expirationDateDisabled: Bool
-    let name: String
-    let message: String?
+    var priceCondition: Condition = .greaterThan
+    var priceTarget: Double
+    var notifyJustOnce: Bool = true
+    var pushNotificationsEnabled: Bool = false
+    var expirationDate: Date = Date()
+    var expirationDateDisabled: Bool = false
+    var alertName: String
+    var alertMessage: String?
+    
+    var isAlertActive: Bool = true
+    var didConditionMatchAfterLastCheck: Bool = false
 }

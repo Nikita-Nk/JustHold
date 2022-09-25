@@ -42,6 +42,10 @@ class TextIconButton: UIButton {
         iconImageView.image = viewModel.image
     }
     
+    public func changeLabel(newLabel: String) {
+        label.text = newLabel
+    }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         
