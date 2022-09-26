@@ -208,4 +208,13 @@ extension UIViewController {
     @objc private func dismissKeyboard() {
         view.endEditing(true)
     }
+    
+    func fixTabBarVisualEffectBackdropView() {
+        let appearance = UITabBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .clear
+        let tabBar = self.navigationController?.tabBarController?.tabBar
+        tabBar?.standardAppearance = appearance
+        tabBar?.scrollEdgeAppearance = appearance
+    }
 }

@@ -36,6 +36,7 @@ class MarketsVC: UIViewController {
         tableView.refreshControl = refreshControl
         view.backgroundColor = .systemBackground
         setUpTable()
+        fixTabBarVisualEffectBackdropView()
         setUpNavigationBar()
         setupSearchController()
         setUpFloatingPanel()
@@ -136,7 +137,7 @@ class MarketsVC: UIViewController {
     }
     
     private func fetchListing() {
-        APICaller.shared.fetchListing(queryParams: ["limit": "100"]) { [weak self] response in // weak self ?
+        APICaller.shared.fetchListing(queryParams: ["limit": "100"]) { [weak self] response in
             self?.coins = response
             self?.tableView.reloadData()
             self?.activityIndicator.stopAnimating()
@@ -174,7 +175,7 @@ class MarketsVC: UIViewController {
         let searchController = UISearchController(searchResultsController: searchResultsVC)
         searchController.searchBar.placeholder = "Искать монеты"
         searchController.searchResultsUpdater = self
-        searchController.searchBar.delegate = self // для обработки "Cancel"
+        searchController.searchBar.delegate = self
         navigationItem.searchController = searchController
         
         searchResultsVC.offsetForTableView = searchController.searchBar.height + (navigationItem.titleView?.height ?? 44) // Передаем отступ для tableView

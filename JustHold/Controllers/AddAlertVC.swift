@@ -193,6 +193,7 @@ class AddAlertVC: UIViewController {
         
         self.hideKeyboardWhenTappedAround()
         setUpAppearance(for: [priceTextField, repeatSegmentedControl, alertNameTextField, alertMessageTextView])
+        fixTabBarVisualEffectBackdropView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -333,7 +334,7 @@ class AddAlertVC: UIViewController {
     private func createConditionMenu() -> UIMenu {
         let actions = [
             UIAction(title: AlertModel.Condition.greaterThan.rawValue,
-                     state: viewModel.alert.priceCondition == .greaterThan ? .on : .off, // .on
+                     state: viewModel.alert.priceCondition == .greaterThan ? .on : .off,
                      handler: { _ in
                          self.viewModel.alert.priceCondition = .greaterThan
                          self.updateConditionButtonAndMenu()
@@ -352,7 +353,7 @@ class AddAlertVC: UIViewController {
     
     @objc private func updateConditionButtonAndMenu() {
         conditionButton.menu = createConditionMenu()
-        conditionButton.changeLabel(newLabel: self.viewModel.alert.priceCondition.rawValue)
+        conditionButton.changeLabel(newText: self.viewModel.alert.priceCondition.rawValue)
     }
     
     @objc func updateAlertNameTextField(_ textField: UITextField) {
@@ -366,8 +367,8 @@ class AddAlertVC: UIViewController {
     }
     
     @objc func updateDateButton(_ datePicker: UIDatePicker) {
-        dateButton.changeLabel(newLabel: datePicker.date.toString(dateFormat: "dd MMM yyyy"))
-        timeButton.changeLabel(newLabel: datePicker.date.toString(dateFormat: "HH:mm"))
+        dateButton.changeLabel(newText: datePicker.date.toString(dateFormat: "dd MMM yyyy"))
+        timeButton.changeLabel(newText: datePicker.date.toString(dateFormat: "HH:mm"))
     }
     
     @objc func datePickerIsEditing(_ datePicker: UIDatePicker) {
