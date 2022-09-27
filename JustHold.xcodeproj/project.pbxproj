@@ -41,6 +41,7 @@
 		18B8D27428D9078E000F9BCE /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B8D27328D9078D000F9BCE /* AlertModel.swift */; };
 		18B8D27628DCC688000F9BCE /* UIButtonScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B8D27528DCC686000F9BCE /* UIButtonScrollView.swift */; };
 		18DD8B9328DF9A9D0083F743 /* AddAlertVCViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DD8B9228DF9A9D0083F743 /* AddAlertVCViewModel.swift */; };
+		18DD8B9528E264A80083F743 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DD8B9428E264A70083F743 /* AlertView.swift */; };
 		86EDB64C2EA418146DBA15EA /* Pods_JustHold.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC91E898C3B8F4132F87A9E5 /* Pods_JustHold.framework */; };
 /* End PBXBuildFile section */
 
@@ -82,6 +83,7 @@
 		18B8D27328D9078D000F9BCE /* AlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
 		18B8D27528DCC686000F9BCE /* UIButtonScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonScrollView.swift; sourceTree = "<group>"; };
 		18DD8B9228DF9A9D0083F743 /* AddAlertVCViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAlertVCViewModel.swift; sourceTree = "<group>"; };
+		18DD8B9428E264A70083F743 /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
 		829C7701F78BA64E7E0A6722 /* Pods-JustHold.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JustHold.release.xcconfig"; path = "Target Support Files/Pods-JustHold/Pods-JustHold.release.xcconfig"; sourceTree = "<group>"; };
 		CC91E898C3B8F4132F87A9E5 /* Pods_JustHold.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JustHold.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -189,6 +191,7 @@
 				18B8D26F28D49D6B000F9BCE /* TextIconButton.swift */,
 				189BD2B328AFF6B000E5FD55 /* SettingTableViewCell.swift */,
 				189BD2B528B0164B00E5FD55 /* SwitchTableViewCell.swift */,
+				18DD8B9428E264A70083F743 /* AlertView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -346,6 +349,7 @@
 				189BD2BE28B27A2600E5FD55 /* HapticsManager.swift in Sources */,
 				18A554DE289B0C7900A9D48E /* ViewController.swift in Sources */,
 				18B8D27428D9078E000F9BCE /* AlertModel.swift in Sources */,
+				18DD8B9528E264A80083F743 /* AlertView.swift in Sources */,
 				18A8A06528ABB00B0092031D /* ListingResponse.swift in Sources */,
 				18B8D27028D49D6B000F9BCE /* TextIconButton.swift in Sources */,
 				189BD2D028B3871800E5FD55 /* ChartVC.swift in Sources */,

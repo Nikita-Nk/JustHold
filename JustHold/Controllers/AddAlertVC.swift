@@ -417,15 +417,14 @@ class AddAlertVC: UIViewController {
         viewModel.alert.alertName = alertName
         viewModel.alert.alertMessage = alertMessageTextView.text
         
-        print(viewModel.alert)
+//        print(viewModel.alert)
         
         
         // Сохранять alertModel в CoreData
         //
         
-        // Выводить уведомление в прошлом VC, что алерт добавлен
-        //
-        
+        HapticsManager.shared.vibrateSlightly()
+        showAlert(viewModel: .init(result: .success, text: "Оповещение создано"))
         navigationController?.popViewController(animated: true)
     }
     

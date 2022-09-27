@@ -213,8 +213,51 @@ extension UIViewController {
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = .clear
+        appearance.shadowColor = .clear
         let tabBar = self.navigationController?.tabBarController?.tabBar
         tabBar?.standardAppearance = appearance
         tabBar?.scrollEdgeAppearance = appearance
     }
+}
+
+//MARK: - Show alert
+
+extension UIViewController {
+    func showAlert(viewModel: AlertViewViewModel) {
+        let alert = AlertView()
+        alert.configure(with: viewModel)
+        self.navigationController?.tabBarController?.tabBar.addSubview(alert)
+        alert.frame = CGRect(x: 20, y: 0, width: self.view.width-40, height: 50)
+        alert.dropShadow(color: .systemBackground, opacity: 0.5, radius: 10)
+        alert.alpha = 1
+
+        UIView.animate(withDuration: 0.2, animations: {
+            alert.alpha = 1
+            alert.frame.origin.y -= 60
+        }, completion: nil)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            UIView.animate(withDuration: 0.2, animations: {
+                alert.alpha = 0
+                alert.frame.origin.y += 60
+            }) { (true) in
+                alert.removeFromSuperview()
+            }
+        }
+    }
+}
+
+//MARK: - Drop shadow
+
+extension UIView {
+  func dropShadow(color: UIColor, opacity: Float = 0.5, offSet: CGSize = CGSize(width: 0, height: 0), radius: CGFloat = 1, scale: Bool = true) {
+    layer.masksToBounds = false
+    layer.shadowColor = color.cgColor
+    layer.shadowOpacity = opacity
+    layer.shadowOffset = offSet
+    layer.shadowRadius = radius
+    layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
+    layer.shouldRasterize = true
+    layer.rasterizationScale = scale ? UIScreen.main.scale : 1
+  }
 }
