@@ -1,26 +1,45 @@
 import UIKit
+import RealmSwift
 
-struct AlertModel: Codable {
+class AlertModel: Object {
     
     enum Condition: String, Codable {
         case greaterThan = "Больше, чем"
         case lessThan = "Меньше, чем"
     }
     
-    let id: Int
-    lazy var logoUrl = "https://s2.coinmarketcap.com/static/img/coins/64x64/\(id).png"
-    let coinSymbolFinnhub: String
-    let coinName: String
+    @Persisted var id: Int = 0
+    var logoUrl: String {
+        return "https://s2.coinmarketcap.com/static/img/coins/64x64/\(id).png"
+    }
     
-    var priceCondition: Condition = .greaterThan
-    var priceTarget: Double
-    var notifyJustOnce: Bool = true
-    var pushNotificationsEnabled: Bool = false
-    var expirationDate: Date = Date()
-    var expirationDateDisabled: Bool = false
-    var alertName: String
-    var alertMessage: String?
+    @Persisted var coinSymbolFinnhub: String = ""
+    @Persisted var coinName: String = ""
     
-    var isAlertActive: Bool = true
-    var didConditionMatchAfterLastCheck: Bool = false
+    @Persisted var priceConditionString = Condition.greaterThan.rawValue
+    var priceCondition: Condition {
+        get { return Condition(rawValue: priceConditionString)! }
+        set { priceConditionString = newValue.rawValue }
+    }
+    @Persisted var priceTarget: Double = 0
+    @Persisted var notifyJustOnce: Bool = true
+    @Persisted var pushNotificationsEnabled: Bool = false
+    @Persisted var expirationDate: Date = Date()
+    @Persisted var expirationDateDisabled: Bool = false
+    @Persisted var alertName: String = ""
+    @Persisted var alertMessage: String?
+    
+    @Persisted var isAlertActive: Bool = true
+    @Persisted var didConditionMatchAfterLastCheck: Bool = false
+    
+    init(id: Int, coinSymbolFinnhub: String, coinName: String, priceTarget: Double, alertName: String) {
+        self.id = id
+        self.coinSymbolFinnhub = coinSymbolFinnhub
+        self.coinName = coinName
+        self.priceTarget = priceTarget
+        self.alertName = alertName
+    }
+    
+    override init() { // После смены на @Persisted, выдает ошибку, а если сделать такой override, то её нет
+    }
 }

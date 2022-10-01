@@ -1,5 +1,6 @@
 import UIKit
 import BetterSegmentedControl
+import RealmSwift
 
 class AddAlertVC: UIViewController {
     
@@ -397,31 +398,21 @@ class AddAlertVC: UIViewController {
             return
         }
         
-//        if viewModel.alert.expirationDateDisabled == false && datePicker.date < Date() {
-//            dateButton.layer.borderColor = UIColor.systemRed.cgColor
-//            dateButton.layer.borderWidth = 2
-//            timeButton.layer.borderColor = UIColor.systemRed.cgColor
-//            timeButton.layer.borderWidth = 2
-//            errorLabel.isHidden = false
-//            errorLabel.text = "Дата истечения не должна быть в прошлом"
-//            return
-//        }
+        // save data
+        try! Realm().write {
+            viewModel.alert.priceCondition = viewModel.alert.priceCondition
+            viewModel.alert.priceTarget = priceDouble
+            viewModel.alert.notifyJustOnce = repeatSegmentedControl.index == 0
+            viewModel.alert.pushNotificationsEnabled = pushCheckBox.isSelected
+            viewModel.alert.expirationDate = datePicker.date
+            viewModel.alert.expirationDateDisabled = expiringCheckBox.isSelected
+            viewModel.alert.alertName = alertName
+            viewModel.alert.alertMessage = alertMessageTextView.text
+        }
         
-        // save data to viewModel
-        viewModel.alert.priceCondition = viewModel.alert.priceCondition
-        viewModel.alert.priceTarget = priceDouble
-        viewModel.alert.notifyJustOnce = repeatSegmentedControl.index == 0
-        viewModel.alert.pushNotificationsEnabled = pushCheckBox.isSelected
-        viewModel.alert.expirationDate = datePicker.date
-        viewModel.alert.expirationDateDisabled = expiringCheckBox.isSelected
-        viewModel.alert.alertName = alertName
-        viewModel.alert.alertMessage = alertMessageTextView.text
-        
-//        print(viewModel.alert)
-        
-        
-        // Сохранять alertModel в CoreData
-        //
+        if viewModel.purpose == .saveNewAlert {
+            RealmManager.shared.saveNewAlert(viewModel.alert)
+        }
         
         HapticsManager.shared.vibrateSlightly()
         showAlert(viewModel: .init(result: .success, text: "Оповещение создано"))

@@ -368,9 +368,11 @@ class ChartVC: UIViewController {
     
     @objc private func didTapAlertButton(_: UIButton) {
         HapticsManager.shared.vibrateSlightly()
-        
         let addAlertVC = AddAlertVC()
-        addAlertVC.configure(with: .init(purpose: .saveNewAlert, coinQuote: coinQuote, candles: candles, coinSymbol: PersistenceManager.shared.lastChosenSymbol))
+        addAlertVC.configure(with: .init(purpose: .saveNewAlert,
+                                         coinQuote: coinQuote,
+                                         candles: candles,
+                                         coinSymbol: PersistenceManager.shared.lastChosenSymbol))
         navigationController?.pushViewController(addAlertVC, animated: true)
     }
 }
