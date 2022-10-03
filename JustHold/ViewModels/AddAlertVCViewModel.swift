@@ -21,4 +21,10 @@ struct AddAlertVCViewModel {
         self.purpose = purpose
         saveButtonText = purpose.rawValue
     }
+    
+    init(purpose: Purpose, alert: AlertModel) {
+        self.alert = alert
+        self.purpose = purpose
+        saveButtonText = purpose.rawValue
+    }
 }

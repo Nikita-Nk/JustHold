@@ -39,7 +39,7 @@ class TabBarController: RAMAnimatedTabBarController {
         let vc1 = UINavigationController(rootViewController: MarketsVC())
         let vc2 = UINavigationController(rootViewController: ChartVC())
 //        let vc3 = UINavigationController(rootViewController: ViewController())
-        let vc4 = UINavigationController(rootViewController: ViewController())
+        let vc4 = UINavigationController(rootViewController: AlertsVC())
         let vc5 = UINavigationController(rootViewController: SettingsVC())
         
         vc1.tabBarItem = RAMAnimatedTabBarItem(title: "Монеты",

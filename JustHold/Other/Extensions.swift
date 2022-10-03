@@ -223,8 +223,8 @@ extension UIViewController {
 //MARK: - Show alert
 
 extension UIViewController {
-    func showAlert(viewModel: AlertViewViewModel) {
-        let alert = AlertView()
+    func showAlert(viewModel: PopupAlertViewViewModel) {
+        let alert = PopupAlertView()
         alert.configure(with: viewModel)
         self.navigationController?.tabBarController?.tabBar.addSubview(alert)
         alert.frame = CGRect(x: 20, y: 0, width: self.view.width-40, height: 50)
@@ -236,7 +236,7 @@ extension UIViewController {
             alert.frame.origin.y -= 60
         }, completion: nil)
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             UIView.animate(withDuration: 0.2, animations: {
                 alert.alpha = 0
                 alert.frame.origin.y += 60

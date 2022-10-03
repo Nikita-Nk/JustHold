@@ -1,6 +1,6 @@
 import UIKit
 
-struct AlertViewViewModel {
+struct PopupAlertViewViewModel {
     
     enum OperationResult {
         case success
@@ -13,7 +13,7 @@ struct AlertViewViewModel {
 //    let swipeDown: (() -> Void)
 }
 
-class AlertView: UIView {
+class PopupAlertView: UIView {
     
     private let label: UILabel = {
         let label = UILabel()
@@ -21,7 +21,7 @@ class AlertView: UIView {
         label.lineBreakMode = .byTruncatingTail
         label.textAlignment = .left
         label.textColor = .systemGray6
-        label.font = .systemFont(ofSize: 16, weight: .regular)
+        label.font = .systemFont(ofSize: 15, weight: .regular)
         return label
     }()
     
@@ -64,7 +64,7 @@ class AlertView: UIView {
     
     //MARK: - Public
     
-    public func configure(with viewModel: AlertViewViewModel) {
+    public func configure(with viewModel: PopupAlertViewViewModel) {
         label.text = viewModel.text
         
         switch viewModel.result {

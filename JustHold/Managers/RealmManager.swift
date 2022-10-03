@@ -15,9 +15,13 @@ final class RealmManager {
     
     //MARK: - Public
     
-    public func fetchAllAlerts() -> Results<AlertModel> { // type: Types
+    public func fetchAllAlerts() -> List<AlertModel> { // Results / List
         let alerts = realm.objects(AlertModel.self)
-        return alerts
+        let alertsList = List<AlertModel>()
+        for alert in alerts {
+            alertsList.append(alert)
+        }
+        return alertsList
     }
     
     public func saveNewAlert(_ alert: AlertModel) {

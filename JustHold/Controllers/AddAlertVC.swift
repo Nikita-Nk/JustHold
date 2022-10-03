@@ -324,7 +324,7 @@ class AddAlertVC: UIViewController {
         repeatSegmentedControl.setIndex(viewModel.alert.notifyJustOnce ? 0 : 1)
         pushCheckBox.isSelected = viewModel.alert.pushNotificationsEnabled
         updateDateButton(datePicker)
-        expiringCheckBox.isSelected = !viewModel.alert.expirationDateDisabled
+        expiringCheckBox.isSelected = viewModel.alert.expirationDateDisabled
         updateAlertNameTextField(self.alertNameTextField)
         alertMessageTextView.text = viewModel.alert.alertMessage
         saveAlertButton.setTitle(viewModel.saveButtonText, for: .normal)
@@ -337,14 +337,20 @@ class AddAlertVC: UIViewController {
             UIAction(title: AlertModel.Condition.greaterThan.rawValue,
                      state: viewModel.alert.priceCondition == .greaterThan ? .on : .off,
                      handler: { _ in
+                         try! Realm().beginWrite()
                          self.viewModel.alert.priceCondition = .greaterThan
+                         try! Realm().commitWrite()
+                         
                          self.updateConditionButtonAndMenu()
                          self.updateAlertNameTextField(self.alertNameTextField)
                      }),
             UIAction(title: AlertModel.Condition.lessThan.rawValue,
                      state: viewModel.alert.priceCondition == .lessThan ? .on : .off,
                      handler: { _ in
+                         try! Realm().beginWrite()
                          self.viewModel.alert.priceCondition = .lessThan
+                         try! Realm().commitWrite()
+                         
                          self.updateConditionButtonAndMenu()
                          self.updateAlertNameTextField(self.alertNameTextField)
                      })]
@@ -358,8 +364,10 @@ class AddAlertVC: UIViewController {
     }
     
     @objc func updateAlertNameTextField(_ textField: UITextField) {
-        if viewModel.canAutoupdateAlertName {
+        if viewModel.canAutoupdateAlertName && viewModel.alert.alertName == "" {
             alertNameTextField.text = viewModel.alert.coinName + " " + viewModel.alert.priceCondition.rawValue.lowercased() + " " + (priceTextField.text ?? "0")
+        } else {
+            alertNameTextField.text = viewModel.alert.alertName
         }
     }
     
