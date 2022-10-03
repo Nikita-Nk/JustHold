@@ -1,4 +1,5 @@
 import UIKit
+import IQKeyboardManagerSwift
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -14,6 +15,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         APICaller.shared.fetchCoinsMap()
         APICaller.shared.fetchAllSymbols()
+        
+        setUpKeyboardManager()
         checkColorMode()
         NotificationCenter.default.addObserver(self, selector: #selector(switchToDark), name: Notification.Name("switchToDark"), object: nil)
         
@@ -22,10 +25,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
+    //MARK: - Private
+    
     private func debug() {
     }
     
-    //MARK: - Check and change interface style
+    private func setUpKeyboardManager() {
+        IQKeyboardManager.shared.enable = true
+        IQKeyboardManager.shared.previousNextDisplayMode = .alwaysHide // turn off previous/next
+        IQKeyboardManager.shared.toolbarBarTintColor = .secondarySystemBackground
+        IQKeyboardManager.shared.shouldPlayInputClicks = false // turn off sounds
+    }
     
     private func checkColorMode() {
         switch PersistenceManager.shared.darkModeIsOn {

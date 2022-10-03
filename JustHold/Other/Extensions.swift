@@ -143,3 +143,121 @@ extension Date {
         return dateFormatter.string(from: self)
     }
 }
+
+//MARK: - UIDatePicker
+
+extension UIDatePicker {
+  
+  private func traverse(view: UIView) {
+    for subview in view.subviews {
+      self.traverse(view: subview)
+      subview.alpha = 0.02 // Setting alpha to 0 disables userInteraction.
+    }
+  }
+  
+  func paintClear() {
+    self.traverse(view: self)
+  }
+}
+
+//MARK: - String
+
+extension String {
+    var isNumeric: Bool {
+        guard self.count > 0 else { return false }
+        let nums: Set<Character> = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."]
+        return Set(self).isSubset(of: nums)
+    }
+}
+
+//MARK: - UITextField
+
+extension UITextField {
+    
+    func leftIndent(x: CGFloat) {
+        self.leftView = UIView(frame: CGRect(x: self.frame.minX, y: self.frame.minY, width: x, height: self.frame.height))
+        self.leftViewMode = .always
+    }
+    
+    func addDoneButtonOnKeyboard() {
+        let keyboardToolbar = UIToolbar()
+        keyboardToolbar.backgroundColor = .secondarySystemBackground
+        keyboardToolbar.sizeToFit()
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
+                                            target: nil,
+                                            action: nil)
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done,
+                                         target: self,
+                                         action: #selector(resignFirstResponder))
+        keyboardToolbar.items = [flexibleSpace, doneButton]
+        keyboardToolbar.tintColor = .label
+        self.inputAccessoryView = keyboardToolbar
+    }
+}
+
+//MARK: - UIViewController
+
+extension UIViewController {
+    
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    func fixTabBarVisualEffectBackdropView() {
+        let appearance = UITabBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .clear
+        appearance.shadowColor = .clear
+        let tabBar = self.navigationController?.tabBarController?.tabBar
+        tabBar?.standardAppearance = appearance
+        tabBar?.scrollEdgeAppearance = appearance
+    }
+}
+
+//MARK: - Show alert
+
+extension UIViewController {
+    func showAlert(viewModel: PopupAlertViewViewModel) {
+        let alert = PopupAlertView()
+        alert.configure(with: viewModel)
+        self.navigationController?.tabBarController?.tabBar.addSubview(alert)
+        alert.frame = CGRect(x: 20, y: 0, width: self.view.width-40, height: 50)
+        alert.dropShadow(color: .systemBackground, opacity: 0.5, radius: 10)
+        alert.alpha = 1
+
+        UIView.animate(withDuration: 0.2, animations: {
+            alert.alpha = 1
+            alert.frame.origin.y -= 60
+        }, completion: nil)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            UIView.animate(withDuration: 0.2, animations: {
+                alert.alpha = 0
+                alert.frame.origin.y += 60
+            }) { (true) in
+                alert.removeFromSuperview()
+            }
+        }
+    }
+}
+
+//MARK: - Drop shadow
+
+extension UIView {
+  func dropShadow(color: UIColor, opacity: Float = 0.5, offSet: CGSize = CGSize(width: 0, height: 0), radius: CGFloat = 1, scale: Bool = true) {
+    layer.masksToBounds = false
+    layer.shadowColor = color.cgColor
+    layer.shadowOpacity = opacity
+    layer.shadowOffset = offSet
+    layer.shadowRadius = radius
+    layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
+    layer.shouldRasterize = true
+    layer.rasterizationScale = scale ? UIScreen.main.scale : 1
+  }
+}

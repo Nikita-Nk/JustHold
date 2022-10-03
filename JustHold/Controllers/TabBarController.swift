@@ -12,14 +12,8 @@ class TabBarController: RAMAnimatedTabBarController {
         super.viewDidLoad()
         
         configure()
-        changeRadiusOfTabbar()
         
         self.setSelectIndex(from: 0, to: 2)
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        changeHeightOfTabbar()
     }
     
     override func viewWillAppear(_ animated: Bool) { // скрываем navigationBar
@@ -38,34 +32,18 @@ class TabBarController: RAMAnimatedTabBarController {
     
     //MARK: - Private
 
-    private func changeHeightOfTabbar(){
-        if UIDevice().userInterfaceIdiom == .phone {
-            var tabFrame            = tabBar.frame
-            tabFrame.size.height    = 100
-            tabFrame.origin.y       = view.frame.size.height - 80
-            tabBar.frame            = tabFrame
-        }
-    }
-    
-    private func changeRadiusOfTabbar(){
-        self.tabBar.layer.masksToBounds = true
-        self.tabBar.isTranslucent = true
-        self.tabBar.layer.cornerRadius = 30
-        self.tabBar.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-    }
-
     private func configure() {
-//        self.tabBar.isTranslucent = true
+        self.tabBar.layer.cornerRadius = 30
         self.tabBar.backgroundColor = .secondarySystemBackground
         
         let vc1 = UINavigationController(rootViewController: MarketsVC())
         let vc2 = UINavigationController(rootViewController: ChartVC())
 //        let vc3 = UINavigationController(rootViewController: ViewController())
-        let vc4 = UINavigationController(rootViewController: ViewController())
+        let vc4 = UINavigationController(rootViewController: AlertsVC())
         let vc5 = UINavigationController(rootViewController: SettingsVC())
         
-        vc1.tabBarItem = RAMAnimatedTabBarItem(title: "Монеты", // монеты / криптовалюты / главная
-                                               image: UIImage(systemName: "star"), // star / house
+        vc1.tabBarItem = RAMAnimatedTabBarItem(title: "Монеты",
+                                               image: UIImage(systemName: "star"),
                                                tag: 1,
                                                animation: RAMBounceAnimation(),
                                                selectedColor: selectedColor,

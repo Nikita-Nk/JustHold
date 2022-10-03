@@ -21,7 +21,7 @@
 		189BD2D828B3897300E5FD55 /* MetricCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189BD2D728B3897300E5FD55 /* MetricCollectionViewCell.swift */; };
 		189BD2DC28B6873100E5FD55 /* ChooseSymbolVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189BD2DB28B6873100E5FD55 /* ChooseSymbolVC.swift */; };
 		18A554DA289B0C7900A9D48E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A554D9289B0C7900A9D48E /* AppDelegate.swift */; };
-		18A554DE289B0C7900A9D48E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A554DD289B0C7900A9D48E /* ViewController.swift */; };
+		18A554DE289B0C7900A9D48E /* AlertsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A554DD289B0C7900A9D48E /* AlertsVC.swift */; };
 		18A554E3289B0C7A00A9D48E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18A554E2289B0C7A00A9D48E /* Assets.xcassets */; };
 		18A554E6289B0C7A00A9D48E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18A554E4289B0C7A00A9D48E /* LaunchScreen.storyboard */; };
 		18A8A04B28A28C210092031D /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A8A04A28A28C210092031D /* Extensions.swift */; };
@@ -35,6 +35,17 @@
 		18A8A06328ABADC90092031D /* MarketsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A8A06228ABADC80092031D /* MarketsTableViewCell.swift */; };
 		18A8A06528ABB00B0092031D /* ListingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A8A06428ABB00B0092031D /* ListingResponse.swift */; };
 		18A8A06728AE5A1F0092031D /* QuotesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A8A06628AE5A1E0092031D /* QuotesResponse.swift */; };
+		18B70F0328E483A60069BDCB /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B70F0228E483A60069BDCB /* RealmManager.swift */; };
+		18B8D26E28D39A10000F9BCE /* AddAlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B8D26D28D39A10000F9BCE /* AddAlertVC.swift */; };
+		18B8D27028D49D6B000F9BCE /* TextIconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B8D26F28D49D6B000F9BCE /* TextIconButton.swift */; };
+		18B8D27228D8BF5A000F9BCE /* CheckBoxButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B8D27128D8BF5A000F9BCE /* CheckBoxButton.swift */; };
+		18B8D27428D9078E000F9BCE /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B8D27328D9078D000F9BCE /* AlertModel.swift */; };
+		18B8D27628DCC688000F9BCE /* UIButtonScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B8D27528DCC686000F9BCE /* UIButtonScrollView.swift */; };
+		18DD8B9328DF9A9D0083F743 /* AddAlertVCViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DD8B9228DF9A9D0083F743 /* AddAlertVCViewModel.swift */; };
+		18DD8B9528E264A80083F743 /* PopupAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DD8B9428E264A70083F743 /* PopupAlertView.swift */; };
+		18E9A49D28E9DB7500DB17FF /* AlertTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E9A49C28E9DB7500DB17FF /* AlertTableViewCell.swift */; };
+		18E9A49F28E9F37A00DB17FF /* emptyBoxAnimation.json in Resources */ = {isa = PBXBuildFile; fileRef = 18E9A49E28E9F37A00DB17FF /* emptyBoxAnimation.json */; };
+		18E9A4A128E9FE7A00DB17FF /* CalledAlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E9A4A028E9FE7A00DB17FF /* CalledAlertModel.swift */; };
 		86EDB64C2EA418146DBA15EA /* Pods_JustHold.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC91E898C3B8F4132F87A9E5 /* Pods_JustHold.framework */; };
 /* End PBXBuildFile section */
 
@@ -55,7 +66,7 @@
 		189BD2DB28B6873100E5FD55 /* ChooseSymbolVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseSymbolVC.swift; sourceTree = "<group>"; };
 		18A554D6289B0C7900A9D48E /* JustHold.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JustHold.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18A554D9289B0C7900A9D48E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		18A554DD289B0C7900A9D48E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		18A554DD289B0C7900A9D48E /* AlertsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertsVC.swift; sourceTree = "<group>"; };
 		18A554E2289B0C7A00A9D48E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		18A554E5289B0C7A00A9D48E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		18A554E7289B0C7A00A9D48E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -70,6 +81,17 @@
 		18A8A06228ABADC80092031D /* MarketsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketsTableViewCell.swift; sourceTree = "<group>"; };
 		18A8A06428ABB00B0092031D /* ListingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingResponse.swift; sourceTree = "<group>"; };
 		18A8A06628AE5A1E0092031D /* QuotesResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotesResponse.swift; sourceTree = "<group>"; };
+		18B70F0228E483A60069BDCB /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
+		18B8D26D28D39A10000F9BCE /* AddAlertVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAlertVC.swift; sourceTree = "<group>"; };
+		18B8D26F28D49D6B000F9BCE /* TextIconButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextIconButton.swift; sourceTree = "<group>"; };
+		18B8D27128D8BF5A000F9BCE /* CheckBoxButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBoxButton.swift; sourceTree = "<group>"; };
+		18B8D27328D9078D000F9BCE /* AlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
+		18B8D27528DCC686000F9BCE /* UIButtonScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonScrollView.swift; sourceTree = "<group>"; };
+		18DD8B9228DF9A9D0083F743 /* AddAlertVCViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAlertVCViewModel.swift; sourceTree = "<group>"; };
+		18DD8B9428E264A70083F743 /* PopupAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupAlertView.swift; sourceTree = "<group>"; };
+		18E9A49C28E9DB7500DB17FF /* AlertTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertTableViewCell.swift; sourceTree = "<group>"; };
+		18E9A49E28E9F37A00DB17FF /* emptyBoxAnimation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = emptyBoxAnimation.json; sourceTree = "<group>"; };
+		18E9A4A028E9FE7A00DB17FF /* CalledAlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalledAlertModel.swift; sourceTree = "<group>"; };
 		829C7701F78BA64E7E0A6722 /* Pods-JustHold.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JustHold.release.xcconfig"; path = "Target Support Files/Pods-JustHold/Pods-JustHold.release.xcconfig"; sourceTree = "<group>"; };
 		CC91E898C3B8F4132F87A9E5 /* Pods_JustHold.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JustHold.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -119,6 +141,7 @@
 				18A8A04628A28BC70092031D /* Managers */,
 				18A8A04728A28BD20092031D /* Controllers */,
 				18A8A04828A28BDF0092031D /* Views */,
+				18DD8B9128DF9A030083F743 /* ViewModels */,
 				18A8A04928A28BF30092031D /* Models */,
 			);
 			path = JustHold;
@@ -131,6 +154,7 @@
 				18A554E2289B0C7A00A9D48E /* Assets.xcassets */,
 				189BD2C328B2CF5D00E5FD55 /* chartAnimation.json */,
 				189BD2C728B2D28600E5FD55 /* portfolioAnimation.json */,
+				18E9A49E28E9F37A00DB17FF /* emptyBoxAnimation.json */,
 				18A554D9289B0C7900A9D48E /* AppDelegate.swift */,
 				18A8A04A28A28C210092031D /* Extensions.swift */,
 			);
@@ -142,6 +166,7 @@
 			children = (
 				18A8A04E28A4EB470092031D /* APICaller.swift */,
 				18A8A05C28A698A40092031D /* PersistenceManager.swift */,
+				18B70F0228E483A60069BDCB /* RealmManager.swift */,
 				189BD2BD28B27A2600E5FD55 /* HapticsManager.swift */,
 			);
 			path = Managers;
@@ -156,7 +181,8 @@
 				18A8A05428A4F7950092031D /* SearchResultsVC.swift */,
 				189BD2DB28B6873100E5FD55 /* ChooseSymbolVC.swift */,
 				189BD2CF28B3871800E5FD55 /* ChartVC.swift */,
-				18A554DD289B0C7900A9D48E /* ViewController.swift */,
+				18B8D26D28D39A10000F9BCE /* AddAlertVC.swift */,
+				18A554DD289B0C7900A9D48E /* AlertsVC.swift */,
 				189BD2AF28AFA4CD00E5FD55 /* SettingsVC.swift */,
 			);
 			path = Controllers;
@@ -170,8 +196,13 @@
 				18A8A05628A5698C0092031D /* SearchResultTableVCell.swift */,
 				189BD2D328B3881800E5FD55 /* ChartView.swift */,
 				189BD2D728B3897300E5FD55 /* MetricCollectionViewCell.swift */,
+				18B8D27528DCC686000F9BCE /* UIButtonScrollView.swift */,
+				18B8D27128D8BF5A000F9BCE /* CheckBoxButton.swift */,
+				18B8D26F28D49D6B000F9BCE /* TextIconButton.swift */,
+				18E9A49C28E9DB7500DB17FF /* AlertTableViewCell.swift */,
 				189BD2B328AFF6B000E5FD55 /* SettingTableViewCell.swift */,
 				189BD2B528B0164B00E5FD55 /* SwitchTableViewCell.swift */,
+				18DD8B9428E264A70083F743 /* PopupAlertView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -184,8 +215,18 @@
 				18A8A06628AE5A1E0092031D /* QuotesResponse.swift */,
 				189BD2CB28B386C400E5FD55 /* SymbolsResponse.swift */,
 				189BD2CD28B386F700E5FD55 /* CandlesResponse.swift */,
+				18B8D27328D9078D000F9BCE /* AlertModel.swift */,
+				18E9A4A028E9FE7A00DB17FF /* CalledAlertModel.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		18DD8B9128DF9A030083F743 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				18DD8B9228DF9A9D0083F743 /* AddAlertVCViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		674ECCF6205792C1C85D5D62 /* Pods */ = {
@@ -257,6 +298,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18E9A49F28E9F37A00DB17FF /* emptyBoxAnimation.json in Resources */,
 				18A554E6289B0C7A00A9D48E /* LaunchScreen.storyboard in Resources */,
 				189BD2C428B2CF5D00E5FD55 /* chartAnimation.json in Resources */,
 				18A554E3289B0C7A00A9D48E /* Assets.xcassets in Resources */,
@@ -314,9 +356,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				189BD2D828B3897300E5FD55 /* MetricCollectionViewCell.swift in Sources */,
+				18B8D27628DCC688000F9BCE /* UIButtonScrollView.swift in Sources */,
+				18DD8B9328DF9A9D0083F743 /* AddAlertVCViewModel.swift in Sources */,
+				18E9A4A128E9FE7A00DB17FF /* CalledAlertModel.swift in Sources */,
+				18B8D26E28D39A10000F9BCE /* AddAlertVC.swift in Sources */,
 				189BD2BE28B27A2600E5FD55 /* HapticsManager.swift in Sources */,
-				18A554DE289B0C7900A9D48E /* ViewController.swift in Sources */,
+				18A554DE289B0C7900A9D48E /* AlertsVC.swift in Sources */,
+				18B8D27428D9078E000F9BCE /* AlertModel.swift in Sources */,
+				18DD8B9528E264A80083F743 /* PopupAlertView.swift in Sources */,
 				18A8A06528ABB00B0092031D /* ListingResponse.swift in Sources */,
+				18B8D27028D49D6B000F9BCE /* TextIconButton.swift in Sources */,
 				189BD2D028B3871800E5FD55 /* ChartVC.swift in Sources */,
 				18A8A06728AE5A1F0092031D /* QuotesResponse.swift in Sources */,
 				18A8A06328ABADC90092031D /* MarketsTableViewCell.swift in Sources */,
@@ -324,9 +373,12 @@
 				189BD2CE28B386F700E5FD55 /* CandlesResponse.swift in Sources */,
 				189BD2CC28B386C400E5FD55 /* SymbolsResponse.swift in Sources */,
 				18A8A05B28A67EF00092031D /* MapResponse.swift in Sources */,
+				18E9A49D28E9DB7500DB17FF /* AlertTableViewCell.swift in Sources */,
+				18B8D27228D8BF5A000F9BCE /* CheckBoxButton.swift in Sources */,
 				189BD2DC28B6873100E5FD55 /* ChooseSymbolVC.swift in Sources */,
 				18A8A05528A4F7950092031D /* SearchResultsVC.swift in Sources */,
 				189BD2B428AFF6B000E5FD55 /* SettingTableViewCell.swift in Sources */,
+				18B70F0328E483A60069BDCB /* RealmManager.swift in Sources */,
 				18A8A05728A5698D0092031D /* SearchResultTableVCell.swift in Sources */,
 				18A8A04D28A28EE90092031D /* TabBarController.swift in Sources */,
 				189BD2BA28B24BE700E5FD55 /* SecurityVC.swift in Sources */,

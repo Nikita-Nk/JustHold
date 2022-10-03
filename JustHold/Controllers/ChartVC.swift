@@ -5,7 +5,7 @@ import RAMAnimatedTabBarController
 class ChartVC: UIViewController {
     
     public var coinID: Int?
-    private var coinQuote: CoinListingData?
+    private var coinQuote: CoinListingData!
     
     private var candles = [Candle]()
     
@@ -142,7 +142,7 @@ class ChartVC: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        self.navigationController?.isNavigationBarHidden = false
+//        self.navigationController?.isNavigationBarHidden = false
     }
     
     override func viewDidLayoutSubviews() {
@@ -168,7 +168,6 @@ class ChartVC: UIViewController {
         plusLabel.snp.makeConstraints { make in
             make.height.width.equalTo(14)
             make.right.equalTo(addAlertButton.snp.right).inset(4)
-//            make.bottom.equalTo(addAlertButton).inset(4)
             make.top.equalTo(addAlertButton.snp.top).inset(4)
         }
         
@@ -369,9 +368,12 @@ class ChartVC: UIViewController {
     
     @objc private func didTapAlertButton(_: UIButton) {
         HapticsManager.shared.vibrateSlightly()
-        
-        // показать экран, где добавляется алерт к выбранной монете. Потом этот алерт добавляется в PersistenceManager и выводится в tableView в AlertsVC
-        print("надо добавить alert")
+        let addAlertVC = AddAlertVC()
+        addAlertVC.configure(with: .init(purpose: .saveNewAlert,
+                                         coinQuote: coinQuote,
+                                         candles: candles,
+                                         coinSymbol: PersistenceManager.shared.lastChosenSymbol))
+        navigationController?.pushViewController(addAlertVC, animated: true)
     }
 }
 
