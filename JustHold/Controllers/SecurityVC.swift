@@ -5,14 +5,6 @@ import Lottie
 
 class SecurityVC: UIViewController {
     
-//    private let logoView: UIImageView = {
-//        let imageView = UIImageView()
-//        imageView.image = UIImage(named: "logo")
-//        imageView.backgroundColor = .systemBackground
-//        imageView.contentMode = .scaleAspectFit
-//        return imageView
-//    }()
-    
     private let authButton: UIButton = {
         let button = UIButton()
         button.setTitle("Повторить", for: .normal)
@@ -27,7 +19,16 @@ class SecurityVC: UIViewController {
         return button
     }()
     
-    private let animationView = AnimationView()
+    private let animationView: AnimationView = {
+        let animation = AnimationView()
+        animation.animation = Animation.named("chartAnimation")
+        animation.backgroundColor = .systemBackground
+        animation.contentMode = .scaleAspectFit
+        animation.loopMode = .loop
+        animation.animationSpeed = 1.1
+        animation.play()
+        return animation
+    }()
     
     //MARK: - Lifecycle
 
@@ -36,7 +37,6 @@ class SecurityVC: UIViewController {
         
         view.backgroundColor = .systemBackground
         view.addSubviews(animationView, authButton)
-        setupAnimation()
         authenticate()
     }
     
@@ -55,15 +55,6 @@ class SecurityVC: UIViewController {
     }
     
     //MARK: - Private
-    
-    private func setupAnimation() {
-        animationView.animation = Animation.named("chartAnimation")
-        animationView.backgroundColor = .systemBackground
-        animationView.contentMode = .scaleAspectFit
-        animationView.loopMode = .loop
-        animationView.animationSpeed = 1.1
-        animationView.play()
-    }
     
     @objc private func authenticate() {
         HapticsManager.shared.vibrateSlightly()

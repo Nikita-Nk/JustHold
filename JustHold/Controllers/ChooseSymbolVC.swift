@@ -7,7 +7,7 @@ class ChooseSymbolVC: UIViewController {
     private let tableView: UITableView = {
         let table = UITableView()
         table.register(UITableViewCell.self,
-                       forCellReuseIdentifier: "cell") // SymbolsTableVCell.identifier // Не создавал отдельный класс для ячейки и не указываю её здесь, т.к. в этом нет смысла, ведь хватает стандартного оформления
+                       forCellReuseIdentifier: "cell") // Достаточно стандартного оформления ячейки
         return table
     }()
     
@@ -37,14 +37,11 @@ class ChooseSymbolVC: UIViewController {
         
         tableView.snp.makeConstraints { make in
             make.topMargin.equalTo(view.snp.topMargin).offset(90)
-            make.leftMargin.equalTo(view.snp.leftMargin)
-            make.rightMargin.equalTo(view.snp.rightMargin)
-            make.bottomMargin.equalTo(view.snp.bottomMargin)
+            make.leftMargin.rightMargin.bottomMargin.equalTo(view.layoutMarginsGuide)
         }
         label.snp.makeConstraints { make in
             make.topMargin.equalTo(view.snp.topMargin).inset(30)
-            make.leftMargin.equalTo(view.snp.leftMargin).inset(5)
-            make.rightMargin.equalTo(view.snp.rightMargin).inset(5)
+            make.leftMargin.rightMargin.equalTo(view.layoutMarginsGuide).inset(5)
             make.height.equalTo(50)
         }
     }

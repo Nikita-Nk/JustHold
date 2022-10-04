@@ -1,4 +1,5 @@
 import UIKit
+import SkeletonView
 
 class MetricCollectionViewCell: UICollectionViewCell {
     
@@ -28,6 +29,8 @@ class MetricCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         contentView.clipsToBounds = true
         contentView.addSubviews(nameLabel, valueLabel)
+        
+        self.isSkeletonable = true
     }
     
     required init?(coder: NSCoder) {

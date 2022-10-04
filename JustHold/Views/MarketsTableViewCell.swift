@@ -16,7 +16,7 @@ class MarketsTableViewCell: UITableViewCell {
     
     static let preferredHeight: CGFloat = 65
     
-    private var coin = CoinListingData(id: 1, name: "", symbol: "", slug: "", rank: 1, circulatingSupply: 1, totalSupply: 1, maxSupply: 1, lastUpdated: "", dateAdded: "", quote: ["": Quote(price: 1, volume24H: 1, volumeChange24H: 1, percentChange1H: 1, percentChange24H: 1, percentChange7D: 1, marketCap: 1, marketCapDominance: 1, fullyDilutedMarketCap: 1, lastUpdated: "")])
+    private var coin: CoinListingData!
     
     private let nameLabel: UILabel = {
         let label = UILabel()

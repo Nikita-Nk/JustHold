@@ -2,7 +2,7 @@ import UIKit
 import RAMAnimatedTabBarController
 import LocalAuthentication
 
-//MARK: - Adds possibility to change tintColor of RAMTabBarItem
+//MARK: - RAMTabBarItem init with possibility to specify color
 
 extension RAMAnimatedTabBarItem {
     convenience init(title: String, image: UIImage?, tag: Int, animation: RAMItemAnimation, selectedColor: UIColor, unselectedColor: UIColor) {
@@ -160,7 +160,7 @@ extension UIDatePicker {
   }
 }
 
-//MARK: - String
+//MARK: - Check if String is numeric
 
 extension String {
     var isNumeric: Bool {
@@ -224,6 +224,8 @@ extension UIViewController {
 
 extension UIViewController {
     func showAlert(viewModel: PopupAlertViewViewModel) {
+        viewModel.result == .success ? HapticsManager.shared.vibrate(for: .success) : HapticsManager.shared.vibrate(for: .error)
+
         let alert = PopupAlertView()
         alert.configure(with: viewModel)
         self.navigationController?.tabBarController?.tabBar.addSubview(alert)

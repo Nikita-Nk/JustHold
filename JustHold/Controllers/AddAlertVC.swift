@@ -208,9 +208,7 @@ class AddAlertVC: UIViewController {
         scrollView.contentSize = CGSize(width: view.frame.size.width, height: errorLabel.bottom + 150)
         scrollView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            make.left.equalTo(view.snp.left)
-            make.right.equalTo(view.snp.right)
-            make.bottom.equalTo(view.snp.bottom)
+            make.left.right.bottom.equalTo(view.layoutMarginsGuide)
         }
         
         coinLabel.snp.makeConstraints { make in
@@ -220,8 +218,7 @@ class AddAlertVC: UIViewController {
         }
         notifyLabel.snp.makeConstraints { make in
             make.top.equalTo(coinLabel.snp.bottom).offset(20)
-            make.left.equalTo(coinLabel.snp.left)
-            make.right.equalTo(coinLabel.snp.right)
+            make.horizontalEdges.equalTo(coinLabel.snp.horizontalEdges)
         }
         conditionButton.snp.makeConstraints { make in
             make.height.equalTo(30)
@@ -238,8 +235,7 @@ class AddAlertVC: UIViewController {
         repeatSegmentedControl.snp.makeConstraints { make in
             make.height.equalTo(30)
             make.top.equalTo(conditionButton.snp.bottom).offset(25)
-            make.left.equalTo(notifyLabel.snp.left)
-            make.right.equalTo(notifyLabel.snp.right)
+            make.horizontalEdges.equalTo(notifyLabel.snp.horizontalEdges)
         }
         pushCheckBox.snp.makeConstraints { make in
             make.top.equalTo(repeatSegmentedControl.snp.bottom).offset(10)
@@ -248,8 +244,7 @@ class AddAlertVC: UIViewController {
         
         expireLabel.snp.makeConstraints { make in
             make.top.equalTo(pushCheckBox.snp.bottom).offset(20)
-            make.left.equalTo(notifyLabel.snp.left)
-            make.right.equalTo(notifyLabel.snp.right)
+            make.horizontalEdges.equalTo(notifyLabel.snp.horizontalEdges)
         }
         dateButton.snp.makeConstraints { make in
             make.size.equalTo(conditionButton.snp.size)
@@ -269,8 +264,7 @@ class AddAlertVC: UIViewController {
         
         alertNameLabel.snp.makeConstraints { make in
             make.top.equalTo(expiringCheckBox.snp.bottom).offset(20)
-            make.left.equalTo(notifyLabel.snp.left)
-            make.right.equalTo(notifyLabel.snp.right)
+            make.horizontalEdges.equalTo(notifyLabel.snp.horizontalEdges)
         }
         alertNameTextField.snp.makeConstraints { make in
             make.size.equalTo(repeatSegmentedControl.snp.size)
@@ -280,15 +274,13 @@ class AddAlertVC: UIViewController {
         
         alertMessageLabel.snp.makeConstraints { make in
             make.top.equalTo(alertNameTextField.snp.bottom).offset(20)
-            make.left.equalTo(notifyLabel.snp.left)
-            make.right.equalTo(notifyLabel.snp.right)
+            make.horizontalEdges.equalTo(notifyLabel.snp.horizontalEdges)
         }
         alertMessageTextView.snp.makeConstraints { make in
             make.height.greaterThanOrEqualTo(60)
             make.height.lessThanOrEqualTo(180)
             make.top.equalTo(alertMessageLabel.snp.bottom).offset(10)
-            make.left.equalTo(notifyLabel.snp.left)
-            make.right.equalTo(notifyLabel.snp.right)
+            make.horizontalEdges.equalTo(notifyLabel.snp.horizontalEdges)
         }
         
         cancelButton.snp.makeConstraints { make in
@@ -303,8 +295,7 @@ class AddAlertVC: UIViewController {
         }
         errorLabel.snp.makeConstraints { make in
             make.top.equalTo(cancelButton.snp.bottom).offset(20)
-            make.left.equalTo(notifyLabel.snp.left)
-            make.right.equalTo(notifyLabel.snp.right)
+            make.horizontalEdges.equalTo(notifyLabel.snp.horizontalEdges)
         }
         
         datePicker.snp.makeConstraints { make in
@@ -363,7 +354,7 @@ class AddAlertVC: UIViewController {
         conditionButton.changeLabel(newText: self.viewModel.alert.priceCondition.rawValue)
     }
     
-    @objc func updateAlertNameTextField(_ textField: UITextField) {
+    @objc private func updateAlertNameTextField(_ textField: UITextField) {
         if viewModel.canAutoupdateAlertName && viewModel.alert.alertName == "" {
             alertNameTextField.text = viewModel.alert.coinName + " " + viewModel.alert.priceCondition.rawValue.lowercased() + " " + (priceTextField.text ?? "0")
         } else {
@@ -420,10 +411,12 @@ class AddAlertVC: UIViewController {
         
         if viewModel.purpose == .saveNewAlert {
             RealmManager.shared.saveNewAlert(viewModel.alert)
+            showAlert(viewModel: .init(result: .success, text: "Оповещение создано"))
+        } else {
+            showAlert(viewModel: .init(result: .success, text: "Оповещение изменено"))
         }
         
         HapticsManager.shared.vibrateSlightly()
-        showAlert(viewModel: .init(result: .success, text: "Оповещение создано"))
         navigationController?.popViewController(animated: true)
     }
     

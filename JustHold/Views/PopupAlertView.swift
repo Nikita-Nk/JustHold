@@ -21,7 +21,7 @@ class PopupAlertView: UIView {
         label.lineBreakMode = .byTruncatingTail
         label.textAlignment = .left
         label.textColor = .systemGray6
-        label.font = .systemFont(ofSize: 15, weight: .regular)
+        label.font = .systemFont(ofSize: 14, weight: .regular)
         return label
     }()
     

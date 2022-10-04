@@ -88,7 +88,6 @@ class AlertTableViewCell: UITableViewCell {
     public func configure(with alert: AlertModel) {
         self.alert = alert
         
-        print(alert.expirationDateDisabled)
         var expireText = ""
         if alert.expirationDateDisabled {
             expireText = "Без срока истечения"

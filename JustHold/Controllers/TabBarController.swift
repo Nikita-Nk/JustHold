@@ -12,16 +12,15 @@ class TabBarController: RAMAnimatedTabBarController {
         super.viewDidLoad()
         
         configure()
-        
-        self.setSelectIndex(from: 0, to: 2)
+//        self.setSelectIndex(from: 0, to: 2)
     }
     
-    override func viewWillAppear(_ animated: Bool) { // скрываем navigationBar
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     
-    override func viewWillDisappear(_ animated: Bool) { // возвращаем, если в дальше он нужен
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(false, animated: animated)
     }

@@ -1,6 +1,7 @@
 import UIKit
 import SnapKit
 import RAMAnimatedTabBarController
+import SkeletonView
 
 class ChartVC: UIViewController {
     
@@ -43,7 +44,6 @@ class ChartVC: UIViewController {
         let label = RankLabel()
         label.layer.cornerRadius = 5
         label.layer.masksToBounds = true
-        label.text = "1"
         label.frame.size = label.intrinsicContentSize
         label.font = .systemFont(ofSize: 12)
         label.backgroundColor = .systemGray6
@@ -54,7 +54,6 @@ class ChartVC: UIViewController {
     
     private let exchangeLabel: UILabel = {
         let label = UILabel()
-        label.text = PersistenceManager.shared.lastChosenSymbol.components(separatedBy: ":")[0]
         label.numberOfLines = 2
         label.font = .systemFont(ofSize: 12, weight: .semibold)
         label.lineBreakMode = .byWordWrapping
@@ -132,10 +131,18 @@ class ChartVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.isNavigationBarHidden = true // скрываю, т.к. перекрывает кнопки
+        self.navigationController?.isNavigationBarHidden = true
         
         if !isFirstAppearance {
             fetchFinancialData()
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if isFirstAppearance {
+            setUpSkeleton()
         }
         isFirstAppearance = false
     }
@@ -183,15 +190,14 @@ class ChartVC: UIViewController {
         exchangeLabel.snp.makeConstraints { make in
             make.centerY.equalTo(rankLabel.snp.centerY)
             make.left.equalTo(rankLabel.snp.right).offset(10)
-//            make.right.equalTo(symbolLabel.snp.right) // тогда rankLabel растягивается в ширину, а exchangeLabel сжимается немного
-            make.width.equalTo(view.width/3)
+            make.right.equalTo(symbolLabel.snp.right)
         }
         
         collectionView.snp.makeConstraints { make in
             make.height.equalTo(80)
             make.top.equalTo(logoView.snp.bottom).offset(20)
             make.left.equalTo(logoView.snp.left)
-            make.right.equalTo(view.snp.right) // toFavoriteButton.snp.right
+            make.right.equalTo(view.snp.right).inset(15)
         }
         resolutionSegmentedControl.snp.makeConstraints { make in
             make.left.equalTo(logoView.snp.left)
@@ -213,10 +219,10 @@ class ChartVC: UIViewController {
         let group = DispatchGroup()
         candles = []
         
-        group.enter() // Fetch Candles
+        group.enter()
         APICaller.shared.fetchCandles(for: PersistenceManager.shared.lastChosenSymbol,
                                       resolution: queryParams.resolution,
-                                      numberOfDays: queryParams.days) { [weak self] response in // candlesData
+                                      numberOfDays: queryParams.days) { [weak self] response in
             defer {
                 group.leave()
             }
@@ -229,7 +235,7 @@ class ChartVC: UIViewController {
             }
         }
         
-        group.enter() // FetchQuotes // Можно сменить на поиск по ID в сохраненных монетах, т.к. нужны только rank, name и logoUrl
+        group.enter() // Можно сменить на поиск по ID в сохраненных монетах, т.к. нужны только rank, name и logoUrl
         APICaller.shared.fetchQuotes(ids: [PersistenceManager.shared.lastChosenID]) { [weak self] metrics in
             defer {
                 group.leave()
@@ -244,6 +250,10 @@ class ChartVC: UIViewController {
                 self?.setUpFavoriteButton(inFavorites: PersistenceManager.shared.isInFavorites(coinID: PersistenceManager.shared.lastChosenID))
                 self?.prepareCollectionViewData()
                 self?.renderChart()
+                
+                defer {
+                    self?.removeSkeleton()
+                }
             }
             else {
                 self?.showAlert()
@@ -287,7 +297,6 @@ class ChartVC: UIViewController {
             if symbol.symbol == PersistenceManager.shared.lastChosenSymbol {
                 symbolLabel.text = symbol.displaySymbol
                 exchangeLabel.text = (coinQuote?.name ?? "") + "\n" + (symbol.description.components(separatedBy: " ").first ?? "")
-                // разбить exchangeLabel на 2 логотипа?
             }
         }
     }
@@ -315,7 +324,7 @@ class ChartVC: UIViewController {
         dataForCollView.viewModels.append(.init(name: "МИН", value: candle.low.prepareValue))
         dataForCollView.viewModels.append(.init(name: "ИЗМ",
                                                 value: "\(sign)\(change.prepareValue) (\(sign)\(percentChange.preparePercentChange)%)"))
-        dataForCollView.viewModels.append(.init(name: "ОБЪЁМ", value: String(candle.volume.prepareValue))) // "$" + String(candle.volume.prepareValue) // $ убрал, т.к. не совсем понятно, в чем измеряется объём. У CoinBase и Kraken по BTC и ETH очень маленький объём, возможно они его в монетах отображают, а остальные биржи в $
+        dataForCollView.viewModels.append(.init(name: "ОБЪЁМ", value: String(candle.volume.prepareValue)))
         dataForCollView.viewModels.append(.init(name: "\(candle.date.toString(dateFormat: "d MMM yyyy HH:mm"))", value: ""))
         
         collectionView.reloadData()
@@ -375,6 +384,30 @@ class ChartVC: UIViewController {
                                          coinSymbol: PersistenceManager.shared.lastChosenSymbol))
         navigationController?.pushViewController(addAlertVC, animated: true)
     }
+    
+    private func setUpSkeleton() {
+        rankLabel.isHidden = true
+        exchangeLabel.isHidden = true
+        resolutionSegmentedControl.isHidden = true
+        let views = [logoView, symbolLabel, plusLabel, toFavoriteButton, addAlertButton, chartView, collectionView]
+        for view in views {
+            view.isSkeletonable = true
+            view.showAnimatedSkeleton(usingColor: .systemGray2,
+                                      animation: nil,
+                                      transition: .crossDissolve(0.25))
+        }
+    }
+    
+    private func removeSkeleton() {
+        rankLabel.isHidden = false
+        exchangeLabel.isHidden = false
+        resolutionSegmentedControl.isHidden = false
+        let views = [logoView, symbolLabel, plusLabel, toFavoriteButton, addAlertButton, chartView, collectionView]
+        for view in views {
+            view.stopSkeletonAnimation()
+            view.hideSkeleton()
+        }
+    }
 }
 
 //MARK: - MyChartViewDelegate
@@ -387,7 +420,11 @@ extension ChartVC: MyChartViewDelegate {
 
 //MARK: - UICollectionViewDelegate
 
-extension ChartVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension ChartVC: SkeletonCollectionViewDelegate, SkeletonCollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
+        return MetricCollectionViewCell.identifier
+    }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return dataForCollView.viewModels.count
@@ -406,6 +443,7 @@ extension ChartVC: UICollectionViewDelegate, UICollectionViewDataSource, UIColle
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (view.width-30)/2, height: 20) // 30 = 15 отступ слева и 15 на расстояние между ячейками
+        return CGSize(width: (view.width-40)/2, height: 20) // -40 = по 15 отступ слева и справа и 10 на расстояние между ячейками
+//        return CGSize(width: (view.width-25)/2, height: 20) // либо так и справа убрать отступ
     }
 }

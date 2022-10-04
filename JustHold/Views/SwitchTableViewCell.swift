@@ -4,9 +4,7 @@ class SwitchTableViewCell: UITableViewCell {
     
     static let identifier = "SwitchTableViewCell"
     
-    private var model = SettingsSwitchOption(text: "", icon: UIImage(systemName: "house"), iconBackgroundColor: .clear, isOn: false) {
-        print("1")
-    }
+    private var model: SettingsSwitchOption!
     
     private let iconContainer: UIView = {
         let view = UIView()

@@ -149,7 +149,7 @@ final class APICaller {
     
     //MARK: - Private
     
-    private func timeToUpdate(date: Date?) -> Bool { // небольшое ограничение на обновление раз в 6 часов, чтобы снизить количество запросов
+    private func timeToUpdate(date: Date?) -> Bool { // ограничение на обновление раз в 6 часов, чтобы снизить количество запросов
         let today = Date()
         if today - (Constants.day/4) >= date ?? (today - Constants.day * 2) { // 11:00 12.08 >= 15:00 12.08
             print("Время обновить")

@@ -73,6 +73,11 @@ class AlertsVC: UIViewController {
         self.navigationController?.isNavigationBarHidden = false
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        alertsTableView.isEditing = false
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -84,8 +89,7 @@ class AlertsVC: UIViewController {
         }
         alertsTableView.snp.makeConstraints { make in
             make.top.equalTo(tableViewsSegmentedControl.snp.bottom).offset(10)
-            make.left.equalTo(view.snp.left)
-            make.right.equalTo(view.snp.right)
+            make.horizontalEdges.equalTo(view.snp.horizontalEdges)
             make.bottom.equalTo(view.snp.bottom)
         }
         alertsHistoryTableView.snp.makeConstraints { make in
@@ -99,8 +103,7 @@ class AlertsVC: UIViewController {
         }
         emptyLabel.snp.makeConstraints { make in
             make.top.equalTo(animationView.snp.centerY).offset(-240)
-            make.width.equalTo(view.snp.width)
-            make.centerX.equalTo(view.snp.centerX)
+            make.width.centerX.equalTo(view.layoutMarginsGuide)
         }
     }
     
@@ -126,6 +129,7 @@ class AlertsVC: UIViewController {
             }
         case 1:
             alertsTableView.isHidden = true
+            alertsTableView.isEditing = false
             if calledAlerts.isEmpty {
                 emptyLabel.isHidden = false
                 animationView.isHidden = false
@@ -158,6 +162,7 @@ class AlertsVC: UIViewController {
     }
     
     @objc private func didTapReorderAlerts() {
+        HapticsManager.shared.vibrate(for: .success)
         if alertsTableView.isEditing {
             alertsTableView.isEditing = false
             navigationItem.rightBarButtonItem?.title = "Изменить"
@@ -171,6 +176,7 @@ class AlertsVC: UIViewController {
         calledAlerts = []
         alertsHistoryTableView.reloadData()
         changeTableView(tableViewsSegmentedControl)
+        HapticsManager.shared.vibrate(for: .success)
     }
     
     private func showCalledAlertsExamples() { // для примера

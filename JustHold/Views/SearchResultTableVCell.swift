@@ -8,7 +8,7 @@ class SearchResultTableViewCell: UITableViewCell {
     
     static let preferredHeight: CGFloat = 65
     
-    private var coin = CoinMapData(id: 1, rank: 1, name: "", symbol: "", slug: "", firstHistoricalData: "", lastHistoricalData: "")
+    private var coin: CoinMapData!
     
     private let nameLabel: UILabel = {
         let label = UILabel()
