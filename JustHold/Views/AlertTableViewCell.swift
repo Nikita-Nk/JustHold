@@ -115,9 +115,10 @@ class AlertTableViewCell: UITableViewCell {
         if alert.expirationDateDisabled == false && alert.expirationDate < Date() {
             delegate?.showErrorAlert()
             switchControl.isOn = false
-        }
-        try! Realm().write {
-            alert.isAlertActive.toggle()
+        } else {
+            try! Realm().write {
+                alert.isAlertActive.toggle()
+            }
         }
     }
 }
