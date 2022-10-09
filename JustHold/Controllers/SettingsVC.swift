@@ -1,6 +1,5 @@
 import UIKit
 import LocalAuthentication
-import Lottie
 
 struct Section {
     let title: String
@@ -35,12 +34,11 @@ class SettingsVC: UIViewController {
         let table = UITableView(frame: .zero, style: .insetGrouped) // insetGrouped - у ячеек отступ по бокам и углы секций скруглены
         table.register(SettingTableViewCell.self, forCellReuseIdentifier: SettingTableViewCell.identifier)
         table.register(SwitchTableViewCell.self, forCellReuseIdentifier: SwitchTableViewCell.identifier)
+        table.register(SettingsTableFooterView.self, forHeaderFooterViewReuseIdentifier: SettingsTableFooterView.identifier)
         return table
     }()
     
     private var sections = [Section]()
-    
-    private let animationView = AnimationView()
     
     //MARK: - Lifecycle
 
@@ -53,7 +51,6 @@ class SettingsVC: UIViewController {
         view.backgroundColor = .systemBackground
         setUpTable()
         configureSections()
-        setupAnimation()
     }
     
     override func viewDidLayoutSubviews() {
@@ -62,7 +59,7 @@ class SettingsVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        animationView.play()
+        NotificationCenter.default.post(name: Notification.Name("playPortfolioAnimation"), object: nil)
     }
     
     //MARK: - Private
@@ -71,21 +68,6 @@ class SettingsVC: UIViewController {
         view.addSubview(tableView)
         tableView.delegate = self
         tableView.dataSource = self
-    }
-    
-    private func setupAnimation() {
-        guard UIScreen.main.bounds.height > 700 else {
-            return
-        }
-        animationView.animation = Animation.named("portfolioAnimation")
-        animationView.backgroundColor = .clear
-        animationView.contentMode = .scaleAspectFit
-        animationView.loopMode = .loop
-        animationView.animationSpeed = 1.1
-        animationView.play()
-        animationView.frame = CGRect(x: 0, y: view.bottom - 300, width: 400, height: 200)
-        animationView.center.x = view.center.x
-        view.addSubview(animationView)
     }
     
     private func configureSections() {
@@ -217,5 +199,17 @@ extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
         case .switchCell(let model):
             model.handler() // тут не сработает, т.к. чуть выше сделал не кликабельными switch-ячейки
         }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        guard section == sections.count - 1 else {
+            return nil
+        }
+        let footer = tableView.dequeueReusableHeaderFooterView(withIdentifier: SettingsTableFooterView.identifier)
+        return footer
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return section == sections.count - 1 ? view.width*0.8 : 0
     }
 }
