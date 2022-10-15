@@ -33,7 +33,7 @@ class AddAlertVC: UIViewController {
     private let priceTextField: UITextField = {
         let textField = UITextField()
         textField.autocorrectionType = .no
-        textField.keyboardType = .numbersAndPunctuation //.decimalPad (вместо точки может быть запятая)
+        textField.keyboardType = .numbersAndPunctuation
         textField.leftIndent(x: 15)
         textField.addTarget(self, action: #selector(updateAlertNameTextField), for: .editingChanged)
         return textField
@@ -80,7 +80,8 @@ class AddAlertVC: UIViewController {
         picker.backgroundColor = .tertiarySystemBackground
         picker.paintClear()
         picker.addTarget(self, action: #selector(updateDateButton), for: .valueChanged)
-        picker.addTarget(self, action: #selector(datePickerIsEditing), for: .allEditingEvents)
+        picker.addTarget(self, action: #selector(datePickerEditingDidBegin), for: .editingDidBegin)
+        picker.addTarget(self, action: #selector(datePickerEditingDidEnd), for: .editingDidEnd)
         return picker
     }()
     
@@ -371,9 +372,14 @@ class AddAlertVC: UIViewController {
         timeButton.changeLabel(newText: datePicker.date.toString(dateFormat: "HH:mm"))
     }
     
-    @objc func datePickerIsEditing(_ datePicker: UIDatePicker) {
-        dateButton.isHighlighted.toggle()
-        timeButton.isHighlighted.toggle()
+    @objc func datePickerEditingDidBegin(_ datePicker: UIDatePicker) {
+        dateButton.isHighlighted = true
+        timeButton.isHighlighted = true
+    }
+    
+    @objc func datePickerEditingDidEnd(_ datePicker: UIDatePicker) {
+        dateButton.isHighlighted = false
+        timeButton.isHighlighted = false
     }
     
     @objc private func didTapCancelButton(_ sender: UIButton){
@@ -486,7 +492,6 @@ extension AddAlertVC: UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        // Высота textView увеличивается до определенного момента, когда кол-во строк растете. Если кол-во строк снижается, textView уменьшается
         if textView.height > 150 {
             textView.frame.size.height = 180
             textView.isScrollEnabled = true
