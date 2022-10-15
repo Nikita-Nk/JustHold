@@ -25,7 +25,7 @@ class AddAlertVC: UIViewController {
     
     private let conditionButton: TextIconButton = {
         let button = TextIconButton()
-        button.configure(with: TextIconButtonViewModel(text: "", image: UIImage(systemName: "chevron.down")))
+        button.configure(image: UIImage(systemName: "chevron.down"))
         button.showsMenuAsPrimaryAction = true
         return button
     }()
@@ -86,13 +86,13 @@ class AddAlertVC: UIViewController {
     
     private let dateButton: TextIconButton = {
         let button = TextIconButton()
-        button.configure(with: TextIconButtonViewModel(text: "", image: UIImage(systemName: "calendar")))
+        button.configure(image: UIImage(systemName: "calendar"))
         return button
     }()
     
     private let timeButton: TextIconButton = {
         let button = TextIconButton()
-        button.configure(with: TextIconButtonViewModel(text: "", image: nil))
+        button.configure(image: nil)
         return button
     }()
     

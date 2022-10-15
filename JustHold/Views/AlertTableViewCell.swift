@@ -11,7 +11,7 @@ class AlertTableViewCell: UITableViewCell {
     
     static let identifier = "AlertsTableViewCell"
     
-    private var alert: AlertModel!
+    private var viewModel: AlertTableViewCellViewModel!
     
     private let bellView: UIImageView = {
         let imageView = UIImageView()
@@ -85,39 +85,23 @@ class AlertTableViewCell: UITableViewCell {
         expirationLabel.text = nil
     }
     
-    public func configure(with alert: AlertModel) {
-        self.alert = alert
-        
-        var expireText = ""
-        if alert.expirationDateDisabled {
-            expireText = "Без срока истечения"
-        } else {
-            expireText = "Истекает " + alert.expirationDate.toString(dateFormat: "dd MMM HH:mm")
-        }
-        expirationLabel.text = alert.coinName + "  •  " + expireText
-        
-        if !alert.expirationDateDisabled && alert.expirationDate < Date() {
-            switchControl.isOn = false
-            try! Realm().write {
-                alert.isAlertActive = false
-            }
-        } else {
-            switchControl.isOn = alert.isAlertActive ? true : false
-        }
-        
-        bellView.isHidden = !alert.didConditionMatchAfterLastCheck
-        nameLabel.text = alert.alertName
+    public func configure(with viewModel: AlertTableViewCellViewModel) {
+        self.viewModel = viewModel
+        expirationLabel.text = viewModel.expirationText
+        switchControl.isOn = viewModel.isSwitchControlOn
+        bellView.isHidden = viewModel.isBellViewHidden
+        nameLabel.text = viewModel.nameLabelText
     }
     
     //MARK: - Private
     
     @objc private func didTapSwitch() {
-        if alert.expirationDateDisabled == false && alert.expirationDate < Date() {
+        if viewModel.alert.expirationDateDisabled == false && viewModel.alert.expirationDate < Date() {
             delegate?.showErrorAlert()
             switchControl.isOn = false
         } else {
             try! Realm().write {
-                alert.isAlertActive.toggle()
+                viewModel.alert.isAlertActive.toggle()
             }
         }
     }

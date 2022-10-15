@@ -1,18 +1,5 @@
 import UIKit
 
-struct PopupAlertViewViewModel {
-    
-    enum OperationResult {
-        case success
-        case failure
-        case onlyText
-    }
-    
-    let result: OperationResult
-    let text: String
-//    let swipeDown: (() -> Void)
-}
-
 class PopupAlertView: UIView {
     
     private let label: UILabel = {
@@ -66,17 +53,9 @@ class PopupAlertView: UIView {
     
     public func configure(with viewModel: PopupAlertViewViewModel) {
         label.text = viewModel.text
-        
-        switch viewModel.result {
-        case .success:
-            iconImageView.tintColor = .systemGreen
-            iconImageView.image = UIImage(systemName: "checkmark.circle")
-        case.failure:
-            iconImageView.tintColor = .systemRed
-            iconImageView.image = UIImage(systemName: "xmark.shield")
-        case .onlyText:
-            iconImageView.isHidden = true
-        }
+        iconImageView.isHidden = viewModel.imageIsHidden
+        iconImageView.tintColor = viewModel.imageViewColor
+        iconImageView.image = viewModel.image
     }
     
     //MARK: - Private

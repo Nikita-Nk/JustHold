@@ -224,8 +224,6 @@ extension UIViewController {
 
 extension UIViewController {
     func showAlert(viewModel: PopupAlertViewViewModel) {
-        viewModel.result == .success ? HapticsManager.shared.vibrate(for: .success) : HapticsManager.shared.vibrate(for: .error)
-
         let alert = PopupAlertView()
         alert.configure(with: viewModel)
         self.navigationController?.tabBarController?.tabBar.addSubview(alert)

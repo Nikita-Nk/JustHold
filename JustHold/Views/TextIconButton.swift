@@ -1,10 +1,5 @@
 import UIKit
 
-struct TextIconButtonViewModel {
-    let text: String
-    let image: UIImage?
-}
-
 class TextIconButton: UIButton {
     
     private let label: UILabel = {
@@ -37,9 +32,9 @@ class TextIconButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func configure(with viewModel: TextIconButtonViewModel) {
-        label.text = viewModel.text
-        iconImageView.image = viewModel.image
+    public func configure(text: String = "", image: UIImage?) {
+        label.text = text
+        iconImageView.image = image
     }
     
     public func changeLabel(newText: String) {

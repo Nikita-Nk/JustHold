@@ -36,6 +36,8 @@
 		18A8A06328ABADC90092031D /* MarketsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A8A06228ABADC80092031D /* MarketsTableViewCell.swift */; };
 		18A8A06528ABB00B0092031D /* ListingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A8A06428ABB00B0092031D /* ListingResponse.swift */; };
 		18A8A06728AE5A1F0092031D /* QuotesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A8A06628AE5A1E0092031D /* QuotesResponse.swift */; };
+		18AF375E28FB33D200360AC6 /* PopupAlertViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18AF375D28FB33D200360AC6 /* PopupAlertViewViewModel.swift */; };
+		18AF376028FB50CE00360AC6 /* AlertTableViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18AF375F28FB50CE00360AC6 /* AlertTableViewCellViewModel.swift */; };
 		18B70F0328E483A60069BDCB /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B70F0228E483A60069BDCB /* RealmManager.swift */; };
 		18B8D26E28D39A10000F9BCE /* AddAlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B8D26D28D39A10000F9BCE /* AddAlertVC.swift */; };
 		18B8D27028D49D6B000F9BCE /* TextIconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B8D26F28D49D6B000F9BCE /* TextIconButton.swift */; };
@@ -83,6 +85,8 @@
 		18A8A06228ABADC80092031D /* MarketsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketsTableViewCell.swift; sourceTree = "<group>"; };
 		18A8A06428ABB00B0092031D /* ListingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingResponse.swift; sourceTree = "<group>"; };
 		18A8A06628AE5A1E0092031D /* QuotesResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotesResponse.swift; sourceTree = "<group>"; };
+		18AF375D28FB33D200360AC6 /* PopupAlertViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupAlertViewViewModel.swift; sourceTree = "<group>"; };
+		18AF375F28FB50CE00360AC6 /* AlertTableViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertTableViewCellViewModel.swift; sourceTree = "<group>"; };
 		18B70F0228E483A60069BDCB /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		18B8D26D28D39A10000F9BCE /* AddAlertVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAlertVC.swift; sourceTree = "<group>"; };
 		18B8D26F28D49D6B000F9BCE /* TextIconButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextIconButton.swift; sourceTree = "<group>"; };
@@ -228,6 +232,8 @@
 			isa = PBXGroup;
 			children = (
 				18DD8B9228DF9A9D0083F743 /* AddAlertVCViewModel.swift */,
+				18AF375F28FB50CE00360AC6 /* AlertTableViewCellViewModel.swift */,
+				18AF375D28FB33D200360AC6 /* PopupAlertViewViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -377,11 +383,13 @@
 				189BD2CC28B386C400E5FD55 /* SymbolsResponse.swift in Sources */,
 				18A8A05B28A67EF00092031D /* MapResponse.swift in Sources */,
 				18E9A49D28E9DB7500DB17FF /* AlertTableViewCell.swift in Sources */,
+				18AF375E28FB33D200360AC6 /* PopupAlertViewViewModel.swift in Sources */,
 				18B8D27228D8BF5A000F9BCE /* CheckBoxButton.swift in Sources */,
 				189BD2DC28B6873100E5FD55 /* ChooseSymbolVC.swift in Sources */,
 				18A8A05528A4F7950092031D /* SearchResultsVC.swift in Sources */,
 				189BD2B428AFF6B000E5FD55 /* SettingTableViewCell.swift in Sources */,
 				18B70F0328E483A60069BDCB /* RealmManager.swift in Sources */,
+				18AF376028FB50CE00360AC6 /* AlertTableViewCellViewModel.swift in Sources */,
 				18A8A05728A5698D0092031D /* SearchResultTableVCell.swift in Sources */,
 				18A8A04D28A28EE90092031D /* TabBarController.swift in Sources */,
 				189BD2BA28B24BE700E5FD55 /* SecurityVC.swift in Sources */,

@@ -234,7 +234,7 @@ extension AlertsVC: UITableViewDelegate, UITableViewDataSource {
                 return AlertTableViewCell()
             }
             let alert = alerts[indexPath.row]
-            cell.configure(with: alert)
+            cell.configure(with: .init(alert))
             cell.delegate = self
             return cell
         }
