@@ -2,14 +2,6 @@ import UIKit
 import SDWebImage
 import SnapKit
 
-class RankLabel: UILabel { // чтобы менять размер фона у label в зависимости от длины текста
-    override var intrinsicContentSize: CGSize {
-        let originalContentSize = super.intrinsicContentSize
-        let height = originalContentSize.height + 6
-        return CGSize(width: originalContentSize.width + 14, height: height)
-    }
-}
-
 class MarketsTableViewCell: UITableViewCell {
     
     static let identifier = "MarketsTableViewCell"
