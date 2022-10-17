@@ -147,11 +147,6 @@ class ChartVC: UIViewController {
         isFirstAppearance = false
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-//        self.navigationController?.isNavigationBarHidden = false
-    }
-    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -304,7 +299,7 @@ class ChartVC: UIViewController {
     private func prepareCollectionViewData(chosenIndex: Int = -1) {
         
         let lastCandleIndex = candles.count - 1
-        var candle = candles[lastCandleIndex] // !? Index out of range - появляется в рандомные моменты, когда нажимаю на разные свечи
+        var candle = candles[lastCandleIndex]
         
         if chosenIndex == -1 || chosenIndex > lastCandleIndex {
             // если стандартное значение, либо выбранный индекс больше индекса последней свечи, тогда просто оставляем последнюю свечу
@@ -444,6 +439,5 @@ extension ChartVC: SkeletonCollectionViewDelegate, SkeletonCollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: (view.width-40)/2, height: 20) // -40 = по 15 отступ слева и справа и 10 на расстояние между ячейками
-//        return CGSize(width: (view.width-25)/2, height: 20) // либо так и справа убрать отступ
     }
 }

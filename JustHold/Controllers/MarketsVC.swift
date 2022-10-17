@@ -43,7 +43,7 @@ class MarketsVC: UIViewController {
         
         view.addSubview(activityIndicator)
         activityIndicator.startAnimating()
-        refreshControl.addTarget(self, action: #selector(refresh(sender:)), for: .valueChanged) // не срабатывает, либо выдает ошибку, если добавить выше в refreshControl
+        refreshControl.addTarget(self, action: #selector(refresh(sender:)), for: .valueChanged)
         NotificationCenter.default.addObserver(self, selector: #selector(switchToChartVC), name: Notification.Name("switchToChartVC"), object: nil)
     }
     
@@ -56,7 +56,7 @@ class MarketsVC: UIViewController {
     //MARK: - Private
     
     @objc private func refresh(sender: UIRefreshControl) {
-        favoritesAreHidden ? fetchListing() : fetchQuotes()
+        favoritesAreHidden ? fetchListing() : fetchQuotesForFavorites()
         DispatchQueue.main.asyncAfter(deadline: .now()+1) {
             self.refreshControl.endRefreshing()
         }
@@ -100,7 +100,7 @@ class MarketsVC: UIViewController {
                 tableView.isHidden = true
                 return
             }
-            fetchQuotes()
+            fetchQuotesForFavorites()
         }
         else {
             tableView.isHidden = false
@@ -129,7 +129,7 @@ class MarketsVC: UIViewController {
         }
     }
     
-    private func fetchQuotes() {
+    private func fetchQuotesForFavorites() {
         APICaller.shared.fetchQuotes(ids: PersistenceManager.shared.favoriteCoinsIDs) { quotes in
             self.coins = quotes
             self.tableView.reloadData()
@@ -137,10 +137,10 @@ class MarketsVC: UIViewController {
     }
     
     private func fetchListing() {
-        APICaller.shared.fetchListing(queryParams: ["limit": "100"]) { [weak self] response in
-            self?.coins = response
-            self?.tableView.reloadData()
-            self?.activityIndicator.stopAnimating()
+        APICaller.shared.fetchListing(queryParams: ["limit": "100"]) { coins in
+            self.coins = coins
+            self.tableView.reloadData()
+            self.activityIndicator.stopAnimating()
         }
     }
     
@@ -177,8 +177,6 @@ class MarketsVC: UIViewController {
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
         navigationItem.searchController = searchController
-        
-        searchResultsVC.offsetForTableView = searchController.searchBar.height + (navigationItem.titleView?.height ?? 44) // Передаем отступ для tableView
     }
 }
 
@@ -191,7 +189,7 @@ extension MarketsVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-        .none // remove the delete button ⛔️ on table rows in edit mode
+        .none
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
@@ -213,7 +211,6 @@ extension MarketsVC: UITableViewDelegate, UITableViewDataSource {
         }
         let coin = coins[indexPath.row]
         cell.configure(with: coin)
-        
         return cell
     }
     
@@ -230,7 +227,7 @@ extension MarketsVC: UITableViewDelegate, UITableViewDataSource {
         floatingPanel.dismiss(animated: false)
         floatingPanel.set(contentViewController: chooseSymbolVC)
         floatingPanel.addPanel(toParent: self)
-        floatingPanel.hide() // без этого floatingPanel будет появляться без анимации, т.е. сначала надо спрятать, а потом показывать
+        floatingPanel.hide()
         floatingPanel.show(animated: true, completion: nil)
     }
 }
@@ -269,12 +266,10 @@ extension MarketsVC: UISearchResultsUpdating {
             return
         }
         
-        searchTimer?.invalidate() // сброс таймера. Дальше запускаем снова, чтобы оптимизировать ресурсы и кол-во запросов
-//         На самом деле, сейчас не нужно, т.к. ищем по уже загруженному списку
-
+        searchTimer?.invalidate()
         searchTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false, block: { _ in
             if query.trimmingCharacters(in: .whitespaces).isEmpty {
-                searchController.searchResultsController?.view.isHidden = false // без этого tableView просто не будет отображаться до тех пор, пока не введу хоть какой-то символ
+                searchController.searchResultsController?.view.isHidden = false
 
                 searchResultsVC.titleForHeader = "Недавние поиски"
                 searchResultsVC.update(with: PersistenceManager.shared.latestSearches)
@@ -282,7 +277,7 @@ extension MarketsVC: UISearchResultsUpdating {
             else if !query.trimmingCharacters(in: .whitespaces).isEmpty {
                 searchResultsVC.titleForHeader = nil
                 PersistenceManager.shared.searchInCoinsMap(query: query) { coins in
-                    searchResultsVC.update(with: coins) // отправляем результаты поиска в searchResultsVC
+                    searchResultsVC.update(with: coins)
                 }
             }
         })
@@ -293,8 +288,7 @@ extension MarketsVC: UISearchResultsUpdating {
 
 extension MarketsVC: FloatingPanelControllerDelegate {
     
-    func floatingPanelDidRemove(_ fpc: FloatingPanelController) {
-//        floatingPanel.dismiss(animated: true) // это действие и так происходит, когда делается свайп вниз
-//        print(floatingPanel.state)
+    func floatingPanel(_ fpc: FloatingPanelController, shouldRemoveAt location: CGPoint, with velocity: CGVector) -> Bool {
+        return location.y > view.height * 0.6 ? true : false
     }
 }

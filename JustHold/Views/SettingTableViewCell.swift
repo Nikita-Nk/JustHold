@@ -14,7 +14,7 @@ class SettingTableViewCell: UITableViewCell {
     
     private let iconImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.tintColor = .label // .white для показа на цветном фоне
+        imageView.tintColor = .label
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
@@ -33,7 +33,7 @@ class SettingTableViewCell: UITableViewCell {
         contentView.addSubviews(iconContainer, label)
         iconContainer.addSubview(iconImageView)
         contentView.clipsToBounds = true
-        accessoryType = .disclosureIndicator // добавляет справа стрелочку (указывает на переход куда-то). Можно и другие варианты выбрать
+        accessoryType = .disclosureIndicator // добавляет справа стрелочку (указывает на переход куда-то)
     }
     
     required init?(coder: NSCoder) {

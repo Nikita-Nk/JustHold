@@ -31,7 +31,7 @@ struct SettingsSwitchOption {
 class SettingsVC: UIViewController {
     
     private let tableView: UITableView = {
-        let table = UITableView(frame: .zero, style: .insetGrouped) // insetGrouped - у ячеек отступ по бокам и углы секций скруглены
+        let table = UITableView(frame: .zero, style: .insetGrouped)
         table.register(SettingTableViewCell.self, forCellReuseIdentifier: SettingTableViewCell.identifier)
         table.register(SwitchTableViewCell.self, forCellReuseIdentifier: SwitchTableViewCell.identifier)
         table.register(SettingsTableFooterView.self, forHeaderFooterViewReuseIdentifier: SettingsTableFooterView.identifier)
@@ -45,8 +45,8 @@ class SettingsVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Настройки" // в tabBar появляется вторая надпись "Настройки", а не только сверху
-        navigationController?.title = "" // Это нужно, чтобы убрать именно из tabBar надпись, а сверху заголовок останется
+        title = "Настройки"
+        navigationController?.title = ""
         navigationController?.navigationBar.prefersLargeTitles = true
         view.backgroundColor = .systemBackground
         setUpTable()
@@ -138,7 +138,7 @@ extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         let titleView = view as! UITableViewHeaderFooterView
-        titleView.textLabel?.text = titleView.textLabel?.text?.capitalized // чтобы заголовок был не Капсом
+        titleView.textLabel?.text = titleView.textLabel?.text?.capitalized
         titleView.textLabel?.textColor = .label
         titleView.textLabel?.font = .systemFont(ofSize: 17, weight: .medium)
     }

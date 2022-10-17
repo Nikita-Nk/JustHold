@@ -20,14 +20,14 @@ class SearchResultTableViewCell: UITableViewCell {
     private let symbolLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14, weight: .regular)
-        label.textColor = .secondaryLabel // .systemGray
+        label.textColor = .secondaryLabel
         return label
     }()
     
     private let logoView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "bitcoinsign.circle")
-        imageView.backgroundColor = .white // чтобы png на черном фоне видеть
+        imageView.backgroundColor = .white
         imageView.contentMode = .scaleAspectFit
         imageView.layer.cornerRadius = 17.5
         imageView.layer.masksToBounds = true
@@ -60,9 +60,9 @@ class SearchResultTableViewCell: UITableViewCell {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
         
         addSubviews(logoView, nameLabel, symbolLabel, rankLabel)
-        contentView.addSubviews(toFavoriteButton) // чтобы кнопка была кликабельной, добавляем на contentView
+        contentView.addSubviews(toFavoriteButton)
         
-        toFavoriteButton.addTarget(self, action: #selector(didTapFavoriteButton), for: .touchUpInside) // тут не сработало как в MarketsTableViewCell, поэтому addTarget здесь пишу, а не выше, т.к. в том случае при нажатии ничего не происходит
+        toFavoriteButton.addTarget(self, action: #selector(didTapFavoriteButton), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {

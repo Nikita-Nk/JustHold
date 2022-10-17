@@ -1,8 +1,6 @@
 import UIKit
 import Charts
 
-// Передавать сюда из ChartVC ещё выбранный таймфрейм и на основе него настраивать dateFormat
-
 //MARK: - MyChartViewDelegate
 
 protocol MyChartViewDelegate: AnyObject {
@@ -51,17 +49,6 @@ class ChartView: UIView {
 //        chart.marker // добавлять созданный маркер
         
         return chart
-        
-        // Вроде не нужно
-//        chart.notifyDataSetChanged()
-//        chart.animate(xAxisDuration: 5.0) // красиво, но не особо подходит для candleChart
-        
-//        chart.drawBordersEnabled = true
-//        chart.borderColor = .red // линия по всем краям графика
-//        chart.borderLineWidth
-        
-//        chart.pinchZoomEnabled = false // вроде разницы нет
-//        chart.setScaleEnabled(true)
     }()
     
     //MARK: - Init

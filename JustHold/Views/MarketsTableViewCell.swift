@@ -46,7 +46,7 @@ class MarketsTableViewCell: UITableViewCell {
         let button = UIButton()
         button.setImage(UIImage(systemName: "star"), for: .normal)
         button.backgroundColor = .clear
-        button.addTarget(self, action: #selector(didTapFavoriteButton(_:)), for: .touchUpInside) // (_:) - чтобы не было ошибки. ! Но если написать MarketsTableViewCell.self, как в warning, то будет ошибка
+        button.addTarget(self, action: #selector(didTapFavoriteButton(_:)), for: .touchUpInside)
         return button
     }()
 

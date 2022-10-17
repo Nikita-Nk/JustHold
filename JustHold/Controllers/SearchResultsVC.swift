@@ -7,8 +7,6 @@ class SearchResultsVC: UIViewController {
     
     public var titleForHeader: String?
     
-    public var offsetForTableView: CGFloat?
-    
     public let floatingPanel = FloatingPanelController()
     
     private let tableView: UITableView = {
@@ -30,8 +28,11 @@ class SearchResultsVC: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        tableView.frame = view.bounds
-        tableView.frame.origin.y = offsetForTableView ?? 100
+        
+        tableView.snp.makeConstraints { make in
+            make.left.right.bottom.equalToSuperview()
+            make.topMargin.equalTo(view.safeAreaLayoutGuide.snp.topMargin)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -40,9 +41,9 @@ class SearchResultsVC: UIViewController {
     
     //MARK: - Public
     
-    public func update(with results: [CoinMapData]) { // вызываем в SearchController (MarketsVC) и передаем данные сюда, в SearchResultsVC
+    public func update(with results: [CoinMapData]) {
         self.results = results
-        tableView.isHidden = results.isEmpty // if isEmpty, tableView isHidden
+        tableView.isHidden = results.isEmpty
         tableView.reloadData()
     }
     
@@ -110,4 +111,8 @@ extension SearchResultsVC: UITableViewDelegate, UITableViewDataSource {
 //MARK: - FloatingPanelControllerDelegate
 
 extension SearchResultsVC: FloatingPanelControllerDelegate {
+    
+    func floatingPanel(_ fpc: FloatingPanelController, shouldRemoveAt location: CGPoint, with velocity: CGVector) -> Bool {
+        return location.y > view.height * 0.6 ? true : false
+    }
 }

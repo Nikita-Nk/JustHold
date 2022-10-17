@@ -7,7 +7,7 @@ struct ListingResponse: Codable {
 }
 
 // MARK: - CoinListingData
-// data["1"]?.quote["USD"]?.price ?? 0 // Пример доступа, такой вариант вроде немного хуже
+// data["1"]?.quote["USD"]?.price ?? 0 // Пример доступа
 struct CoinListingData: Codable {
     let id: Int
     let name, symbol, slug: String
@@ -35,9 +35,9 @@ struct Quote: Codable {
     let price: Double
     let volume24H: Double
     let volumeChange24H, percentChange1H, percentChange24H, percentChange7D: Double
-    let marketCap: Double // Капитализация всех монет, что есть в обороте
+    let marketCap: Double
     let marketCapDominance: Double
-    let fullyDilutedMarketCap: Double // Капитализация, при условии, что все монеты будут в обороте
+    let fullyDilutedMarketCap: Double
     let lastUpdated: String
 
     enum CodingKeys: String, CodingKey {
