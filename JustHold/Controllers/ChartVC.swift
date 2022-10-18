@@ -262,7 +262,7 @@ class ChartVC: UIViewController {
     }
     
     private func renderChart() {
-        chartView.configure(with: viewModel.candles)
+        chartView.configure(with: .init(candles: viewModel.candles))
     }
     
     @objc private func resolutionDidChange(_ segmentedControl: UISegmentedControl) {

@@ -36,6 +36,7 @@
 		18A8A06328ABADC90092031D /* MarketsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A8A06228ABADC80092031D /* MarketsTableViewCell.swift */; };
 		18A8A06528ABB00B0092031D /* ListingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A8A06428ABB00B0092031D /* ListingResponse.swift */; };
 		18A8A06728AE5A1F0092031D /* QuotesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18A8A06628AE5A1E0092031D /* QuotesResponse.swift */; };
+		18AB27A928FF4778007D7648 /* ChartViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18AB27A828FF4778007D7648 /* ChartViewViewModel.swift */; };
 		18AF375E28FB33D200360AC6 /* PopupAlertViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18AF375D28FB33D200360AC6 /* PopupAlertViewViewModel.swift */; };
 		18AF376028FB50CE00360AC6 /* AlertTableViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18AF375F28FB50CE00360AC6 /* AlertTableViewCellViewModel.swift */; };
 		18AF376228FDC99100360AC6 /* RankLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18AF376128FDC99000360AC6 /* RankLabel.swift */; };
@@ -89,6 +90,7 @@
 		18A8A06228ABADC80092031D /* MarketsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketsTableViewCell.swift; sourceTree = "<group>"; };
 		18A8A06428ABB00B0092031D /* ListingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingResponse.swift; sourceTree = "<group>"; };
 		18A8A06628AE5A1E0092031D /* QuotesResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotesResponse.swift; sourceTree = "<group>"; };
+		18AB27A828FF4778007D7648 /* ChartViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewViewModel.swift; sourceTree = "<group>"; };
 		18AF375D28FB33D200360AC6 /* PopupAlertViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupAlertViewViewModel.swift; sourceTree = "<group>"; };
 		18AF375F28FB50CE00360AC6 /* AlertTableViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertTableViewCellViewModel.swift; sourceTree = "<group>"; };
 		18AF376128FDC99000360AC6 /* RankLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankLabel.swift; sourceTree = "<group>"; };
@@ -241,6 +243,7 @@
 			isa = PBXGroup;
 			children = (
 				18AF376528FE0A0600360AC6 /* ChartVCViewModel.swift */,
+				18AB27A828FF4778007D7648 /* ChartViewViewModel.swift */,
 				18AF376728FEF7D300360AC6 /* MetricCollectionViewCellViewModel.swift */,
 				18DD8B9228DF9A9D0083F743 /* AddAlertVCViewModel.swift */,
 				18AF375F28FB50CE00360AC6 /* AlertTableViewCellViewModel.swift */,
@@ -408,6 +411,7 @@
 				18AF376028FB50CE00360AC6 /* AlertTableViewCellViewModel.swift in Sources */,
 				18A8A05728A5698D0092031D /* SearchResultTableVCell.swift in Sources */,
 				18A8A04D28A28EE90092031D /* TabBarController.swift in Sources */,
+				18AB27A928FF4778007D7648 /* ChartViewViewModel.swift in Sources */,
 				189BD2BA28B24BE700E5FD55 /* SecurityVC.swift in Sources */,
 				189BD2B628B0164B00E5FD55 /* SwitchTableViewCell.swift in Sources */,
 				18A8A05128A4EE900092031D /* MarketsVC.swift in Sources */,

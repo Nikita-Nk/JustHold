@@ -36,17 +36,12 @@ class ChartView: UIView {
         chart.rightAxis.labelPosition = .outsideChart
         
         chart.doubleTapToZoomEnabled = false
-//        chart.addGestureRecognizer(<#T##gestureRecognizer: UIGestureRecognizer##UIGestureRecognizer#>)
-        // На долгое нажатие включать перекрестие и чтобы его можно было двигать как угодно (справа цена, а снизу дата)
+//        chart.addGestureRecognizer(<#T##gestureRecognizer: UIGestureRecognizer##UIGestureRecognizer#>) // например, на долгое нажатие включать перекрестие
         
         chart.zoom(scaleX: 1.01, scaleY: 0, x: 0, y: 0) // минимальный зум, чтобы свечи сразу отображались, т.к. без этого график пустой
-//        chart.zoom(scaleX: 20, scaleY: 20, x: 20, y: 200) // Как зумить именно конец графика? Через chart.chartXMax ?
-        
-        // https://stackoverflow.com/questions/52369453/ios-charts-zoom-into-a-range-of-values - не работает
-//        chart.setVisibleXRange(minXRange: <#T##Double#>, maxXRange: <#T##Double#>)
         
         chart.drawMarkers = true
-//        chart.marker // добавлять созданный маркер
+//        chart.marker // для маркера
         
         return chart
     }()
@@ -69,48 +64,15 @@ class ChartView: UIView {
         chartView.frame = bounds
     }
     
-    func reset() {
+    //MARK: - Public
+    
+    public func reset() {
         chartView.data = nil
     }
     
-    func configure(with candles: [Candle]) {
-        var entries = [CandleChartDataEntry]()
-        
-        for (index, value) in candles.enumerated() {
-            entries.append(.init(x: Double(index),
-                                 shadowH: value.high,
-                                 shadowL: value.low,
-                                 open: value.open,
-                                 close: value.close,
-                                 data: ""))
-        }
-        
-        let delta = candles[1].date - candles[0].date // 86400с для "D" таймфрейма
-        var dates = candles.map { $0.date.toString(dateFormat: "dd MMM") }
-        let lastCandleIndex = candles.count - 1
-        var lastDate = candles[lastCandleIndex].date
-        
-        var candlesCountToAdd = Int(Double(candles.count) * 0.2) // Если вдруг общее число свечей меньше 5, то добавим хотя бы 1 пустую свечу
-        if candlesCountToAdd < 1 {
-            candlesCountToAdd = 1
-        }
-        
-        for i in 1...candlesCountToAdd {
-            // Добавляю 20% пустых entries, чтобы при долистывании графика до правого угла, была свободная зона и не видно было пропажи графика
-            entries.append(.init(x: Double(i + lastCandleIndex),
-                                 shadowH: candles[lastCandleIndex].close,
-                                 shadowL: candles[lastCandleIndex].close,
-                                 open: candles[lastCandleIndex].close,
-                                 close: candles[lastCandleIndex].close))
-            
-            // Добавляю даты для пустых значений
-            lastDate = lastDate.addingTimeInterval(delta)
-            dates.append(lastDate.toString(dateFormat: "dd MMM"))
-        }
-        
-        chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: dates) // даты, которые будут отображаться снизу в values
-        
-        let dataSet = CandleChartDataSet(entries: entries)
+    public func configure(with viewModel: ChartViewViewModel) {
+        chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: viewModel.dates) // даты, которые отображаются снизу в values
+        let dataSet = CandleChartDataSet(entries: viewModel.entries)
         
         dataSet.decreasingColor = .systemRed
         dataSet.increasingColor = .systemGreen
@@ -122,7 +84,7 @@ class ChartView: UIView {
         dataSet.shadowWidth = 1
         
         dataSet.drawIconsEnabled = false
-        dataSet.drawValuesEnabled = false // отключаем значения сверху каждой свечи
+        dataSet.drawValuesEnabled = false
         
         dataSet.highlightColor = .systemGray
         dataSet.highlightLineWidth = 1
