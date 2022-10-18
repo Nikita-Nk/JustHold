@@ -1,34 +1,8 @@
 import UIKit
-import LocalAuthentication
-
-struct Section {
-    let title: String
-    let options: [SettingsOptionType]
-}
-
-enum SettingsOptionType {
-    case staticCell(model: SettingsOption)
-    case switchCell(model: SettingsSwitchOption)
-}
-
-struct SettingsOption {
-    let text: String
-    let icon: UIImage?
-    let iconBackgroundColor: UIColor
-    let handler: (() -> Void)
-}
-
-struct SettingsSwitchOption {
-    let text: String
-    let icon: UIImage?
-    let iconBackgroundColor: UIColor
-    let isOn: Bool
-    let handler: (() -> Void)
-}
-
-//MARK: - UIViewController
 
 class SettingsVC: UIViewController {
+    
+    private let viewModel = SettingsVCViewModel()
     
     private let tableView: UITableView = {
         let table = UITableView(frame: .zero, style: .insetGrouped)
@@ -37,8 +11,6 @@ class SettingsVC: UIViewController {
         table.register(SettingsTableFooterView.self, forHeaderFooterViewReuseIdentifier: SettingsTableFooterView.identifier)
         return table
     }()
-    
-    private var sections = [Section]()
     
     //MARK: - Lifecycle
 
@@ -50,7 +22,6 @@ class SettingsVC: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         view.backgroundColor = .systemBackground
         setUpTable()
-        configureSections()
     }
     
     override func viewDidLayoutSubviews() {
@@ -69,67 +40,6 @@ class SettingsVC: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
     }
-    
-    private func configureSections() {
-        let backgroundColor = UIColor.clear
-        
-        sections.append(Section(title: "Поддержать проект", options: [
-            .staticCell(model: SettingsOption(
-                text: "Оценить приложение",
-                icon: UIImage(systemName: "star"),
-                iconBackgroundColor: backgroundColor,
-                handler: {
-                    print("Оценить приложение")
-                    HapticsManager.shared.vibrateSlightly()
-                }))
-        ]))
-        
-        sections.append(Section(title: "Оформление", options: [
-            .switchCell(model: SettingsSwitchOption(
-                text: "Тёмная тема",
-                icon: UIImage(systemName: "paintpalette"),
-                iconBackgroundColor: backgroundColor,
-                isOn: self.traitCollection.userInterfaceStyle == .dark ? true : false,
-                handler: {
-                    NotificationCenter.default.post(name: Notification.Name("switchToDark"), object: nil)
-                })),
-            .switchCell(model: SettingsSwitchOption(
-                text: "Тёмная тема для графиков",
-                icon: UIImage(systemName: "paintbrush"),
-                iconBackgroundColor: backgroundColor,
-                isOn: false,
-                handler: {
-                    print("Вкл/Выкл темную тему для графиков")
-                }))
-        ]))
-        
-        let currentBiometricType = LAContext().biometricType
-        var text = ""
-        var icon = ""
-        
-        switch currentBiometricType {
-        case .none:
-            text = "Пароль"
-            icon = "lock"
-        case .touchID:
-            text = "Touch ID"
-            icon = "touchid"
-        case .faceID:
-            text = "Face ID"
-            icon = "faceid"
-        }
-        
-        sections.append(Section(title: "Безопасность", options: [
-            .switchCell(model: SettingsSwitchOption(
-                text: text,
-                icon: UIImage(systemName: icon),
-                iconBackgroundColor: backgroundColor,
-                isOn: PersistenceManager.shared.securityIsOn,
-                handler: {
-                    PersistenceManager.shared.securityIsOn.toggle()
-                }))
-        ]))
-    }
 }
 
 //MARK: - UITableViewDelegate
@@ -144,20 +54,20 @@ extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let section = sections[section]
+        let section = viewModel.sections[section]
         return section.title
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return sections.count
+        return viewModel.sections.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sections[section].options.count
+        return viewModel.sections[section].options.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let model = sections[indexPath.section].options[indexPath.row]
+        let model = viewModel.sections[indexPath.section].options[indexPath.row]
         
         switch model.self {
         case .staticCell(let model):
@@ -179,7 +89,7 @@ extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        let model = sections[indexPath.section].options[indexPath.row]
+        let model = viewModel.sections[indexPath.section].options[indexPath.row]
         switch model.self {
         case .staticCell(_):
             return indexPath
@@ -191,7 +101,7 @@ extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         HapticsManager.shared.vibrateSlightly()
         tableView.deselectRow(at: indexPath, animated: true)
-        let model = sections[indexPath.section].options[indexPath.row]
+        let model = viewModel.sections[indexPath.section].options[indexPath.row]
         
         switch model.self {
         case .staticCell(let model):
@@ -202,7 +112,7 @@ extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        guard section == sections.count - 1 else {
+        guard section == viewModel.sections.count - 1 else {
             return nil
         }
         let footer = tableView.dequeueReusableHeaderFooterView(withIdentifier: SettingsTableFooterView.identifier)
@@ -210,6 +120,6 @@ extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return section == sections.count - 1 ? view.width*0.8 : 0
+        return section == viewModel.sections.count - 1 ? view.width*0.8 : 10
     }
 }

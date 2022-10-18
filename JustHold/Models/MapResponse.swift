@@ -13,8 +13,10 @@ struct CoinMapData: Codable, Equatable {
     let firstHistoricalData: String?
     let lastHistoricalData: String?
 
-    lazy var logoUrl = "https://s2.coinmarketcap.com/static/img/coins/64x64/\(id).png"
-
+    var logoUrl: String {
+        "https://s2.coinmarketcap.com/static/img/coins/64x64/\(id).png"
+    }
+    
     enum CodingKeys: String, CodingKey {
         case id, rank, name, symbol, slug
         case firstHistoricalData = "first_historical_data"

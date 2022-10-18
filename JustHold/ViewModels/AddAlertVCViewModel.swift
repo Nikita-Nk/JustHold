@@ -12,10 +12,10 @@ struct AddAlertVCViewModel {
     let saveButtonText: String
     var canAutoupdateAlertName = true
     
-    init(purpose: Purpose, coinQuote: CoinListingData, candles: [Candle], coinSymbol: String) {
-        alert = .init(id: coinQuote.id,
-                      coinSymbolFinnhub: coinSymbol,
-                      coinName: coinQuote.name,
+    init(purpose: Purpose, coinName: String, candles: [Candle]) {
+        alert = .init(id: PersistenceManager.shared.lastChosenID,
+                      coinSymbolFinnhub: PersistenceManager.shared.lastChosenSymbol,
+                      coinName: coinName,
                       priceTarget: candles.last?.close ?? 0,
                       alertName: "")
         self.purpose = purpose

@@ -5,11 +5,6 @@ class MetricCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "MetricCollViewCell"
     
-    struct ViewModel {
-        let name: String
-        let value: String
-    }
-    
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .label
@@ -29,7 +24,6 @@ class MetricCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         contentView.clipsToBounds = true
         contentView.addSubviews(nameLabel, valueLabel)
-        
         self.isSkeletonable = true
     }
     
@@ -56,9 +50,9 @@ class MetricCollectionViewCell: UICollectionViewCell {
         valueLabel.text = nil
     }
     
-    func configure(with viewModel: ViewModel, color: UIColor) {
+    func configure(with viewModel: MetricCollectionViewCellViewModel) {
         nameLabel.text = viewModel.name
         valueLabel.text = viewModel.value
-        valueLabel.textColor = color
+        valueLabel.textColor = viewModel.valueColor
     }
 }

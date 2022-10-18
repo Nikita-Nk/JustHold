@@ -5,16 +5,7 @@ import SkeletonView
 
 class ChartVC: UIViewController {
     
-    public var coinID: Int?
-    private var coinQuote: CoinListingData!
-    
-    private var candles = [Candle]()
-    
-    private var dataForCollView = (color: UIColor.systemGreen, viewModels: [MetricCollectionViewCell.ViewModel]())
-    
-    private var queryParams: (resolution: String, days: TimeInterval) = ("D", 365*2)
-    
-    private var isFirstAppearance = true
+    let viewModel = ChartVCViewModel()
     
     private let blur: UIVisualEffectView = {
         let blur = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
@@ -35,7 +26,6 @@ class ChartVC: UIViewController {
         let label = UILabel()
         label.font = .systemFont(ofSize: 22, weight: .semibold)
         label.lineBreakMode = .byWordWrapping
-        label.text = PersistenceManager.shared.lastChosenSymbol.components(separatedBy: ":")[1]
         label.textColor = .label
         return label
     }()
@@ -111,40 +101,37 @@ class ChartVC: UIViewController {
         return control
     }()
     
+    private var timer = Timer()
+    
     //MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if PersistenceManager.shared.lastChosenID == 0 {
-            PersistenceManager.shared.lastChosenID = 1
-        }
-        
         view.backgroundColor = .systemBackground
         view.addSubviews(logoView, symbolLabel, rankLabel, exchangeLabel, toFavoriteButton, addAlertButton, plusLabel, chartView, collectionView, resolutionSegmentedControl)
         collectionView.delegate = self
         collectionView.dataSource = self
         chartView.delegate = self
-        
-        fetchFinancialData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
-        
-        if !isFirstAppearance {
-            fetchFinancialData()
-        }
+        prepareAllData()
+        timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(updateFinancialData), userInfo: nil, repeats: true)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        if isFirstAppearance {
+        if viewModel.isFirstAppearance {
             setUpSkeleton()
+            viewModel.isFirstAppearance = false
         }
-        isFirstAppearance = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        timer.invalidate()
     }
     
     override func viewDidLayoutSubviews() {
@@ -210,48 +197,32 @@ class ChartVC: UIViewController {
     
     //MARK: - Private
     
-    private func fetchFinancialData() {
-        let group = DispatchGroup()
-        candles = []
-        
-        group.enter()
-        APICaller.shared.fetchCandles(for: PersistenceManager.shared.lastChosenSymbol,
-                                      resolution: queryParams.resolution,
-                                      numberOfDays: queryParams.days) { [weak self] response in
-            defer {
-                group.leave()
-            }
-            
-            switch response.result {
-            case .success(let candlesResponse):
-                self?.candles = candlesResponse.candles.reversed()
-            case .failure(let error):
-                print(error)
-            }
-        }
-        
-        group.enter() // Можно сменить на поиск по ID в сохраненных монетах, т.к. нужны только rank, name и logoUrl
-        APICaller.shared.fetchQuotes(ids: [PersistenceManager.shared.lastChosenID]) { [weak self] metrics in
-            defer {
-                group.leave()
-            }
-            self?.coinQuote = metrics[0]
-        }
-        
-        // setUpElements
-        group.notify(queue: .main) { [weak self] in
-            if !(self?.candles.isEmpty ?? false) { // если в запросе нет данных, то не обновляем ничего
-                self?.prepareLogoAndLabels()
-                self?.setUpFavoriteButton(inFavorites: PersistenceManager.shared.isInFavorites(coinID: PersistenceManager.shared.lastChosenID))
-                self?.prepareCollectionViewData()
-                self?.renderChart()
-                
+    private func prepareAllData() {
+        viewModel.prepareAllData { [self] isSuccess in
+            if isSuccess {
                 defer {
-                    self?.removeSkeleton()
+                    removeSkeleton()
                 }
+                viewModel.prepareCollectionViewData(completion: {})
+                prepareLogoAndLabels()
+                setUpFavoriteButton(inFavorites: viewModel.isInFavorites)
+                renderChart()
             }
             else {
-                self?.showAlert()
+                showAlert()
+            }
+        }
+    }
+    
+    @objc private func updateFinancialData() {
+        viewModel.fetchFinancialData { [self] isSuccess in
+            if isSuccess {
+                viewModel.prepareCollectionViewData(chosenIndex: viewModel.selectedChartIndex, completion: {})
+                collectionView.reloadData()
+                renderChart()
+            }
+            else {
+//                showAlert()
             }
         }
     }
@@ -262,8 +233,7 @@ class ChartVC: UIViewController {
             self.blur.alpha = 0.8
         }
         
-        let exchange = PersistenceManager.shared.lastChosenSymbol.components(separatedBy: ":")[0]
-        let alert = UIAlertController(title: "К сожалению, данные для выбранной пары на бирже \(exchange) временно не доступны", message: nil, preferredStyle: .alert)
+        let alert = UIAlertController(title: "К сожалению, данные для выбранной пары на бирже \(viewModel.exchange ?? "") временно не доступны", message: nil, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Выбрать эту пару на другой бирже", style: .cancel, handler: { action in
             self.blur.removeFromSuperview()
             self.blur.alpha = 0
@@ -285,73 +255,21 @@ class ChartVC: UIViewController {
     }
     
     private func prepareLogoAndLabels() {
-        logoView.sd_setImage(with: URL(string: coinQuote?.logoUrl ?? ""))
-        rankLabel.text = "\(coinQuote?.rank ?? 0)"
-        
-        for symbol in PersistenceManager.shared.cryptoSymbols {
-            if symbol.symbol == PersistenceManager.shared.lastChosenSymbol {
-                symbolLabel.text = symbol.displaySymbol
-                exchangeLabel.text = (coinQuote?.name ?? "") + "\n" + (symbol.description.components(separatedBy: " ").first ?? "")
-            }
-        }
-    }
-    
-    private func prepareCollectionViewData(chosenIndex: Int = -1) {
-        
-        let lastCandleIndex = candles.count - 1
-        var candle = candles[lastCandleIndex]
-        
-        if chosenIndex == -1 || chosenIndex > lastCandleIndex {
-            // если стандартное значение, либо выбранный индекс больше индекса последней свечи, тогда просто оставляем последнюю свечу
-        } else { // в остальных случаях показываем свечу по выбранному индексу
-            candle = candles[chosenIndex]
-        }
-        
-        let change = candle.close - candle.open
-        let percentChange = ((candle.close-candle.open)/candle.open) * 100
-        let sign = change > 0 ? "+" : ""
-        
-        dataForCollView.color = change > 0 ? .systemGreen : .systemRed
-        dataForCollView.viewModels = []
-        dataForCollView.viewModels.append(.init(name: "ОТКР", value: candle.open.prepareValue))
-        dataForCollView.viewModels.append(.init(name: "ЗАКР", value: candle.close.prepareValue))
-        dataForCollView.viewModels.append(.init(name: "МАКС", value: candle.high.prepareValue))
-        dataForCollView.viewModels.append(.init(name: "МИН", value: candle.low.prepareValue))
-        dataForCollView.viewModels.append(.init(name: "ИЗМ",
-                                                value: "\(sign)\(change.prepareValue) (\(sign)\(percentChange.preparePercentChange)%)"))
-        dataForCollView.viewModels.append(.init(name: "ОБЪЁМ", value: String(candle.volume.prepareValue)))
-        dataForCollView.viewModels.append(.init(name: "\(candle.date.toString(dateFormat: "d MMM yyyy HH:mm"))", value: ""))
-        
-        collectionView.reloadData()
+        logoView.sd_setImage(with: URL(string: viewModel.logoURL))
+        rankLabel.text = viewModel.coinRank
+        symbolLabel.text = viewModel.symbolLabelText
+        exchangeLabel.text = viewModel.exchangeLabelText
     }
     
     private func renderChart() {
-        chartView.configure(with: candles)
+        chartView.configure(with: viewModel.candles)
     }
     
     @objc private func resolutionDidChange(_ segmentedControl: UISegmentedControl) {
         HapticsManager.shared.vibrateSlightly()
-        
-        switch segmentedControl.selectedSegmentIndex {
-        case 0:
-            queryParams = (resolution: "1", days: 3)
-        case 1:
-            queryParams = (resolution: "5", days: 10)
-        case 2:
-            queryParams = (resolution: "15", days: 30)
-        case 3:
-            queryParams = (resolution: "60", days: 90)
-        case 4:
-            queryParams = (resolution: "D", days: 365*2)
-        case 5:
-            queryParams = (resolution: "W", days: 365*4)
-        case 6:
-            queryParams = (resolution: "M", days: 365*6)
-        default:
-            queryParams = (resolution: "D", days: 365*2)
+        viewModel.resolutionDidChange(index: segmentedControl.selectedSegmentIndex) {
+            updateFinancialData()
         }
-        
-        fetchFinancialData()
     }
     
     @objc private func didTapFavoriteButton(_: UIButton) {
@@ -374,9 +292,8 @@ class ChartVC: UIViewController {
         HapticsManager.shared.vibrateSlightly()
         let addAlertVC = AddAlertVC()
         addAlertVC.configure(with: .init(purpose: .saveNewAlert,
-                                         coinQuote: coinQuote,
-                                         candles: candles,
-                                         coinSymbol: PersistenceManager.shared.lastChosenSymbol))
+                                         coinName: viewModel.coinName,
+                                         candles: viewModel.candles))
         navigationController?.pushViewController(addAlertVC, animated: true)
     }
     
@@ -384,12 +301,11 @@ class ChartVC: UIViewController {
         rankLabel.isHidden = true
         exchangeLabel.isHidden = true
         resolutionSegmentedControl.isHidden = true
+        
         let views = [logoView, symbolLabel, plusLabel, toFavoriteButton, addAlertButton, chartView, collectionView]
         for view in views {
             view.isSkeletonable = true
-            view.showAnimatedSkeleton(usingColor: .systemGray2,
-                                      animation: nil,
-                                      transition: .crossDissolve(0.25))
+            view.showSkeleton(usingColor: .systemGray2, transition: .none)
         }
     }
     
@@ -409,7 +325,10 @@ class ChartVC: UIViewController {
 
 extension ChartVC: MyChartViewDelegate {
     func chartValueSelected(index: Int) {
-        prepareCollectionViewData(chosenIndex: index)
+        viewModel.selectedChartIndex = index
+        viewModel.prepareCollectionViewData(chosenIndex: index, completion: {
+            collectionView.reloadData()
+        })
     }
 }
 
@@ -422,7 +341,7 @@ extension ChartVC: SkeletonCollectionViewDelegate, SkeletonCollectionViewDataSou
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dataForCollView.viewModels.count
+        return viewModel.collectionViewCellViewModels.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -431,9 +350,7 @@ extension ChartVC: SkeletonCollectionViewDelegate, SkeletonCollectionViewDataSou
             for: indexPath) as? MetricCollectionViewCell else {
             fatalError()
         }
-        
-        cell.configure(with: dataForCollView.viewModels[indexPath.row],
-                       color: dataForCollView.color)
+        cell.configure(with: viewModel.collectionViewCellViewModels[indexPath.row])
         return cell
     }
     
