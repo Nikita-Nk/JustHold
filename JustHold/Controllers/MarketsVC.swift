@@ -4,11 +4,15 @@ import RAMAnimatedTabBarController
 
 class MarketsVC: UIViewController {
     
+    private var coins: [CoinListingData] = []
+    
+    private var canUpdateSearch = true
+    
+    private var favoritesAreHidden = true
+    
     private var searchTimer: Timer?
     
     private let searchResultsVC = SearchResultsVC()
-    
-    private var coins: [CoinListingData] = []
     
     private let tableView: UITableView = {
         let table = UITableView()
@@ -22,10 +26,6 @@ class MarketsVC: UIViewController {
     private let activityIndicator = UIActivityIndicatorView(style: .large)
     
     private let floatingPanel = FloatingPanelController()
-    
-    private var canUpdateSearch = true
-    
-    private var favoritesAreHidden = true
     
     //MARK: - Lifecycle
 
@@ -45,6 +45,11 @@ class MarketsVC: UIViewController {
         activityIndicator.startAnimating()
         refreshControl.addTarget(self, action: #selector(refresh(sender:)), for: .valueChanged)
         NotificationCenter.default.addObserver(self, selector: #selector(switchToChartVC), name: Notification.Name("switchToChartVC"), object: nil)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
     }
     
     override func viewDidLayoutSubviews() {
