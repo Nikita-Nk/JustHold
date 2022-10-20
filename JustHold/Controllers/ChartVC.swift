@@ -118,7 +118,7 @@ class ChartVC: UIViewController {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
         prepareAllData()
-        timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(updateFinancialData), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(updateFinancialData), userInfo: nil, repeats: true)
     }
     
     override func viewDidAppear(_ animated: Bool) {

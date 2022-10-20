@@ -120,6 +120,6 @@ extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return section == viewModel.sections.count - 1 ? view.width*0.8 : 10
+        return section == viewModel.sections.count - 1 ? view.width*0.75 : 10
     }
 }

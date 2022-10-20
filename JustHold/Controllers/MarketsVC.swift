@@ -182,6 +182,7 @@ class MarketsVC: UIViewController {
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
         navigationItem.searchController = searchController
+        navigationController?.navigationBar.backgroundColor = .systemBackground
     }
 }
 

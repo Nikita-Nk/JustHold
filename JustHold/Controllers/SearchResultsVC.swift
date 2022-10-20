@@ -31,7 +31,7 @@ class SearchResultsVC: UIViewController {
         
         tableView.snp.makeConstraints { make in
             make.left.right.bottom.equalToSuperview()
-            make.topMargin.equalTo(view.safeAreaLayoutGuide.snp.topMargin)
+            make.top.equalTo(view.snp.top).offset(60)
         }
     }
     
