@@ -64,30 +64,10 @@ class SearchResultsVC: UIViewController {
 
 //MARK: - UITableViewDelegate
 
-extension SearchResultsVC: UITableViewDelegate, UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return titleForHeader
-    }
+extension SearchResultsVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return SearchResultTableViewCell.preferredHeight
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return results.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultTableViewCell.identifier,
-                                                       for: indexPath) as? SearchResultTableViewCell else {
-            return SearchResultTableViewCell()
-        }
-        
-        let coin = results[indexPath.row]
-        cell.configure(with: coin)
-        
-        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -105,6 +85,31 @@ extension SearchResultsVC: UITableViewDelegate, UITableViewDataSource {
         floatingPanel.addPanel(toParent: self)
         floatingPanel.hide()
         floatingPanel.show(animated: true, completion: nil)
+    }
+}
+
+//MARK: - UITableViewDataSource
+
+extension SearchResultsVC: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return titleForHeader
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return results.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultTableViewCell.identifier,
+                                                       for: indexPath) as? SearchResultTableViewCell else {
+            return SearchResultTableViewCell()
+        }
+        
+        let coin = results[indexPath.row]
+        cell.configure(with: coin)
+        
+        return cell
     }
 }
 

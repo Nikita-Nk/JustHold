@@ -189,14 +189,39 @@ class AlertsVC: UIViewController {
     }
 }
 
-extension AlertsVC: UITableViewDelegate, UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
+//MARK: - UITableViewDelegate
+
+extension AlertsVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         .delete
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 65
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        HapticsManager.shared.vibrateSlightly()
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        if tableView == alertsTableView {
+            let alert = alerts[indexPath.row]
+            let addAlertVC = AddAlertVC()
+            addAlertVC.configure(with: .init(purpose: .editExistingAlert, alert: alert))
+            navigationController?.pushViewController(addAlertVC, animated: true)
+        } else {
+//            calledAlerts[indexPath.row].isChecked = true
+        }
+    }
+}
+
+//MARK: - UITableViewDataSource
+
+extension AlertsVC: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        return true
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -211,8 +236,6 @@ extension AlertsVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        
-//         Не меняет местами элементы в List в Realm
 //        try! Realm().write {
 ////            alerts.swapAt(sourceIndexPath.row, destinationIndexPath.row)
 ////            swap(&alerts[sourceIndexPath.row], &alerts[destinationIndexPath.row])
@@ -220,14 +243,10 @@ extension AlertsVC: UITableViewDelegate, UITableViewDataSource {
 //        }
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 65
-    }
-
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tableView == alertsTableView ? alerts.count : calledAlerts.count
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == alertsTableView {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: AlertTableViewCell.identifier, for: indexPath) as? AlertTableViewCell else {
@@ -249,25 +268,12 @@ extension AlertsVC: UITableViewDelegate, UITableViewDataSource {
             return cell
         }
     }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        HapticsManager.shared.vibrateSlightly()
-        tableView.deselectRow(at: indexPath, animated: true)
-        
-        if tableView == alertsTableView {
-            let alert = alerts[indexPath.row]
-            let addAlertVC = AddAlertVC()
-            addAlertVC.configure(with: .init(purpose: .editExistingAlert, alert: alert))
-            navigationController?.pushViewController(addAlertVC, animated: true)
-        } else {
-            // обработка нажатия на ячейку истории вызова оповещения
-//            let calledAlert = calledAlerts[indexPath.row]
-//            calledAlert.isChecked = true
-        }
-    }
 }
 
+//MARK: - AlertTableViewCellDelegate
+
 extension AlertsVC: AlertTableViewCellDelegate {
+    
     func showErrorAlert() {
         showAlert(viewModel: .init(result: .failure, text: "Обновите срок действия оповещения или отключите дату истечения"))
     }

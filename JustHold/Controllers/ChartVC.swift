@@ -324,6 +324,7 @@ class ChartVC: UIViewController {
 //MARK: - MyChartViewDelegate
 
 extension ChartVC: MyChartViewDelegate {
+    
     func chartValueSelected(index: Int) {
         viewModel.selectedChartIndex = index
         viewModel.prepareCollectionViewData(chosenIndex: index, completion: {
@@ -332,14 +333,14 @@ extension ChartVC: MyChartViewDelegate {
     }
 }
 
-//MARK: - UICollectionViewDelegate
+//MARK: - SkeletonCollectionViewDataSource
 
-extension ChartVC: SkeletonCollectionViewDelegate, SkeletonCollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension ChartVC: SkeletonCollectionViewDataSource {
     
     func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
         return MetricCollectionViewCell.identifier
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.collectionViewCellViewModels.count
     }
@@ -353,6 +354,11 @@ extension ChartVC: SkeletonCollectionViewDelegate, SkeletonCollectionViewDataSou
         cell.configure(with: viewModel.collectionViewCellViewModels[indexPath.row])
         return cell
     }
+}
+
+//MARK: - UICollectionViewDelegateFlowLayout
+
+extension ChartVC: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: (view.width-40)/2, height: 20) // -40 = по 15 отступ слева и справа и 10 на расстояние между ячейками

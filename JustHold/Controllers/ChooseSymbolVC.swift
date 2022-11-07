@@ -60,7 +60,24 @@ class ChooseSymbolVC: UIViewController {
     }
 }
 
-extension ChooseSymbolVC: UITableViewDelegate, UITableViewDataSource {
+//MARK: - UITableViewDelegate
+
+extension ChooseSymbolVC: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        let symbol = symbols[indexPath.row]
+        PersistenceManager.shared.lastChosenSymbol = symbol.symbol
+        PersistenceManager.shared.lastChosenID = coinID
+        
+        NotificationCenter.default.post(name: Notification.Name("switchToChartVC"), object: nil)
+    }
+}
+
+//MARK: - UITableViewDataSource
+
+extension ChooseSymbolVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         symbols.count
@@ -75,15 +92,5 @@ extension ChooseSymbolVC: UITableViewDelegate, UITableViewDataSource {
         configuration.text = symbol.description
         cell.contentConfiguration = configuration
         return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        
-        let symbol = symbols[indexPath.row]
-        PersistenceManager.shared.lastChosenSymbol = symbol.symbol
-        PersistenceManager.shared.lastChosenID = coinID
-        
-        NotificationCenter.default.post(name: Notification.Name("switchToChartVC"), object: nil)
     }
 }

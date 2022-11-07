@@ -44,48 +44,13 @@ class SettingsVC: UIViewController {
 
 //MARK: - UITableViewDelegate
 
-extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
+extension SettingsVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         let titleView = view as! UITableViewHeaderFooterView
         titleView.textLabel?.text = titleView.textLabel?.text?.capitalized
         titleView.textLabel?.textColor = .label
         titleView.textLabel?.font = .systemFont(ofSize: 17, weight: .medium)
-    }
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let section = viewModel.sections[section]
-        return section.title
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return viewModel.sections.count
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.sections[section].options.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let model = viewModel.sections[indexPath.section].options[indexPath.row]
-        
-        switch model.self {
-        case .staticCell(let model):
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingTableViewCell.identifier,
-                                                     for: indexPath) as? SettingTableViewCell else {
-                return UITableViewCell()
-            }
-            cell.configure(with: model)
-            return cell
-        case .switchCell(let model):
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: SwitchTableViewCell.identifier,
-                                                     for: indexPath) as? SwitchTableViewCell else {
-                return UITableViewCell()
-            }
-            cell.configure(with: model)
-            cell.selectionStyle = .none // нажатие на switch-ячейку никак не отображается
-            return cell
-        }
     }
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
@@ -121,5 +86,45 @@ extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return section == viewModel.sections.count - 1 ? view.width*0.75 : 10
+    }
+}
+
+//MARK: - UITableViewDataSource
+
+extension SettingsVC: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        let section = viewModel.sections[section]
+        return section.title
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return viewModel.sections.count
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.sections[section].options.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let model = viewModel.sections[indexPath.section].options[indexPath.row]
+        
+        switch model.self {
+        case .staticCell(let model):
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingTableViewCell.identifier,
+                                                     for: indexPath) as? SettingTableViewCell else {
+                return UITableViewCell()
+            }
+            cell.configure(with: model)
+            return cell
+        case .switchCell(let model):
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: SwitchTableViewCell.identifier,
+                                                     for: indexPath) as? SwitchTableViewCell else {
+                return UITableViewCell()
+            }
+            cell.configure(with: model)
+            cell.selectionStyle = .none // нажатие на switch-ячейку никак не отображается
+            return cell
+        }
     }
 }

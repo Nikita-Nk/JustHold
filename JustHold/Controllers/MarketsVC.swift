@@ -188,22 +188,44 @@ class MarketsVC: UIViewController {
 
 //MARK: - UITableViewDelegate
 
-extension MarketsVC: UITableViewDelegate, UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
+extension MarketsVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         .none
     }
     
-    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        PersistenceManager.shared.favoriteCoinsIDs.swapAt(sourceIndexPath.row, destinationIndexPath.row)
-    }
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return MarketsTableViewCell.preferredHeight
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        HapticsManager.shared.vibrateSlightly()
+        tableView.deselectRow(at: indexPath, animated: true)
+        let coin = coins[indexPath.row]
+
+        let chooseSymbolVC = ChooseSymbolVC()
+        chooseSymbolVC.coinID = coin.id
+        PersistenceManager.shared.searchInSymbols(coinSymbol: coin.symbol) { symbols in
+            chooseSymbolVC.symbols = symbols
+        }
+        floatingPanel.dismiss(animated: false)
+        floatingPanel.set(contentViewController: chooseSymbolVC)
+        floatingPanel.addPanel(toParent: self)
+        floatingPanel.hide()
+        floatingPanel.show(animated: true, completion: nil)
+    }
+}
+
+//MARK: - UITableViewDataSource
+
+extension MarketsVC: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        PersistenceManager.shared.favoriteCoinsIDs.swapAt(sourceIndexPath.row, destinationIndexPath.row)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -218,23 +240,6 @@ extension MarketsVC: UITableViewDelegate, UITableViewDataSource {
         let coin = coins[indexPath.row]
         cell.configure(with: coin)
         return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        HapticsManager.shared.vibrateSlightly()
-        tableView.deselectRow(at: indexPath, animated: true)
-        let coin = coins[indexPath.row]
-        
-        let chooseSymbolVC = ChooseSymbolVC()
-        chooseSymbolVC.coinID = coin.id
-        PersistenceManager.shared.searchInSymbols(coinSymbol: coin.symbol) { symbols in
-            chooseSymbolVC.symbols = symbols
-        }
-        floatingPanel.dismiss(animated: false)
-        floatingPanel.set(contentViewController: chooseSymbolVC)
-        floatingPanel.addPanel(toParent: self)
-        floatingPanel.hide()
-        floatingPanel.show(animated: true, completion: nil)
     }
 }
 
