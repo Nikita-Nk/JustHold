@@ -1,7 +1,7 @@
 import UIKit
 import RAMAnimatedTabBarController
 
-class TabBarController: RAMAnimatedTabBarController {
+final class TabBarController: RAMAnimatedTabBarController {
     
     private let selectedColor = UIColor.systemRed
     private let unselectedColor = UIColor.systemMint

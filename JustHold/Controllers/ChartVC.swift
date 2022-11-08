@@ -3,7 +3,7 @@ import SnapKit
 import RAMAnimatedTabBarController
 import SkeletonView
 
-class ChartVC: UIViewController {
+final class ChartVC: UIViewController {
     
     let viewModel = ChartVCViewModel()
     

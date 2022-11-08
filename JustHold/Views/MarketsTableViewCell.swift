@@ -2,7 +2,7 @@ import UIKit
 import SDWebImage
 import SnapKit
 
-class MarketsTableViewCell: UITableViewCell {
+final class MarketsTableViewCell: UITableViewCell {
     
     static let identifier = "MarketsTableViewCell"
     

@@ -1,6 +1,6 @@
 import UIKit
 
-class PopupAlertView: UIView {
+final class PopupAlertView: UIView {
     
     private let label: UILabel = {
         let label = UILabel()

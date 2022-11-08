@@ -2,7 +2,7 @@ import UIKit
 import BetterSegmentedControl
 import RealmSwift
 
-class AddAlertVC: UIViewController {
+final class AddAlertVC: UIViewController {
     
     private var viewModel: AddAlertVCViewModel!
      

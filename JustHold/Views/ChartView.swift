@@ -9,7 +9,7 @@ protocol MyChartViewDelegate: AnyObject {
 
 //MARK: - ChartView
 
-class ChartView: UIView {
+final class ChartView: UIView {
     
     weak var delegate: MyChartViewDelegate?
     

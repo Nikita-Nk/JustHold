@@ -3,7 +3,7 @@ import LocalAuthentication
 import SnapKit
 import Lottie
 
-class SecurityVC: UIViewController {
+final class SecurityVC: UIViewController {
     
     private let authButton: UIButton = {
         let button = UIButton()

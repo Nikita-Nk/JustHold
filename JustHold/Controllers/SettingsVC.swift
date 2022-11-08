@@ -1,6 +1,6 @@
 import UIKit
 
-class SettingsVC: UIViewController {
+final class SettingsVC: UIViewController {
     
     private let viewModel = SettingsVCViewModel()
     

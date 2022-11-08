@@ -1,7 +1,7 @@
 import UIKit
 import Lottie
 
-class SettingsTableFooterView: UITableViewHeaderFooterView {
+final class SettingsTableFooterView: UITableViewHeaderFooterView {
     
     static let identifier = "SettingsTableFooterView"
     

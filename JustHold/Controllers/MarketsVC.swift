@@ -2,7 +2,7 @@ import UIKit
 import FloatingPanel
 import RAMAnimatedTabBarController
 
-class MarketsVC: UIViewController {
+final class MarketsVC: UIViewController {
     
     private var coins: [CoinListingData] = []
     

@@ -5,7 +5,7 @@ protocol AlertTableViewCellDelegate: AnyObject {
     func showErrorAlert()
 }
 
-class AlertTableViewCell: UITableViewCell {
+final class AlertTableViewCell: UITableViewCell {
     
     weak var delegate: AlertTableViewCellDelegate?
     

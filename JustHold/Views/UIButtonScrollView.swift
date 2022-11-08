@@ -1,6 +1,6 @@
 import UIKit
 
-class UIButtonScrollView: UIScrollView {
+final class UIButtonScrollView: UIScrollView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)

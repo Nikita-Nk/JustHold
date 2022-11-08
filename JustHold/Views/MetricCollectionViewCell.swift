@@ -1,7 +1,7 @@
 import UIKit
 import SkeletonView
 
-class MetricCollectionViewCell: UICollectionViewCell {
+final class MetricCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "MetricCollViewCell"
     

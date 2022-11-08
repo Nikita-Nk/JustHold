@@ -1,6 +1,6 @@
 import UIKit
 
-class CheckBoxButton: UIButton {
+final class CheckBoxButton: UIButton {
     
     override init(frame: CGRect) {
         super.init(frame: frame)

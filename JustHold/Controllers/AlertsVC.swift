@@ -2,7 +2,7 @@ import UIKit
 import BetterSegmentedControl
 import Lottie
 
-class AlertsVC: UIViewController {
+final class AlertsVC: UIViewController {
     
     private var alerts = RealmManager.shared.fetchAllAlerts()
     

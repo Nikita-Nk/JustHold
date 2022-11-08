@@ -1,7 +1,7 @@
 import UIKit
 import FloatingPanel
 
-class SearchResultsVC: UIViewController {
+final class SearchResultsVC: UIViewController {
     
     private var results: [CoinMapData] = []
     

@@ -2,7 +2,7 @@ import UIKit
 import SDWebImage
 import SnapKit
 
-class SearchResultTableViewCell: UITableViewCell {
+final class SearchResultTableViewCell: UITableViewCell {
     
     static let identifier = "SearchResultTableViewCell"
     

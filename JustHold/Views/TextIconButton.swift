@@ -1,6 +1,6 @@
 import UIKit
 
-class TextIconButton: UIButton {
+final class TextIconButton: UIButton {
     
     private let label: UILabel = {
         let label = UILabel()
@@ -55,7 +55,7 @@ class TextIconButton: UIButton {
         }
     }
     
-    override open var isHighlighted: Bool {
+    override public var isHighlighted: Bool {
         didSet {
             if isHighlighted || isSelected {
                 layer.borderColor = UIColor.systemBlue.cgColor

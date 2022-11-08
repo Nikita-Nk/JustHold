@@ -1,6 +1,6 @@
 import UIKit
 
-class SwitchTableViewCell: UITableViewCell {
+final class SwitchTableViewCell: UITableViewCell {
     
     static let identifier = "SwitchTableViewCell"
     

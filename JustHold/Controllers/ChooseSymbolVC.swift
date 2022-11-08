@@ -2,7 +2,7 @@ import UIKit
 import SnapKit
 import RAMAnimatedTabBarController
 
-class ChooseSymbolVC: UIViewController {
+final class ChooseSymbolVC: UIViewController {
     
     private let tableView: UITableView = {
         let table = UITableView()

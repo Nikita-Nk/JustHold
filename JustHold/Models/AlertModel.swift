@@ -11,7 +11,7 @@ import RealmSwift
 //    }
 //}
 
-class AlertModel: Object {
+final class AlertModel: Object {
     
     enum Condition: String, Codable {
         case greaterThan = "Больше, чем"
