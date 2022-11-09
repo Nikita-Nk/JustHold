@@ -30,7 +30,7 @@ final class SettingsVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        NotificationCenter.default.post(name: Notification.Name("playPortfolioAnimation"), object: nil)
+        NotificationCenter.default.post(name: .playPortfolioAnimation, object: nil)
     }
     
     //MARK: - Private

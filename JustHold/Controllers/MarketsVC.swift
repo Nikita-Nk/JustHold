@@ -44,7 +44,7 @@ final class MarketsVC: UIViewController {
         view.addSubview(activityIndicator)
         activityIndicator.startAnimating()
         refreshControl.addTarget(self, action: #selector(refresh(sender:)), for: .valueChanged)
-        NotificationCenter.default.addObserver(self, selector: #selector(switchToChartVC), name: Notification.Name("switchToChartVC"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(switchToChartVC), name: .switchToChartVC, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {

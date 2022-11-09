@@ -22,7 +22,7 @@ final class SettingsTableFooterView: UITableViewHeaderFooterView {
         super.init(reuseIdentifier: reuseIdentifier)
         
         contentView.addSubview(animationView)
-        NotificationCenter.default.addObserver(self, selector: #selector(didGetNotification), name: Notification.Name("playPortfolioAnimation"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didGetNotification), name: .playPortfolioAnimation, object: nil)
     }
     
     required init?(coder: NSCoder) {

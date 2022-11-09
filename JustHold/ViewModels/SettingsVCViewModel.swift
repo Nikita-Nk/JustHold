@@ -60,7 +60,7 @@ struct SettingsVCViewModel {
                 iconBackgroundColor: backgroundColor,
                 isOn: PersistenceManager.shared.darkModeIsOn ? true : false,
                 handler: {
-                    NotificationCenter.default.post(name: Notification.Name("switchToDark"), object: nil)
+                    NotificationCenter.default.post(name: .switchToDark, object: nil)
                 })),
             .switchCell(model: SettingsSwitchOption(
                 text: "Тёмная тема для графиков",

@@ -71,7 +71,7 @@ extension ChooseSymbolVC: UITableViewDelegate {
         PersistenceManager.shared.lastChosenSymbol = symbol.symbol
         PersistenceManager.shared.lastChosenID = coinID
         
-        NotificationCenter.default.post(name: Notification.Name("switchToChartVC"), object: nil)
+        NotificationCenter.default.post(name: .switchToChartVC, object: nil)
     }
 }
 

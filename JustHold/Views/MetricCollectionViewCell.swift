@@ -5,16 +5,18 @@ final class MetricCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "MetricCollViewCell"
     
+    private static let fontSize: CGFloat = 12
+    
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .label
-        label.font = .systemFont(ofSize: 12)
+        label.font = .systemFont(ofSize: fontSize)
         return label
     }()
     
     private let valueLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 12)
+        label.font = .systemFont(ofSize: fontSize)
         return label
     }()
     

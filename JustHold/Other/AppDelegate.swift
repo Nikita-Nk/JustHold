@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         setUpKeyboardManager()
         checkColorMode()
-        NotificationCenter.default.addObserver(self, selector: #selector(switchToDark), name: Notification.Name("switchToDark"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(switchToDark), name: .switchToDark, object: nil)
         
 //        debug()
         

@@ -2,6 +2,14 @@ import UIKit
 import RAMAnimatedTabBarController
 import LocalAuthentication
 
+//MARK: - Notification names
+
+extension Notification.Name {
+    static let switchToDark = Notification.Name("switchToDark")
+    static let switchToChartVC = Notification.Name("switchToChartVC")
+    static let playPortfolioAnimation = Notification.Name("playPortfolioAnimation")
+}
+
 //MARK: - RAMTabBarItem init with possibility to specify color
 
 extension RAMAnimatedTabBarItem {
