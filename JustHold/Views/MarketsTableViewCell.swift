@@ -8,7 +8,7 @@ final class MarketsTableViewCell: UITableViewCell {
     
     static let preferredHeight: CGFloat = 65
     
-    private var coin: CoinListingData!
+    private var coin: CoinListingData?
     
     private let nameLabel: UILabel = {
         let label = UILabel()
@@ -144,24 +144,24 @@ final class MarketsTableViewCell: UITableViewCell {
     public func configure(with coin: CoinListingData) {
         self.coin = coin
         
-        nameLabel.text = self.coin.name
-        symbolLabel.text = self.coin.symbol
-        rankLabel.text = "\(self.coin.rank)"
-        logoView.sd_setImage(with: URL(string: self.coin.logoUrl))
+        nameLabel.text = coin.name
+        symbolLabel.text = coin.symbol
+        rankLabel.text = "\(coin.rank)"
+        logoView.sd_setImage(with: URL(string: coin.logoUrl))
         setUpPriceLabel()
         setUpChangeLabel()
-        setUpFavoriteButton(inFavorites: PersistenceManager.shared.isInFavorites(coinID: self.coin.id))
+        setUpFavoriteButton(inFavorites: PersistenceManager.shared.isInFavorites(coinID: coin.id))
     }
     
     //MARK: - Private
     
     private func setUpPriceLabel() {
-        let price = self.coin.quote["USD"]?.price ?? 0
+        let price = coin?.quote["USD"]?.price ?? 0
         priceLabel.text = price.prepareValue
     }
     
     private func setUpChangeLabel() {
-        if let percentChange = coin.quote["USD"]?.percentChange24H {
+        if let percentChange = coin?.quote["USD"]?.percentChange24H {
             if percentChange >= 0 {
                 percentChangeLabel.textColor = .systemGreen
                 percentChangeLabel.text = "+" + percentChange.preparePercentChange + "%"
@@ -184,6 +184,7 @@ final class MarketsTableViewCell: UITableViewCell {
     
     @objc private func didTapFavoriteButton(_: UIButton) {
         HapticsManager.shared.vibrateSlightly()
+        guard let coin = coin else { return }
         
         if PersistenceManager.shared.isInFavorites(coinID: coin.id) {
             PersistenceManager.shared.removeFromFavorites(coinID: coin.id)

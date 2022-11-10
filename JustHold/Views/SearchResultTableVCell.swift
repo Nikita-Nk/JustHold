@@ -8,7 +8,7 @@ final class SearchResultTableViewCell: UITableViewCell {
     
     static let preferredHeight: CGFloat = 65
     
-    private var coin: CoinMapData!
+    private var coin: CoinMapData?
     
     private let nameLabel: UILabel = {
         let label = UILabel()
@@ -115,11 +115,11 @@ final class SearchResultTableViewCell: UITableViewCell {
     public func configure(with coin: CoinMapData) {
         self.coin = coin
         
-        nameLabel.text = self.coin.name
-        symbolLabel.text = self.coin.symbol
-        rankLabel.text = "\(self.coin.rank)"
-        logoView.sd_setImage(with: URL(string: self.coin.logoUrl))
-        setUpFavoriteButton(inFavorites: PersistenceManager.shared.isInFavorites(coinID: self.coin.id))
+        nameLabel.text = coin.name
+        symbolLabel.text = coin.symbol
+        rankLabel.text = "\(coin.rank)"
+        logoView.sd_setImage(with: URL(string: coin.logoUrl))
+        setUpFavoriteButton(inFavorites: PersistenceManager.shared.isInFavorites(coinID: coin.id))
     }
     
     //MARK: - Private
@@ -136,21 +136,18 @@ final class SearchResultTableViewCell: UITableViewCell {
     
     @objc private func didTapFavoriteButton() {
         HapticsManager.shared.vibrateSlightly()
+        guard let coin = coin else { return }
         
         if PersistenceManager.shared.isInFavorites(coinID: coin.id) {
             PersistenceManager.shared.removeFromFavorites(coinID: coin.id)
             
             toFavoriteButton.setImage(UIImage(systemName: "star"), for: .normal)
             toFavoriteButton.tintColor = .systemGray
-            
-            print("Удалили. Количество - \(PersistenceManager.shared.favoriteCoinsIDs.count)")
         } else {
             PersistenceManager.shared.favoriteCoinsIDs.append(coin.id)
             
             toFavoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
             toFavoriteButton.tintColor = .systemYellow
-            
-            print("Добавили. Количество - \(PersistenceManager.shared.favoriteCoinsIDs.count)")
         }
     }
 }

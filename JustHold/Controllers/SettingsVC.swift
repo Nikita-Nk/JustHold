@@ -47,7 +47,7 @@ final class SettingsVC: UIViewController {
 extension SettingsVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        let titleView = view as! UITableViewHeaderFooterView
+        guard let titleView = view as? UITableViewHeaderFooterView else { return }
         titleView.textLabel?.text = titleView.textLabel?.text?.capitalized
         titleView.textLabel?.textColor = .label
         titleView.textLabel?.font = .systemFont(ofSize: 17, weight: .medium)

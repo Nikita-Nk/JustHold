@@ -28,7 +28,7 @@ final class AlertModel: Object {
     
     @Persisted var priceConditionString = Condition.greaterThan.rawValue
     var priceCondition: Condition {
-        get { return Condition(rawValue: priceConditionString)! }
+        get { return Condition(rawValue: priceConditionString) ?? .greaterThan }
         set { priceConditionString = newValue.rawValue }
     }
     @Persisted var priceTarget: Double = 0

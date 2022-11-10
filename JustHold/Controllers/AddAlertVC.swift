@@ -4,7 +4,7 @@ import RealmSwift
 
 final class AddAlertVC: UIViewController {
     
-    private var viewModel: AddAlertVCViewModel!
+    private var viewModel: AddAlertVCViewModel?
      
     private let scrollView = UIButtonScrollView()
     
@@ -327,21 +327,21 @@ final class AddAlertVC: UIViewController {
     private func createConditionMenu() -> UIMenu {
         let actions = [
             UIAction(title: AlertModel.Condition.greaterThan.rawValue,
-                     state: viewModel.alert.priceCondition == .greaterThan ? .on : .off,
+                     state: viewModel?.alert.priceCondition == .greaterThan ? .on : .off,
                      handler: { _ in
-                         try! Realm().beginWrite()
-                         self.viewModel.alert.priceCondition = .greaterThan
-                         try! Realm().commitWrite()
+                         RealmManager.shared.updateAlert {
+                             self.viewModel?.alert.priceCondition = .greaterThan
+                         }
                          
                          self.updateConditionButtonAndMenu()
                          self.updateAlertNameTextField(self.alertNameTextField)
                      }),
             UIAction(title: AlertModel.Condition.lessThan.rawValue,
-                     state: viewModel.alert.priceCondition == .lessThan ? .on : .off,
+                     state: viewModel?.alert.priceCondition == .lessThan ? .on : .off,
                      handler: { _ in
-                         try! Realm().beginWrite()
-                         self.viewModel.alert.priceCondition = .lessThan
-                         try! Realm().commitWrite()
+                         RealmManager.shared.updateAlert {
+                             self.viewModel?.alert.priceCondition = .lessThan
+                         }
                          
                          self.updateConditionButtonAndMenu()
                          self.updateAlertNameTextField(self.alertNameTextField)
@@ -352,14 +352,20 @@ final class AddAlertVC: UIViewController {
     
     @objc private func updateConditionButtonAndMenu() {
         conditionButton.menu = createConditionMenu()
-        conditionButton.changeLabel(newText: self.viewModel.alert.priceCondition.rawValue)
+        conditionButton.changeLabel(newText: self.viewModel?.alert.priceCondition.rawValue ?? "больше, чем")
     }
     
     @objc private func updateAlertNameTextField(_ textField: UITextField) {
-        if viewModel.canAutoupdateAlertName && viewModel.alert.alertName == "" {
-            alertNameTextField.text = viewModel.alert.coinName + " " + viewModel.alert.priceCondition.rawValue.lowercased() + " " + (priceTextField.text ?? "0")
-        } else {
-            alertNameTextField.text = viewModel.alert.alertName
+        guard let canAutoupdateAlertName = viewModel?.canAutoupdateAlertName, let coinName = viewModel?.alert.coinName, let priceCondition = viewModel?.alert.priceCondition.rawValue.lowercased() else { return }
+        
+        if canAutoupdateAlertName && viewModel?.alert.alertName == "" {
+            alertNameTextField.text = coinName + " " + priceCondition + " " + (priceTextField.text ?? "0")
+        }
+        else if !canAutoupdateAlertName {
+            return
+        }
+        else {
+            alertNameTextField.text = viewModel?.alert.alertName
         }
     }
     
@@ -404,19 +410,21 @@ final class AddAlertVC: UIViewController {
         }
         
         // save data
-        try! Realm().write {
-            viewModel.alert.priceCondition = viewModel.alert.priceCondition
-            viewModel.alert.priceTarget = priceDouble
-            viewModel.alert.notifyJustOnce = repeatSegmentedControl.index == 0
-            viewModel.alert.pushNotificationsEnabled = pushCheckBox.isSelected
-            viewModel.alert.expirationDate = datePicker.date
-            viewModel.alert.expirationDateDisabled = expiringCheckBox.isSelected
-            viewModel.alert.alertName = alertName
-            viewModel.alert.alertMessage = alertMessageTextView.text
+        guard let alert = viewModel?.alert else { return }
+        RealmManager.shared.updateAlert {
+            alert.priceCondition = alert.priceCondition
+            alert.priceTarget = priceDouble
+            alert.notifyJustOnce = repeatSegmentedControl.index == 0
+            alert.pushNotificationsEnabled = pushCheckBox.isSelected
+            alert.expirationDate = datePicker.date
+            alert.expirationDateDisabled = expiringCheckBox.isSelected
+            alert.alertName = alertName
+            alert.alertMessage = alertMessageTextView.text
         }
         
-        if viewModel.purpose == .saveNewAlert {
-            RealmManager.shared.saveNewAlert(viewModel.alert)
+        if viewModel?.purpose == .saveNewAlert {
+            guard let alert = viewModel?.alert else { return }
+            RealmManager.shared.saveNewAlert(alert)
             showAlert(viewModel: .init(result: .success, text: "Оповещение создано"))
         } else {
             showAlert(viewModel: .init(result: .success, text: "Оповещение изменено"))
@@ -466,7 +474,7 @@ extension AddAlertVC: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         changeBorderColor(view: textField, isSelected: true)
         if textField == alertNameTextField {
-            viewModel.canAutoupdateAlertName = false
+            viewModel?.canAutoupdateAlertName = false
         }
     }
 

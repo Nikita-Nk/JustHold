@@ -5,7 +5,15 @@ final class RealmManager {
     
     static let shared = RealmManager()
     
-    private let realm = try! Realm()
+    private lazy var realm: Realm = {
+        do {
+            return try Realm()
+        }
+        catch let error as NSError {
+            print(error)
+        }
+        return self.realm
+    }()
     
 //    public enum Types {
 //        case AlertModel
@@ -24,15 +32,33 @@ final class RealmManager {
         return alertsList
     }
     
+    public func updateAlert(_ block: () -> ()) {
+        do {
+            if !realm.isInWriteTransaction {
+                try realm.write(block)
+            }
+        } catch let error as NSError {
+            print(error)
+        }
+    }
+    
     public func saveNewAlert(_ alert: AlertModel) {
-        try! realm.write {
-            realm.add(alert)
+        do {
+            try realm.write {
+                realm.add(alert)
+            }
+        } catch let error as NSError {
+            print(error)
         }
     }
     
     public func deleteAlert(_ alert: AlertModel) {
-        try! realm.write {
-            realm.delete(alert)
+        do {
+            try realm.write {
+                realm.delete(alert)
+            }
+        } catch let error as NSError {
+            print(error)
         }
     }
 }

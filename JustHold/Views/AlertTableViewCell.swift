@@ -11,7 +11,7 @@ final class AlertTableViewCell: UITableViewCell {
     
     static let identifier = "AlertsTableViewCell"
     
-    private var viewModel: AlertTableViewCellViewModel!
+    private var viewModel: AlertTableViewCellViewModel?
     
     private let bellView: UIImageView = {
         let imageView = UIImageView()
@@ -96,11 +96,12 @@ final class AlertTableViewCell: UITableViewCell {
     //MARK: - Private
     
     @objc private func didTapSwitch() {
+        guard let viewModel = viewModel else { return }
         if viewModel.alert.expirationDateDisabled == false && viewModel.alert.expirationDate < Date() {
             delegate?.showErrorAlert()
             switchControl.isOn = false
         } else {
-            try! Realm().write {
+            RealmManager.shared.updateAlert {
                 viewModel.alert.isAlertActive.toggle()
             }
         }

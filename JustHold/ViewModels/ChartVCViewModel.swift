@@ -2,27 +2,60 @@ import UIKit
 
 class ChartVCViewModel {
     
-    public var coinName: String!
-    public var coinID: Int!
-    public var coinRank: String!
-    public var logoURL: String!
-    public var symbolLabelText: String!
-    public var exchangeLabelText: String!
-    public var exchange: String!
-    public var isInFavorites: Bool!
+    private var lastChosenSymbol: String
+    public var coinName: String
+    public var coinID: Int
+    public var coinRank: String
+    public var logoURL: String
+    public var symbolLabelText: String
+    public var exchangeLabelText: String
+    public var exchange: String
+    public var isInFavorites: Bool
     public var candles = [Candle]()
     public var collectionViewCellViewModels = [MetricCollectionViewCellViewModel]()
     public var queryParams: (resolution: String, days: TimeInterval) = ("D", 365*2)
     public var isFirstAppearance = true
     public var selectedChartIndex = -1
     
-    private var lastChosenSymbol: String!
-    
     //MARK: - Init
     
     init() {
         if PersistenceManager.shared.lastChosenID == 0 {
             PersistenceManager.shared.lastChosenID = 1
+        }
+        coinName = ""
+        coinRank = ""
+        logoURL = ""
+        symbolLabelText = ""
+        exchangeLabelText = ""
+        
+        
+        let coins = PersistenceManager.shared.coinsMap
+        coinID = PersistenceManager.shared.lastChosenID
+        if coinID != PersistenceManager.shared.lastChosenID {
+            isFirstAppearance = true
+        }
+        isInFavorites = PersistenceManager.shared.isInFavorites(coinID: coinID)
+        
+        let coinName2 = ""
+        for coin in coins {
+            if coin.id == coinID {
+                coinName = coin.name
+                coinRank = "\(coin.rank)"
+                logoURL = coin.logoUrl
+                break
+            }
+        }
+        
+        let cryptoSymbols = PersistenceManager.shared.cryptoSymbols
+        lastChosenSymbol = PersistenceManager.shared.lastChosenSymbol
+        exchange = lastChosenSymbol.components(separatedBy: ":")[0]
+        for symbol in cryptoSymbols {
+            if symbol.symbol == lastChosenSymbol {
+                symbolLabelText = symbol.displaySymbol
+                exchangeLabelText = coinName2 + "\n" + (symbol.description.components(separatedBy: " ").first ?? "")
+                break
+            }
         }
     }
     

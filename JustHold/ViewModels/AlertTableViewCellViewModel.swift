@@ -20,7 +20,7 @@ struct AlertTableViewCellViewModel {
 
         if !alert.expirationDateDisabled && alert.expirationDate < Date() {
             isSwitchControlOn = false
-            try! Realm().write {
+            RealmManager.shared.updateAlert {
                 alert.isAlertActive = false
             }
         } else {

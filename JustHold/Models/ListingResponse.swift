@@ -16,8 +16,10 @@ struct CoinListingData: Codable {
     let lastUpdated, dateAdded: String?
     let quote: [String: Quote]
     
-    lazy var logoUrl = "https://s2.coinmarketcap.com/static/img/coins/64x64/\(id).png"
-
+    var logoUrl: String {
+        "https://s2.coinmarketcap.com/static/img/coins/64x64/\(id).png"
+    }
+    
     enum CodingKeys: String, CodingKey {
         case id, name, symbol, slug
         case rank = "cmc_rank"

@@ -4,7 +4,7 @@ final class SwitchTableViewCell: UITableViewCell {
     
     static let identifier = "SwitchTableViewCell"
     
-    private var model: SettingsSwitchOption!
+    private var model: SettingsSwitchOption?
     
     private let iconContainer: UIView = {
         let view = UIView()
@@ -92,6 +92,7 @@ final class SwitchTableViewCell: UITableViewCell {
     //MARK: - Private
     
     @objc private func didTapSwitch() {
+        guard let model = model else { return }
         model.handler()
     }
 }

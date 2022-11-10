@@ -236,7 +236,7 @@ extension AlertsVC: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-//        try! Realm().write {
+//        RealmManager.shared.saveEditedAlert {
 ////            alerts.swapAt(sourceIndexPath.row, destinationIndexPath.row)
 ////            swap(&alerts[sourceIndexPath.row], &alerts[destinationIndexPath.row])
 //            alerts.move(from: sourceIndexPath.row, to: destinationIndexPath.row)
