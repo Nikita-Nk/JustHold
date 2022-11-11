@@ -5,7 +5,7 @@ import Lottie
 
 final class SecurityVC: UIViewController {
     
-    private let authButton: UIButton = {
+    private lazy var authButton: UIButton = {
         let button = UIButton()
         button.setTitle("Повторить", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
@@ -19,7 +19,7 @@ final class SecurityVC: UIViewController {
         return button
     }()
     
-    private let animationView: AnimationView = {
+    private lazy var animationView: AnimationView = {
         let animation = AnimationView()
         animation.animation = Animation.named("chartAnimation")
         animation.backgroundColor = .systemBackground

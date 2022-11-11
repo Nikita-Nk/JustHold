@@ -5,15 +5,15 @@ import SkeletonView
 
 final class ChartVC: UIViewController {
     
-    let viewModel = ChartVCViewModel()
+    private lazy var viewModel = ChartVCViewModel()
     
-    private let blur: UIVisualEffectView = {
+    private lazy var blur: UIVisualEffectView = {
         let blur = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
         blur.alpha = 0
         return blur
     }()
     
-    private let logoView: UIImageView = {
+    private lazy var logoView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .white
         imageView.contentMode = .scaleAspectFit
@@ -22,7 +22,7 @@ final class ChartVC: UIViewController {
         return imageView
     }()
     
-    private let symbolLabel: UILabel = {
+    private lazy var symbolLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 22, weight: .semibold)
         label.lineBreakMode = .byWordWrapping
@@ -30,7 +30,7 @@ final class ChartVC: UIViewController {
         return label
     }()
     
-    private let rankLabel: RankLabel = {
+    private lazy var rankLabel: RankLabel = {
         let label = RankLabel()
         label.layer.cornerRadius = 5
         label.layer.masksToBounds = true
@@ -42,7 +42,7 @@ final class ChartVC: UIViewController {
         return label
     }()
     
-    private let exchangeLabel: UILabel = {
+    private lazy var exchangeLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 2
         label.font = .systemFont(ofSize: 12, weight: .semibold)
@@ -51,7 +51,7 @@ final class ChartVC: UIViewController {
         return label
     }()
     
-    private let plusLabel: UILabel = {
+    private lazy var plusLabel: UILabel = {
         let label = UILabel()
         label.text = "+"
         label.font = .systemFont(ofSize: 18, weight: .semibold)
@@ -61,7 +61,7 @@ final class ChartVC: UIViewController {
         return label
     }()
     
-    private let toFavoriteButton: UIButton = {
+    private lazy var toFavoriteButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "star"), for: .normal)
         button.tintColor = .systemGray
@@ -71,7 +71,7 @@ final class ChartVC: UIViewController {
         return button
     }()
     
-    private let addAlertButton: UIButton = {
+    private lazy var addAlertButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "bell"), for: .normal)
         button.tintColor = .systemGray
@@ -81,7 +81,7 @@ final class ChartVC: UIViewController {
         return button
     }()
     
-    private let collectionView: UICollectionView = {
+    private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumInteritemSpacing = 0
@@ -91,9 +91,9 @@ final class ChartVC: UIViewController {
         return collectionView
     }()
     
-    private let chartView = ChartView()
+    private lazy var chartView = ChartView()
     
-    private let resolutionSegmentedControl: UISegmentedControl = {
+    private lazy var resolutionSegmentedControl: UISegmentedControl = {
         let items = ["1", "5", "15", "60", "D", "W", "M"]
         let control = UISegmentedControl(items: items)
         control.addTarget(self, action: #selector(resolutionDidChange(_:)), for: .valueChanged)
@@ -101,7 +101,7 @@ final class ChartVC: UIViewController {
         return control
     }()
     
-    private var timer = Timer()
+    private lazy var timer = Timer()
     
     //MARK: - Lifecycle
 
@@ -216,14 +216,10 @@ final class ChartVC: UIViewController {
     
     @objc private func updateFinancialData() {
         viewModel.fetchFinancialData { [self] isSuccess in
-            if isSuccess {
-                viewModel.prepareCollectionViewData(chosenIndex: viewModel.selectedChartIndex, completion: {})
-                collectionView.reloadData()
-                renderChart()
-            }
-            else {
-//                showAlert()
-            }
+            guard isSuccess else { return }
+            viewModel.prepareCollectionViewData(chosenIndex: viewModel.selectedChartIndex, completion: {})
+            collectionView.reloadData()
+            renderChart()
         }
     }
     
@@ -361,6 +357,6 @@ extension ChartVC: SkeletonCollectionViewDataSource {
 extension ChartVC: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (view.width-40)/2, height: 20) // -40 = по 15 отступ слева и справа и 10 на расстояние между ячейками
+        return CGSize(width: (view.width-40)/2, height: 20)
     }
 }

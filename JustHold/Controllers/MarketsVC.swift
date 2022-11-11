@@ -12,20 +12,20 @@ final class MarketsVC: UIViewController {
     
     private var searchTimer: Timer?
     
-    private let searchResultsVC = SearchResultsVC()
+    private lazy var searchResultsVC = SearchResultsVC()
     
-    private let tableView: UITableView = {
+    private lazy var tableView: UITableView = {
         let table = UITableView()
         table.register(MarketsTableViewCell.self,
                        forCellReuseIdentifier: MarketsTableViewCell.identifier)
         return table
     }()
     
-    private let refreshControl = UIRefreshControl()
+    private lazy var refreshControl = UIRefreshControl()
     
-    private let activityIndicator = UIActivityIndicatorView(style: .large)
+    private lazy var activityIndicator = UIActivityIndicatorView(style: .large)
     
-    private let floatingPanel = FloatingPanelController()
+    private lazy var floatingPanel = FloatingPanelController()
     
     //MARK: - Lifecycle
 

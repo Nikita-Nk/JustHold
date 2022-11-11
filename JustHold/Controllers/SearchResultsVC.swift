@@ -7,9 +7,9 @@ final class SearchResultsVC: UIViewController {
     
     public var titleForHeader: String?
     
-    public let floatingPanel = FloatingPanelController()
+    public lazy var floatingPanel = FloatingPanelController()
     
-    private let tableView: UITableView = {
+    private lazy var tableView: UITableView = {
         let table = UITableView()
         table.register(SearchResultTableViewCell.self,
                        forCellReuseIdentifier: SearchResultTableViewCell.identifier)

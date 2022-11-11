@@ -2,9 +2,9 @@ import UIKit
 
 final class SettingsVC: UIViewController {
     
-    private let viewModel = SettingsVCViewModel()
+    private lazy var viewModel = SettingsVCViewModel()
     
-    private let tableView: UITableView = {
+    private lazy var tableView: UITableView = {
         let table = UITableView(frame: .zero, style: .insetGrouped)
         table.register(SettingTableViewCell.self, forCellReuseIdentifier: SettingTableViewCell.identifier)
         table.register(SwitchTableViewCell.self, forCellReuseIdentifier: SwitchTableViewCell.identifier)
@@ -58,7 +58,7 @@ extension SettingsVC: UITableViewDelegate {
         switch model.self {
         case .staticCell(_):
             return indexPath
-        case .switchCell(_): // при нажатии на switch-ячейку, действие из handler не выполнится
+        case .switchCell(_):
             return nil
         }
     }
@@ -70,9 +70,9 @@ extension SettingsVC: UITableViewDelegate {
         
         switch model.self {
         case .staticCell(let model):
-            model.handler() // выполняем действие, которое прописали выше в handler у всех элементов
+            model.handler()
         case .switchCell(let model):
-            model.handler() // тут не сработает, т.к. чуть выше сделал не кликабельными switch-ячейки
+            model.handler()
         }
     }
     
@@ -123,7 +123,7 @@ extension SettingsVC: UITableViewDataSource {
                 return UITableViewCell()
             }
             cell.configure(with: model)
-            cell.selectionStyle = .none // нажатие на switch-ячейку никак не отображается
+            cell.selectionStyle = .none
             return cell
         }
     }

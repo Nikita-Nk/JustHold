@@ -4,14 +4,14 @@ import RAMAnimatedTabBarController
 
 final class ChooseSymbolVC: UIViewController {
     
-    private let tableView: UITableView = {
+    private lazy var tableView: UITableView = {
         let table = UITableView()
         table.register(UITableViewCell.self,
                        forCellReuseIdentifier: "cell")
         return table
     }()
     
-    private let label: UILabel = {
+    private lazy var label: UILabel = {
         let label = UILabel()
         label.text = "Выберите пару"
         label.font = .systemFont(ofSize: 30, weight: .semibold)

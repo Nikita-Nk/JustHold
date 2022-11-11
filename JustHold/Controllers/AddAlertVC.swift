@@ -6,16 +6,16 @@ final class AddAlertVC: UIViewController {
     
     private var viewModel: AddAlertVCViewModel?
      
-    private let scrollView = UIButtonScrollView()
+    private lazy var scrollView = UIButtonScrollView()
     
-    private let coinLabel: UILabel = {
+    private lazy var coinLabel: UILabel = {
         let label = UILabel()
         label.textColor = .label.withAlphaComponent(0.9)
         label.font = .systemFont(ofSize: 32, weight: .semibold)
         return label
     }()
     
-    private let notifyLabel: UILabel = {
+    private lazy var notifyLabel: UILabel = {
         let label = UILabel()
         label.text = "Оповестить, когда стоимость"
         label.textColor = .systemGray
@@ -23,14 +23,14 @@ final class AddAlertVC: UIViewController {
         return label
     }()
     
-    private let conditionButton: TextIconButton = {
+    private lazy var conditionButton: TextIconButton = {
         let button = TextIconButton()
         button.configure(image: UIImage(systemName: "chevron.down"))
         button.showsMenuAsPrimaryAction = true
         return button
     }()
     
-    private let priceTextField: UITextField = {
+    private lazy var priceTextField: UITextField = {
         let textField = UITextField()
         textField.autocorrectionType = .no
         textField.keyboardType = .numbersAndPunctuation
@@ -39,7 +39,7 @@ final class AddAlertVC: UIViewController {
         return textField
     }()
     
-    private let repeatSegmentedControl: BetterSegmentedControl = {
+    private lazy var repeatSegmentedControl: BetterSegmentedControl = {
         let control = BetterSegmentedControl()
         control.segments = LabelSegment.segments(withTitles: ["Без повтора", "Повторять"],
                                                           normalFont: .systemFont(ofSize: 16.0),
@@ -54,14 +54,14 @@ final class AddAlertVC: UIViewController {
         return control
     }()
     
-    private let pushCheckBox: CheckBoxButton = {
+    private lazy var pushCheckBox: CheckBoxButton = {
         let button = CheckBoxButton()
         button.configure(label: "Push-уведомления")
         button.addTarget(self, action: #selector(didTapCheckBox), for: .touchUpInside)
         return button
     }()
     
-    private let expireLabel: UILabel = {
+    private lazy var expireLabel: UILabel = {
         let label = UILabel()
         label.text = "Истекает"
         label.textColor = .systemGray
@@ -69,7 +69,7 @@ final class AddAlertVC: UIViewController {
         return label
     }()
     
-    private let datePicker: UIDatePicker = {
+    private lazy var datePicker: UIDatePicker = {
         let picker = UIDatePicker()
         picker.locale = Locale(identifier: "ru_RU")
         picker.timeZone = .current
@@ -85,26 +85,26 @@ final class AddAlertVC: UIViewController {
         return picker
     }()
     
-    private let dateButton: TextIconButton = {
+    private lazy var dateButton: TextIconButton = {
         let button = TextIconButton()
         button.configure(image: UIImage(systemName: "calendar"))
         return button
     }()
     
-    private let timeButton: TextIconButton = {
+    private lazy var timeButton: TextIconButton = {
         let button = TextIconButton()
         button.configure(image: nil)
         return button
     }()
     
-    private let expiringCheckBox: CheckBoxButton = {
+    private lazy var expiringCheckBox: CheckBoxButton = {
         let button = CheckBoxButton()
         button.configure(label: "Без срока истечения")
         button.addTarget(self, action: #selector(didTapCheckBox), for: .touchUpInside)
         return button
     }()
     
-    private let alertNameLabel: UILabel = {
+    private lazy var alertNameLabel: UILabel = {
         let label = UILabel()
         label.text = "Имя оповещения"
         label.textColor = .systemGray
@@ -112,7 +112,7 @@ final class AddAlertVC: UIViewController {
         return label
     }()
     
-    private let alertNameTextField: UITextField = {
+    private lazy var alertNameTextField: UITextField = {
         let textField = UITextField()
         textField.autocorrectionType = .no
         textField.keyboardType = .default
@@ -120,7 +120,7 @@ final class AddAlertVC: UIViewController {
         return textField
     }()
     
-    private let alertMessageLabel: UILabel = {
+    private lazy var alertMessageLabel: UILabel = {
         let label = UILabel()
         label.text = "Сообщение"
         label.textColor = .systemGray
@@ -128,7 +128,7 @@ final class AddAlertVC: UIViewController {
         return label
     }()
     
-    private let alertMessageTextView: UITextView = {
+    private lazy var alertMessageTextView: UITextView = {
         let textView = UITextView()
         textView.autocorrectionType = .no
         textView.keyboardType = .default
@@ -136,7 +136,7 @@ final class AddAlertVC: UIViewController {
         return textView
     }()
     
-    private let cancelButton: UIButton = {
+    private lazy var cancelButton: UIButton = {
         let button = UIButton()
         var config = UIButton.Configuration.filled()
         config.title = "Отмена"
@@ -154,7 +154,7 @@ final class AddAlertVC: UIViewController {
         return button
     }()
     
-    private let saveAlertButton: UIButton = {
+    private lazy var saveAlertButton: UIButton = {
         let button = UIButton()
         var config = UIButton.Configuration.filled()
         config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
@@ -170,7 +170,7 @@ final class AddAlertVC: UIViewController {
         return button
     }()
     
-    private let errorLabel: UILabel = {
+    private lazy var errorLabel: UILabel = {
         let label = UILabel()
         label.isHidden = true
         label.textColor = .systemRed

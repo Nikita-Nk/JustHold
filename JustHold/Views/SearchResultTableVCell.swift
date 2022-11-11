@@ -10,21 +10,21 @@ final class SearchResultTableViewCell: UITableViewCell {
     
     private var coin: CoinMapData?
     
-    private let nameLabel: UILabel = {
+    private lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 16, weight: .semibold)
         label.lineBreakMode = .byWordWrapping
         return label
     }()
     
-    private let symbolLabel: UILabel = {
+    private lazy var symbolLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14, weight: .regular)
         label.textColor = .secondaryLabel
         return label
     }()
     
-    private let logoView: UIImageView = {
+    private lazy var logoView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "bitcoinsign.circle")
         imageView.backgroundColor = .white
@@ -34,14 +34,14 @@ final class SearchResultTableViewCell: UITableViewCell {
         return imageView
     }()
     
-    private let toFavoriteButton: UIButton = {
+    private lazy var toFavoriteButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "star"), for: .normal)
         button.backgroundColor = .clear
         return button
     }()
 
-    private let rankLabel: RankLabel = {
+    private lazy var rankLabel: RankLabel = {
         let label = RankLabel()
         label.layer.cornerRadius = 5
         label.layer.masksToBounds = true

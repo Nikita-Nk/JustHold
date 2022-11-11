@@ -4,7 +4,7 @@ final class SettingTableViewCell: UITableViewCell {
 
     static let identifier = "SettingTableViewCell"
     
-    private let iconContainer: UIView = {
+    private lazy var iconContainer: UIView = {
         let view = UIView()
         view.clipsToBounds = true
         view.layer.masksToBounds = true
@@ -12,14 +12,14 @@ final class SettingTableViewCell: UITableViewCell {
         return view
     }()
     
-    private let iconImageView: UIImageView = {
+    private lazy var iconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.tintColor = .label
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
-    private let label: UILabel = {
+    private lazy var label: UILabel = {
         let label = UILabel()
         label.numberOfLines = 1
         label.font = .systemFont(ofSize: 16)
@@ -33,7 +33,7 @@ final class SettingTableViewCell: UITableViewCell {
         contentView.addSubviews(iconContainer, label)
         iconContainer.addSubview(iconImageView)
         contentView.clipsToBounds = true
-        accessoryType = .disclosureIndicator // добавляет справа стрелочку (указывает на переход куда-то)
+        accessoryType = .disclosureIndicator
     }
     
     required init?(coder: NSCoder) {

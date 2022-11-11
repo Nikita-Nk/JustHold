@@ -7,7 +7,7 @@ struct CandlesData: Codable {
     let low: [Double]
     let open: [Double]
     let volume: [Double]
-    let status: String // "ok" or "no_data"
+    let status: String
     let timestamps: [TimeInterval]
     
     enum CodingKeys: String, CodingKey {
@@ -20,7 +20,6 @@ struct CandlesData: Codable {
         case timestamps = "t"
     }
     
-    // Конвертируем CandlesData в array Candle (один день - один candle) для удобства
     var candles: [Candle] {
         var result = [Candle]()
         
@@ -38,13 +37,4 @@ struct CandlesData: Codable {
         let sortedData = result.sorted(by: { $0.date > $1.date })
         return sortedData
     }
-}
-
-struct Candle {
-    let date: Date
-    let high: Double
-    let low: Double
-    let open: Double
-    let close: Double
-    let volume: Double // объём по конкретной бирже
 }

@@ -1,31 +1,6 @@
 import UIKit
 import LocalAuthentication
 
-struct Section {
-    let title: String
-    let options: [SettingsOptionType]
-}
-
-enum SettingsOptionType {
-    case staticCell(model: SettingsOption)
-    case switchCell(model: SettingsSwitchOption)
-}
-
-struct SettingsOption {
-    let text: String
-    let icon: UIImage?
-    let iconBackgroundColor: UIColor
-    let handler: (() -> Void)
-}
-
-struct SettingsSwitchOption {
-    let text: String
-    let icon: UIImage?
-    let iconBackgroundColor: UIColor
-    let isOn: Bool
-    let handler: (() -> Void)
-}
-
 struct SettingsVCViewModel {
 
     public var sections = [Section]()
@@ -41,9 +16,10 @@ struct SettingsVCViewModel {
     private func prepareSections() -> [Section]{
         let backgroundColor = UIColor.clear
         var sections = [Section]()
-
+        let biometric: (text: String, icon: String) = getBiometricType()
+        
         sections.append(Section(title: "Поддержать проект", options: [
-            .staticCell(model: SettingsOption(
+            .staticCell(model: .init(
                 text: "Оценить приложение",
                 icon: UIImage(systemName: "star"),
                 iconBackgroundColor: backgroundColor,
@@ -54,7 +30,7 @@ struct SettingsVCViewModel {
         ]))
 
         sections.append(Section(title: "Оформление", options: [
-            .switchCell(model: SettingsSwitchOption(
+            .switchCell(model: .init(
                 text: "Тёмная тема",
                 icon: UIImage(systemName: "paintpalette"),
                 iconBackgroundColor: backgroundColor,
@@ -62,7 +38,7 @@ struct SettingsVCViewModel {
                 handler: {
                     NotificationCenter.default.post(name: .switchToDark, object: nil)
                 })),
-            .switchCell(model: SettingsSwitchOption(
+            .switchCell(model: .init(
                 text: "Тёмная тема для графиков",
                 icon: UIImage(systemName: "paintbrush"),
                 iconBackgroundColor: backgroundColor,
@@ -72,9 +48,8 @@ struct SettingsVCViewModel {
                 }))
         ]))
 
-        let biometric: (text: String, icon: String) = getBiometricType()
         sections.append(Section(title: "Безопасность", options: [
-            .switchCell(model: SettingsSwitchOption(
+            .switchCell(model: .init(
                 text: biometric.text,
                 icon: UIImage(systemName: biometric.icon),
                 iconBackgroundColor: backgroundColor,

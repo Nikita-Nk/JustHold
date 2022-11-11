@@ -13,7 +13,7 @@ final class AlertTableViewCell: UITableViewCell {
     
     private var viewModel: AlertTableViewCellViewModel?
     
-    private let bellView: UIImageView = {
+    private lazy var bellView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "bell.fill")
         imageView.tintColor = .systemRed
@@ -21,14 +21,14 @@ final class AlertTableViewCell: UITableViewCell {
         return imageView
     }()
     
-    private let nameLabel: UILabel = {
+    private lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 16, weight: .medium)
         label.lineBreakMode = .byTruncatingTail
         return label
     }()
     
-    private let expirationLabel: UILabel = {
+    private lazy var expirationLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 13, weight: .regular)
         label.textColor = .secondaryLabel
@@ -36,7 +36,7 @@ final class AlertTableViewCell: UITableViewCell {
         return label
     }()
     
-    private let switchControl: UISwitch = {
+    private lazy var switchControl: UISwitch = {
         let mySwitch = UISwitch()
         mySwitch.onTintColor = .systemBlue
         mySwitch.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)

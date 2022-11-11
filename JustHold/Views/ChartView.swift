@@ -13,7 +13,7 @@ final class ChartView: UIView {
     
     weak var delegate: MyChartViewDelegate?
     
-    private let chartView: CandleStickChartView = {
+    private lazy var chartView: CandleStickChartView = {
         let chart = CandleStickChartView()
         chart.backgroundColor = .systemBackground
         chart.xAxis.axisLineColor = .systemBackground // цвет нижней линии сетки
@@ -71,7 +71,7 @@ final class ChartView: UIView {
     }
     
     public func configure(with viewModel: ChartViewViewModel) {
-        chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: viewModel.dates) // даты, которые отображаются снизу в values
+        chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: viewModel.dates)
         let dataSet = CandleChartDataSet(entries: viewModel.entries)
         
         dataSet.decreasingColor = .systemRed
@@ -105,7 +105,6 @@ extension ChartView: ChartViewDelegate {
     }
 
     public func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
-        // entry содержит index x и среднюю цену y (между high и low)
         HapticsManager.shared.vibrateSlightly()
         delegate?.chartValueSelected(index: Int(entry.x))
     }

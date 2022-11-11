@@ -2,11 +2,6 @@ import UIKit
 
 struct AddAlertVCViewModel {
     
-    enum Purpose: String, Codable {
-        case saveNewAlert = "Сохранить"
-        case editExistingAlert = "Изменить"
-    }
-    
     var alert: AlertModel
     var purpose: Purpose
     let saveButtonText: String
@@ -26,5 +21,15 @@ struct AddAlertVCViewModel {
         self.alert = alert
         self.purpose = purpose
         saveButtonText = purpose.rawValue
+    }
+}
+
+// MARK: - Nested Types
+
+extension AddAlertVCViewModel {
+    
+    enum Purpose: String, Codable {
+        case saveNewAlert = "Сохранить"
+        case editExistingAlert = "Изменить"
     }
 }

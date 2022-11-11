@@ -2,7 +2,7 @@ import UIKit
 
 final class TextIconButton: UIButton {
     
-    private let label: UILabel = {
+    private lazy var label: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
         label.textColor = .label.withAlphaComponent(0.9)
@@ -10,13 +10,15 @@ final class TextIconButton: UIButton {
         return label
     }()
     
-    private let iconImageView: UIImageView = {
+    private lazy var iconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.tintColor = .systemGray
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         return imageView
     }()
+    
+    // MARK: - Init
     
     override init(frame: CGRect) {
         super.init(frame: frame)

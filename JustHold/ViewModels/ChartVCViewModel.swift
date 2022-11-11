@@ -3,6 +3,7 @@ import UIKit
 class ChartVCViewModel {
     
     private var lastChosenSymbol: String
+    
     public var coinName: String
     public var coinID: Int
     public var coinRank: String

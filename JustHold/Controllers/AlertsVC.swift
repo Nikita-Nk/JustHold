@@ -8,7 +8,7 @@ final class AlertsVC: UIViewController {
     
     private var calledAlerts: [CalledAlertModel] = []
     
-    private let tableViewsSegmentedControl: UISegmentedControl = {
+    private lazy var tableViewsSegmentedControl: UISegmentedControl = {
         let items = ["Список", "История"]
         let control = UISegmentedControl(items: items)
         control.addTarget(self, action: #selector(changeTableView(_:)), for: .valueChanged)
@@ -16,20 +16,20 @@ final class AlertsVC: UIViewController {
         return control
     }()
     
-    private let alertsTableView: UITableView = {
+    private lazy var alertsTableView: UITableView = {
         let table = UITableView()
         table.register(AlertTableViewCell.self, forCellReuseIdentifier: AlertTableViewCell.identifier)
         return table
     }()
     
-    private let alertsHistoryTableView: UITableView = {
+    private lazy var alertsHistoryTableView: UITableView = {
         let table = UITableView()
         table.isHidden = true
         table.register(UITableViewCell.self, forCellReuseIdentifier: "calledAlertCell")
         return table
     }()
     
-    private let emptyLabel: UILabel = {
+    private lazy var emptyLabel: UILabel = {
         let label = UILabel()
         label.text = "Пусто"
         label.textColor = .label.withAlphaComponent(0.9)
@@ -38,7 +38,7 @@ final class AlertsVC: UIViewController {
         return label
     }()
     
-    private let animationView: AnimationView = {
+    private lazy var animationView: AnimationView = {
         let animation = AnimationView()
         animation.animation = Animation.named("emptyBoxAnimation")
         animation.backgroundColor = .clear
@@ -179,7 +179,7 @@ final class AlertsVC: UIViewController {
         HapticsManager.shared.vibrate(for: .success)
     }
     
-    private func showCalledAlertsExamples() { // для примера
+    private func showCalledAlertsExamples() {
         calledAlerts = [.init(alertName: "BNBUSDT больше 350.7",
                               coinName: "BNB",
                               callDate: Date()),
@@ -236,11 +236,7 @@ extension AlertsVC: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-//        RealmManager.shared.saveEditedAlert {
-////            alerts.swapAt(sourceIndexPath.row, destinationIndexPath.row)
-////            swap(&alerts[sourceIndexPath.row], &alerts[destinationIndexPath.row])
-//            alerts.move(from: sourceIndexPath.row, to: destinationIndexPath.row)
-//        }
+        // swap positions
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

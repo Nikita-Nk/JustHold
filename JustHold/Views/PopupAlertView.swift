@@ -2,7 +2,7 @@ import UIKit
 
 final class PopupAlertView: UIView {
     
-    private let label: UILabel = {
+    private lazy var label: UILabel = {
         let label = UILabel()
         label.numberOfLines = 2
         label.lineBreakMode = .byTruncatingTail
@@ -12,12 +12,14 @@ final class PopupAlertView: UIView {
         return label
     }()
     
-    private let iconImageView: UIImageView = {
+    private lazy var iconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         return imageView
     }()
+    
+    // MARK: - Init
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -60,7 +62,6 @@ final class PopupAlertView: UIView {
     
     //MARK: - Private
     
-    // Gesture не работает, т.к. alertView находится за пределами tabBar
     private func setUpSwipeGestureRecognizer() {
         let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.handleSwipeDown))
         swipeDown.direction = .down

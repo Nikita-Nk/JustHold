@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		18115A1F28F347D800E640A1 /* SettingsTableFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18115A1E28F347D800E640A1 /* SettingsTableFooterView.swift */; };
+		186BE0F5291EBB1700C38BA5 /* SectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186BE0F4291EBB1700C38BA5 /* SectionModel.swift */; };
+		186BE0F7291EBB6000C38BA5 /* SettingsOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186BE0F6291EBB6000C38BA5 /* SettingsOption.swift */; };
+		186BE0F9291EBBC300C38BA5 /* SettingsSwitchOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186BE0F8291EBBC300C38BA5 /* SettingsSwitchOption.swift */; };
+		186BE0FB291EC32A00C38BA5 /* Candle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186BE0FA291EC32A00C38BA5 /* Candle.swift */; };
 		189BD2B028AFA4CD00E5FD55 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189BD2AF28AFA4CD00E5FD55 /* SettingsVC.swift */; };
 		189BD2B428AFF6B000E5FD55 /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189BD2B328AFF6B000E5FD55 /* SettingTableViewCell.swift */; };
 		189BD2B628B0164B00E5FD55 /* SwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189BD2B528B0164B00E5FD55 /* SwitchTableViewCell.swift */; };
@@ -60,6 +64,10 @@
 /* Begin PBXFileReference section */
 		02BE00F7FE6E4750DD44AD53 /* Pods-JustHold.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JustHold.debug.xcconfig"; path = "Target Support Files/Pods-JustHold/Pods-JustHold.debug.xcconfig"; sourceTree = "<group>"; };
 		18115A1E28F347D800E640A1 /* SettingsTableFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableFooterView.swift; sourceTree = "<group>"; };
+		186BE0F4291EBB1700C38BA5 /* SectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionModel.swift; sourceTree = "<group>"; };
+		186BE0F6291EBB6000C38BA5 /* SettingsOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsOption.swift; sourceTree = "<group>"; };
+		186BE0F8291EBBC300C38BA5 /* SettingsSwitchOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSwitchOption.swift; sourceTree = "<group>"; };
+		186BE0FA291EC32A00C38BA5 /* Candle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Candle.swift; sourceTree = "<group>"; };
 		189BD2AF28AFA4CD00E5FD55 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		189BD2B328AFF6B000E5FD55 /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
 		189BD2B528B0164B00E5FD55 /* SwitchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchTableViewCell.swift; sourceTree = "<group>"; };
@@ -233,8 +241,12 @@
 				18A8A06628AE5A1E0092031D /* QuotesResponse.swift */,
 				189BD2CB28B386C400E5FD55 /* SymbolsResponse.swift */,
 				189BD2CD28B386F700E5FD55 /* CandlesResponse.swift */,
+				186BE0FA291EC32A00C38BA5 /* Candle.swift */,
 				18B8D27328D9078D000F9BCE /* AlertModel.swift */,
 				18E9A4A028E9FE7A00DB17FF /* CalledAlertModel.swift */,
+				186BE0F4291EBB1700C38BA5 /* SectionModel.swift */,
+				186BE0F6291EBB6000C38BA5 /* SettingsOption.swift */,
+				186BE0F8291EBBC300C38BA5 /* SettingsSwitchOption.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -381,6 +393,7 @@
 			files = (
 				189BD2D828B3897300E5FD55 /* MetricCollectionViewCell.swift in Sources */,
 				18B8D27628DCC688000F9BCE /* UIButtonScrollView.swift in Sources */,
+				186BE0FB291EC32A00C38BA5 /* Candle.swift in Sources */,
 				18DD8B9328DF9A9D0083F743 /* AddAlertVCViewModel.swift in Sources */,
 				18E9A4A128E9FE7A00DB17FF /* CalledAlertModel.swift in Sources */,
 				18AF376428FDE3F500360AC6 /* SettingsVCViewModel.swift in Sources */,
@@ -402,6 +415,7 @@
 				189BD2CC28B386C400E5FD55 /* SymbolsResponse.swift in Sources */,
 				18A8A05B28A67EF00092031D /* MapResponse.swift in Sources */,
 				18E9A49D28E9DB7500DB17FF /* AlertTableViewCell.swift in Sources */,
+				186BE0F5291EBB1700C38BA5 /* SectionModel.swift in Sources */,
 				18AF375E28FB33D200360AC6 /* PopupAlertViewViewModel.swift in Sources */,
 				18B8D27228D8BF5A000F9BCE /* CheckBoxButton.swift in Sources */,
 				189BD2DC28B6873100E5FD55 /* ChooseSymbolVC.swift in Sources */,
@@ -415,11 +429,13 @@
 				189BD2BA28B24BE700E5FD55 /* SecurityVC.swift in Sources */,
 				189BD2B628B0164B00E5FD55 /* SwitchTableViewCell.swift in Sources */,
 				18A8A05128A4EE900092031D /* MarketsVC.swift in Sources */,
+				186BE0F7291EBB6000C38BA5 /* SettingsOption.swift in Sources */,
 				18A8A04B28A28C210092031D /* Extensions.swift in Sources */,
 				18115A1F28F347D800E640A1 /* SettingsTableFooterView.swift in Sources */,
 				18A8A04F28A4EB470092031D /* APICaller.swift in Sources */,
 				18A554DA289B0C7900A9D48E /* AppDelegate.swift in Sources */,
 				18A8A05D28A698A40092031D /* PersistenceManager.swift in Sources */,
+				186BE0F9291EBBC300C38BA5 /* SettingsSwitchOption.swift in Sources */,
 				189BD2B028AFA4CD00E5FD55 /* SettingsVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

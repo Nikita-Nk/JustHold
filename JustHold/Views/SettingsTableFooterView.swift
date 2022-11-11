@@ -5,7 +5,7 @@ final class SettingsTableFooterView: UITableViewHeaderFooterView {
     
     static let identifier = "SettingsTableFooterView"
     
-    private let animationView: AnimationView = {
+    private lazy var animationView: AnimationView = {
         let animation = AnimationView()
         animation.animation = Animation.named("portfolioAnimation")
         animation.backgroundColor = .clear

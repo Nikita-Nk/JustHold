@@ -2,14 +2,7 @@ import UIKit
 
 struct PopupAlertViewViewModel {
     
-    enum OperationResult {
-        case success
-        case failure
-        case onlyText
-    }
-    
     let text: String
-//    let swipeDown: (() -> Void)
     var imageViewColor: UIColor?
     var image: UIImage?
     var imageIsHidden: Bool = false
@@ -30,5 +23,16 @@ struct PopupAlertViewViewModel {
             imageIsHidden = true
             HapticsManager.shared.vibrateSlightly()
         }
+    }
+}
+
+// MARK: - Nested Types
+
+extension PopupAlertViewViewModel {
+    
+    enum OperationResult {
+        case success
+        case failure
+        case onlyText
     }
 }

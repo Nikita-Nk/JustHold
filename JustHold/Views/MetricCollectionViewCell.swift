@@ -5,16 +5,16 @@ final class MetricCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "MetricCollViewCell"
     
-    private static let fontSize: CGFloat = 12
+    private let fontSize: CGFloat = 12
     
-    private let nameLabel: UILabel = {
+    private lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .label
         label.font = .systemFont(ofSize: fontSize)
         return label
     }()
     
-    private let valueLabel: UILabel = {
+    private lazy var valueLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: fontSize)
         return label
@@ -52,9 +52,14 @@ final class MetricCollectionViewCell: UICollectionViewCell {
         valueLabel.text = nil
     }
     
-    func configure(with viewModel: MetricCollectionViewCellViewModel) {
+    public func configure(with viewModel: MetricCollectionViewCellViewModel) {
         nameLabel.text = viewModel.name
         valueLabel.text = viewModel.value
         valueLabel.textColor = viewModel.valueColor
+        
+        valueLabel.alpha = 0.7
+        UIView.animate(withDuration: 0.9) {
+            self.valueLabel.alpha = 1
+        }
     }
 }

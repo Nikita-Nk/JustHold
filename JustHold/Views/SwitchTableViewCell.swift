@@ -6,7 +6,7 @@ final class SwitchTableViewCell: UITableViewCell {
     
     private var model: SettingsSwitchOption?
     
-    private let iconContainer: UIView = {
+    private lazy var iconContainer: UIView = {
         let view = UIView()
         view.clipsToBounds = true
         view.layer.masksToBounds = true
@@ -14,21 +14,21 @@ final class SwitchTableViewCell: UITableViewCell {
         return view
     }()
     
-    private let iconImageView: UIImageView = {
+    private lazy var iconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.tintColor = .label
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
-    private let label: UILabel = {
+    private lazy var label: UILabel = {
         let label = UILabel()
         label.numberOfLines = 1
         label.font = .systemFont(ofSize: 16)
         return label
     }()
     
-    private let switchToDark: UISwitch = {
+    private lazy var switchToDark: UISwitch = {
         let mySwitch = UISwitch()
         mySwitch.onTintColor = .systemGreen
         mySwitch.addTarget(self, action: #selector(didTapSwitch), for: .valueChanged)
