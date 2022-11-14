@@ -53,10 +53,13 @@ final class SecurityVC: UIViewController {
             make.centerY.equalTo(view.snp.centerY).offset(200)
         }
     }
+}
+
+// MARK: - Private
+
+private extension SecurityVC {
     
-    //MARK: - Private
-    
-    @objc private func authenticate() {
+    @objc func authenticate() {
         HapticsManager.shared.vibrateSlightly()
         let context = LAContext()
         var error: NSError? = nil

@@ -321,10 +321,13 @@ final class AddAlertVC: UIViewController {
         alertMessageTextView.text = viewModel.alert.alertMessage
         saveAlertButton.setTitle(viewModel.saveButtonText, for: .normal)
     }
+}
+
+// MARK: - Private
+
+private extension AddAlertVC {
     
-    //MARK: - Private
-    
-    private func createConditionMenu() -> UIMenu {
+    func createConditionMenu() -> UIMenu {
         let actions = [
             UIAction(title: AlertModel.Condition.greaterThan.rawValue,
                      state: viewModel?.alert.priceCondition == .greaterThan ? .on : .off,
@@ -350,12 +353,12 @@ final class AddAlertVC: UIViewController {
         return menu
     }
     
-    @objc private func updateConditionButtonAndMenu() {
+    @objc func updateConditionButtonAndMenu() {
         conditionButton.menu = createConditionMenu()
         conditionButton.changeLabel(newText: self.viewModel?.alert.priceCondition.rawValue ?? "больше, чем")
     }
     
-    @objc private func updateAlertNameTextField(_ textField: UITextField) {
+    @objc func updateAlertNameTextField(_ textField: UITextField) {
         guard let canAutoupdateAlertName = viewModel?.canAutoupdateAlertName, let coinName = viewModel?.alert.coinName, let priceCondition = viewModel?.alert.priceCondition.rawValue.lowercased() else { return }
         
         if canAutoupdateAlertName && viewModel?.alert.alertName == "" {
@@ -369,7 +372,7 @@ final class AddAlertVC: UIViewController {
         }
     }
     
-    @objc private func didTapCheckBox(_ sender: UIButton){
+    @objc func didTapCheckBox(_ sender: UIButton){
         sender.isSelected.toggle()
     }
     
@@ -388,11 +391,11 @@ final class AddAlertVC: UIViewController {
         timeButton.isHighlighted = false
     }
     
-    @objc private func didTapCancelButton(_ sender: UIButton){
+    @objc func didTapCancelButton(_ sender: UIButton){
         navigationController?.popViewController(animated: true)
     }
     
-    @objc private func didTapSaveAlertButton(_ sender: UIButton) {
+    @objc func didTapSaveAlertButton(_ sender: UIButton) {
         guard let priceString = priceTextField.text, priceString.isNumeric, let priceDouble = Double(priceString) else {
             priceTextField.layer.borderColor = UIColor.systemRed.cgColor
             priceTextField.layer.borderWidth = 2
@@ -434,7 +437,7 @@ final class AddAlertVC: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
-    private func setUpAppearance<T>(for views: [T]) {
+    func setUpAppearance<T>(for views: [T]) {
         for view in views {
             if let view = view as? UIView {
                 view.backgroundColor = .clear
@@ -453,7 +456,7 @@ final class AddAlertVC: UIViewController {
         }
     }
     
-    private func changeBorderColor<T>(view: T, isSelected: Bool) {
+    func changeBorderColor<T>(view: T, isSelected: Bool) {
         guard let view = view as? UIView else {
             return
         }

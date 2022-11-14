@@ -57,23 +57,26 @@ final class MarketsVC: UIViewController {
         tableView.frame = view.bounds
         activityIndicator.center = view.center
     }
+}
+
+// MARK: - Private
+
+private extension MarketsVC {
     
-    //MARK: - Private
-    
-    @objc private func refresh(sender: UIRefreshControl) {
+    @objc func refresh(sender: UIRefreshControl) {
         favoritesAreHidden ? fetchListing() : fetchQuotesForFavorites()
         DispatchQueue.main.asyncAfter(deadline: .now()+1) {
             self.refreshControl.endRefreshing()
         }
     }
     
-    private func setUpTable() {
+    func setUpTable() {
         view.addSubview(tableView)
         tableView.delegate = self
         tableView.dataSource = self
     }
     
-    private func setUpFloatingPanel() {
+    func setUpFloatingPanel() {
         floatingPanel.delegate = self
         floatingPanel.isRemovalInteractionEnabled = true
         floatingPanel.hide()
@@ -87,7 +90,7 @@ final class MarketsVC: UIViewController {
         }
     }
     
-    @objc private func favoritesTapped() {
+    @objc func favoritesTapped() {
         HapticsManager.shared.vibrateSlightly()
         floatingPanel.dismiss(animated: true)
         
@@ -125,7 +128,7 @@ final class MarketsVC: UIViewController {
         }
     }
     
-    @objc private func didTapSort() {
+    @objc func didTapSort() {
         HapticsManager.shared.vibrate(for: .success)
         if tableView.isEditing {
             tableView.isEditing = false
@@ -134,14 +137,14 @@ final class MarketsVC: UIViewController {
         }
     }
     
-    private func fetchQuotesForFavorites() {
+    func fetchQuotesForFavorites() {
         APICaller.shared.fetchQuotes(ids: PersistenceManager.shared.favoriteCoinsIDs) { quotes in
             self.coins = quotes
             self.tableView.reloadData()
         }
     }
     
-    private func fetchListing() {
+    func fetchListing() {
         APICaller.shared.fetchListing(queryParams: ["limit": "100"]) { coins in
             self.coins = coins
             self.tableView.reloadData()
@@ -149,7 +152,7 @@ final class MarketsVC: UIViewController {
         }
     }
     
-    private func setUpNavigationBar() {
+    func setUpNavigationBar() {
         navigationItem.rightBarButtonItems = [UIBarButtonItem(image: UIImage(systemName: "star"),
                                                               style: .plain,
                                                               target: self,
@@ -176,7 +179,7 @@ final class MarketsVC: UIViewController {
         navigationItem.titleView = titleView
     }
     
-    private func setupSearchController() {
+    func setupSearchController() {
         let searchController = UISearchController(searchResultsController: searchResultsVC)
         searchController.searchBar.placeholder = "Искать монеты"
         searchController.searchResultsUpdater = self

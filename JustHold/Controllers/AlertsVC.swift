@@ -106,10 +106,13 @@ final class AlertsVC: UIViewController {
             make.width.centerX.equalTo(view.layoutMarginsGuide)
         }
     }
+}
+
+// MARK: - Private
+
+private extension AlertsVC {
     
-    //MARK: - Private
-    
-    @objc private func changeTableView(_ segmentedControl: UISegmentedControl) {
+    @objc func changeTableView(_ segmentedControl: UISegmentedControl) {
         HapticsManager.shared.vibrateSlightly()
         
         switch segmentedControl.selectedSegmentIndex {
@@ -147,21 +150,21 @@ final class AlertsVC: UIViewController {
         }
     }
     
-    private func setUpReorderAlertsBarButton() {
+    func setUpReorderAlertsBarButton() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Изменить",
                                                             style: .plain,
                                                             target: self,
                                                             action: #selector(didTapReorderAlerts))
     }
     
-    private func setUpClearAlertsHistoryBarButton() {
+    func setUpClearAlertsHistoryBarButton() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Очистить",
                                                             style: .plain,
                                                             target: self,
                                                             action: #selector(didTapClearAlertsHistory))
     }
     
-    @objc private func didTapReorderAlerts() {
+    @objc func didTapReorderAlerts() {
         HapticsManager.shared.vibrate(for: .success)
         if alertsTableView.isEditing {
             alertsTableView.isEditing = false
@@ -172,14 +175,14 @@ final class AlertsVC: UIViewController {
         }
     }
     
-    @objc private func didTapClearAlertsHistory() {
+    @objc func didTapClearAlertsHistory() {
         calledAlerts = []
         alertsHistoryTableView.reloadData()
         changeTableView(tableViewsSegmentedControl)
         HapticsManager.shared.vibrate(for: .success)
     }
     
-    private func showCalledAlertsExamples() {
+    func showCalledAlertsExamples() {
         calledAlerts = [.init(alertName: "BNBUSDT больше 350.7",
                               coinName: "BNB",
                               callDate: Date()),

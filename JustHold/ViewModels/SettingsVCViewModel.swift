@@ -10,10 +10,13 @@ struct SettingsVCViewModel {
     init() {
         self.sections = prepareSections()
     }
+}
 
-    //MARK: - Private
+// MARK: - Private
+
+private extension SettingsVCViewModel {
     
-    private func prepareSections() -> [Section]{
+    func prepareSections() -> [Section]{
         let backgroundColor = UIColor.clear
         var sections = [Section]()
         let biometric: (text: String, icon: String) = getBiometricType()
@@ -62,7 +65,7 @@ struct SettingsVCViewModel {
         return sections
     }
     
-    private func getBiometricType() -> (String, String) {
+    func getBiometricType() -> (String, String) {
         let currentBiometricType = LAContext().biometricType
         var text = ""
         var icon = ""

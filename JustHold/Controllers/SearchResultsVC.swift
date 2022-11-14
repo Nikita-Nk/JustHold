@@ -46,16 +46,19 @@ final class SearchResultsVC: UIViewController {
         tableView.isHidden = results.isEmpty
         tableView.reloadData()
     }
+}
+
+// MARK: - Private
+
+private extension SearchResultsVC {
     
-    //MARK: - Private
-    
-    private func setUpTable() {
+    func setUpTable() {
         view.addSubview(tableView)
         tableView.delegate = self
         tableView.dataSource = self
     }
     
-    private func setUpFloatingPanel() {
+    func setUpFloatingPanel() {
         floatingPanel.delegate = self
         floatingPanel.isRemovalInteractionEnabled = true
         floatingPanel.hide()

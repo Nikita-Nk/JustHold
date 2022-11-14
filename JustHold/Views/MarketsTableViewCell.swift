@@ -152,15 +152,18 @@ final class MarketsTableViewCell: UITableViewCell {
         setUpChangeLabel()
         setUpFavoriteButton(inFavorites: PersistenceManager.shared.isInFavorites(coinID: coin.id))
     }
+}
+
+// MARK: - Private
+
+private extension MarketsTableViewCell {
     
-    //MARK: - Private
-    
-    private func setUpPriceLabel() {
+    func setUpPriceLabel() {
         let price = coin?.quote["USD"]?.price ?? 0
         priceLabel.text = price.prepareValue
     }
     
-    private func setUpChangeLabel() {
+    func setUpChangeLabel() {
         if let percentChange = coin?.quote["USD"]?.percentChange24H {
             if percentChange >= 0 {
                 percentChangeLabel.textColor = .systemGreen
@@ -172,7 +175,7 @@ final class MarketsTableViewCell: UITableViewCell {
         }
     }
     
-    private func setUpFavoriteButton(inFavorites: Bool) {
+    func setUpFavoriteButton(inFavorites: Bool) {
         if inFavorites {
             toFavoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
             toFavoriteButton.tintColor = .systemYellow
@@ -182,7 +185,7 @@ final class MarketsTableViewCell: UITableViewCell {
         }
     }
     
-    @objc private func didTapFavoriteButton(_: UIButton) {
+    @objc func didTapFavoriteButton(_: UIButton) {
         HapticsManager.shared.vibrateSlightly()
         guard let coin = coin else { return }
         

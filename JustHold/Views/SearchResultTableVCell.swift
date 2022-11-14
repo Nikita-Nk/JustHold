@@ -121,10 +121,13 @@ final class SearchResultTableViewCell: UITableViewCell {
         logoView.sd_setImage(with: URL(string: coin.logoUrl))
         setUpFavoriteButton(inFavorites: PersistenceManager.shared.isInFavorites(coinID: coin.id))
     }
+}
+
+// MARK: - Private
+
+private extension SearchResultTableViewCell {
     
-    //MARK: - Private
-    
-    private func setUpFavoriteButton(inFavorites: Bool) {
+    func setUpFavoriteButton(inFavorites: Bool) {
         if inFavorites {
             toFavoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
             toFavoriteButton.tintColor = .systemYellow
@@ -134,7 +137,7 @@ final class SearchResultTableViewCell: UITableViewCell {
         }
     }
     
-    @objc private func didTapFavoriteButton() {
+    @objc func didTapFavoriteButton() {
         HapticsManager.shared.vibrateSlightly()
         guard let coin = coin else { return }
         

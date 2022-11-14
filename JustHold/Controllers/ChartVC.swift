@@ -194,10 +194,13 @@ final class ChartVC: UIViewController {
             make.bottom.equalTo(resolutionSegmentedControl.snp.top).offset(-20)
         }
     }
+}
+
+// MARK: - Private
+
+private extension ChartVC {
     
-    //MARK: - Private
-    
-    private func prepareAllData() {
+    func prepareAllData() {
         viewModel.prepareAllData { [self] isSuccess in
             if isSuccess {
                 defer {
@@ -214,7 +217,7 @@ final class ChartVC: UIViewController {
         }
     }
     
-    @objc private func updateFinancialData() {
+    @objc func updateFinancialData() {
         viewModel.fetchFinancialData { [self] isSuccess in
             guard isSuccess else { return }
             viewModel.prepareCollectionViewData(chosenIndex: viewModel.selectedChartIndex, completion: {})
@@ -223,7 +226,7 @@ final class ChartVC: UIViewController {
         }
     }
     
-    private func showAlert() {
+    func showAlert() {
         view.addSubview(blur)
         UIView.animate(withDuration: 0.4) {
             self.blur.alpha = 0.8
@@ -240,7 +243,7 @@ final class ChartVC: UIViewController {
         present(alert, animated: true)
     }
     
-    private func setUpFavoriteButton(inFavorites: Bool) {
+    func setUpFavoriteButton(inFavorites: Bool) {
         if inFavorites {
             toFavoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
             toFavoriteButton.tintColor = .systemYellow
@@ -250,25 +253,25 @@ final class ChartVC: UIViewController {
         }
     }
     
-    private func prepareLogoAndLabels() {
+    func prepareLogoAndLabels() {
         logoView.sd_setImage(with: URL(string: viewModel.logoURL))
         rankLabel.text = viewModel.coinRank
         symbolLabel.text = viewModel.symbolLabelText
         exchangeLabel.text = viewModel.exchangeLabelText
     }
     
-    private func renderChart() {
+    func renderChart() {
         chartView.configure(with: .init(candles: viewModel.candles))
     }
     
-    @objc private func resolutionDidChange(_ segmentedControl: UISegmentedControl) {
+    @objc func resolutionDidChange(_ segmentedControl: UISegmentedControl) {
         HapticsManager.shared.vibrateSlightly()
         viewModel.resolutionDidChange(index: segmentedControl.selectedSegmentIndex) {
             updateFinancialData()
         }
     }
     
-    @objc private func didTapFavoriteButton(_: UIButton) {
+    @objc func didTapFavoriteButton(_: UIButton) {
         HapticsManager.shared.vibrateSlightly()
         let lastID = PersistenceManager.shared.lastChosenID
         
@@ -284,7 +287,7 @@ final class ChartVC: UIViewController {
         }
     }
     
-    @objc private func didTapAlertButton(_: UIButton) {
+    @objc func didTapAlertButton(_: UIButton) {
         HapticsManager.shared.vibrateSlightly()
         let addAlertVC = AddAlertVC()
         addAlertVC.configure(with: .init(purpose: .saveNewAlert,
@@ -293,7 +296,7 @@ final class ChartVC: UIViewController {
         navigationController?.pushViewController(addAlertVC, animated: true)
     }
     
-    private func setUpSkeleton() {
+    func setUpSkeleton() {
         rankLabel.isHidden = true
         exchangeLabel.isHidden = true
         resolutionSegmentedControl.isHidden = true
@@ -305,7 +308,7 @@ final class ChartVC: UIViewController {
         }
     }
     
-    private func removeSkeleton() {
+    func removeSkeleton() {
         rankLabel.isHidden = false
         exchangeLabel.isHidden = false
         resolutionSegmentedControl.isHidden = false
