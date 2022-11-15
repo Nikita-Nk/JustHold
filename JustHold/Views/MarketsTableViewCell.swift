@@ -34,13 +34,7 @@ final class MarketsTableViewCell: UITableViewCell {
         return imageView
     }()
     
-    private lazy var toFavoriteButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(systemName: "star"), for: .normal)
-        button.backgroundColor = .clear
-        button.addTarget(self, action: #selector(didTapFavoriteButton(_:)), for: .touchUpInside)
-        return button
-    }()
+    private lazy var addToFavoritesButton = AddToFavoritesButton()
 
     private lazy var rankLabel: RankLabel = {
         let label = RankLabel()
@@ -76,7 +70,7 @@ final class MarketsTableViewCell: UITableViewCell {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
         
         addSubviews(logoView, nameLabel, symbolLabel, rankLabel, priceLabel, percentChangeLabel)
-        contentView.addSubviews(toFavoriteButton)
+        contentView.addSubview(addToFavoritesButton)
     }
     
     required init?(coder: NSCoder) {
@@ -111,7 +105,7 @@ final class MarketsTableViewCell: UITableViewCell {
             make.leftMargin.equalTo(rankLabel.snp.right).offset(15)
         }
         
-        toFavoriteButton.snp.makeConstraints { make in
+        addToFavoritesButton.snp.makeConstraints { make in
             make.height.width.equalTo(height/2)
             make.rightMargin.equalTo(contentView.right).inset(10)
             make.centerY.equalTo(contentView.center.y)
@@ -120,7 +114,7 @@ final class MarketsTableViewCell: UITableViewCell {
             make.height.equalTo(height/3)
             make.width.equalTo(width/3)
             make.centerY.equalTo(nameLabel.snp.centerY)
-            make.rightMargin.equalTo(toFavoriteButton.snp.left).offset(-15)
+            make.rightMargin.equalTo(addToFavoritesButton.snp.left).offset(-15)
         }
         percentChangeLabel.snp.makeConstraints { make in
             make.height.equalTo(height/3)
@@ -138,19 +132,19 @@ final class MarketsTableViewCell: UITableViewCell {
         logoView.image = nil
         priceLabel.text = nil
         percentChangeLabel.text = nil
-        toFavoriteButton.imageView?.image = nil
     }
+    
+    // MARK: - Public
     
     public func configure(with coin: CoinListingData) {
         self.coin = coin
-        
         nameLabel.text = coin.name
         symbolLabel.text = coin.symbol
         rankLabel.text = "\(coin.rank)"
         logoView.sd_setImage(with: URL(string: coin.logoUrl))
         setUpPriceLabel()
         setUpChangeLabel()
-        setUpFavoriteButton(inFavorites: PersistenceManager.shared.isInFavorites(coinID: coin.id))
+        addToFavoritesButton.configure(coinID: coin.id, forChart: false)
     }
 }
 
@@ -164,40 +158,13 @@ private extension MarketsTableViewCell {
     }
     
     func setUpChangeLabel() {
-        if let percentChange = coin?.quote["USD"]?.percentChange24H {
-            if percentChange >= 0 {
-                percentChangeLabel.textColor = .systemGreen
-                percentChangeLabel.text = "+" + percentChange.preparePercentChange + "%"
-            } else {
-                percentChangeLabel.textColor = .red
-                percentChangeLabel.text = percentChange.preparePercentChange + "%"
-            }
-        }
-    }
-    
-    func setUpFavoriteButton(inFavorites: Bool) {
-        if inFavorites {
-            toFavoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
-            toFavoriteButton.tintColor = .systemYellow
+        guard let percentChange = coin?.quote["USD"]?.percentChange24H else { return }
+        if percentChange >= 0 {
+            percentChangeLabel.textColor = .systemGreen
+            percentChangeLabel.text = "+" + percentChange.preparePercentChange + "%"
         } else {
-            toFavoriteButton.setImage(UIImage(systemName: "star"), for: .normal)
-            toFavoriteButton.tintColor = .systemGray
-        }
-    }
-    
-    @objc func didTapFavoriteButton(_: UIButton) {
-        HapticsManager.shared.vibrateSlightly()
-        guard let coin = coin else { return }
-        
-        if PersistenceManager.shared.isInFavorites(coinID: coin.id) {
-            PersistenceManager.shared.removeFromFavorites(coinID: coin.id)
-            toFavoriteButton.setImage(UIImage(systemName: "star"), for: .normal)
-            toFavoriteButton.tintColor = .systemGray
-        }
-        else {
-            PersistenceManager.shared.favoriteCoinsIDs.append(coin.id)
-            toFavoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
-            toFavoriteButton.tintColor = .systemYellow
+            percentChangeLabel.textColor = .red
+            percentChangeLabel.text = percentChange.preparePercentChange + "%"
         }
     }
 }

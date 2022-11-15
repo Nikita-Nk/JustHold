@@ -61,15 +61,7 @@ final class ChartVC: UIViewController {
         return label
     }()
     
-    private lazy var toFavoriteButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(systemName: "star"), for: .normal)
-        button.tintColor = .systemGray
-        button.backgroundColor = .clear
-        button.setPreferredSymbolConfiguration(UIImage.SymbolConfiguration(pointSize: 24), forImageIn: .normal)
-        button.addTarget(self, action: #selector(didTapFavoriteButton(_:)), for: .touchUpInside)
-        return button
-    }()
+    private lazy var addToFavoritesButton = AddToFavoritesButton()
     
     private lazy var addAlertButton: UIButton = {
         let button = UIButton()
@@ -108,7 +100,7 @@ final class ChartVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        view.addSubviews(logoView, symbolLabel, rankLabel, exchangeLabel, toFavoriteButton, addAlertButton, plusLabel, chartView, collectionView, resolutionSegmentedControl)
+        view.addSubviews(logoView, symbolLabel, rankLabel, exchangeLabel, addToFavoritesButton, addAlertButton, plusLabel, chartView, collectionView, resolutionSegmentedControl)
         collectionView.delegate = self
         collectionView.dataSource = self
         chartView.delegate = self
@@ -144,14 +136,14 @@ final class ChartVC: UIViewController {
             make.top.equalTo(view.snp.top).offset(50)
             make.left.equalTo(view.snp.left).offset(15)
         }
-        toFavoriteButton.snp.makeConstraints { make in
+        addToFavoritesButton.snp.makeConstraints { make in
             make.height.width.equalTo(40)
             make.right.equalTo(view.snp.right).inset(15)
             make.centerY.equalTo(logoView.snp.centerY)
         }
         addAlertButton.snp.makeConstraints { make in
             make.height.width.equalTo(40)
-            make.right.equalTo(toFavoriteButton.snp.left).offset(-5)
+            make.right.equalTo(addToFavoritesButton.snp.left).offset(-5)
             make.centerY.equalTo(logoView.snp.centerY)
         }
         plusLabel.snp.makeConstraints { make in
@@ -183,7 +175,7 @@ final class ChartVC: UIViewController {
         }
         resolutionSegmentedControl.snp.makeConstraints { make in
             make.left.equalTo(logoView.snp.left)
-            make.right.equalTo(toFavoriteButton.snp.right)
+            make.right.equalTo(addToFavoritesButton.snp.right)
             make.height.equalTo(30)
             make.top.equalTo(view.height - 130)
         }
@@ -208,7 +200,7 @@ private extension ChartVC {
                 }
                 viewModel.prepareCollectionViewData(completion: {})
                 prepareLogoAndLabels()
-                setUpFavoriteButton(inFavorites: viewModel.isInFavorites)
+                addToFavoritesButton.configure(coinID: viewModel.coinID, forChart: true)
                 renderChart()
             }
             else {
@@ -232,7 +224,7 @@ private extension ChartVC {
             self.blur.alpha = 0.8
         }
         
-        let alert = UIAlertController(title: "К сожалению, данные для выбранной пары на бирже \(viewModel.exchange ?? "") временно не доступны", message: nil, preferredStyle: .alert)
+        let alert = UIAlertController(title: "К сожалению, данные для выбранной пары на бирже \(viewModel.exchange) временно не доступны", message: nil, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Выбрать эту пару на другой бирже", style: .cancel, handler: { action in
             self.blur.removeFromSuperview()
             self.blur.alpha = 0
@@ -241,16 +233,6 @@ private extension ChartVC {
             }
         }))
         present(alert, animated: true)
-    }
-    
-    func setUpFavoriteButton(inFavorites: Bool) {
-        if inFavorites {
-            toFavoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
-            toFavoriteButton.tintColor = .systemYellow
-        } else {
-            toFavoriteButton.setImage(UIImage(systemName: "star"), for: .normal)
-            toFavoriteButton.tintColor = .systemGray
-        }
     }
     
     func prepareLogoAndLabels() {
@@ -271,22 +253,6 @@ private extension ChartVC {
         }
     }
     
-    @objc func didTapFavoriteButton(_: UIButton) {
-        HapticsManager.shared.vibrateSlightly()
-        let lastID = PersistenceManager.shared.lastChosenID
-        
-        if PersistenceManager.shared.isInFavorites(coinID: lastID) {
-            PersistenceManager.shared.removeFromFavorites(coinID: lastID)
-            toFavoriteButton.setImage(UIImage(systemName: "star"), for: .normal)
-            toFavoriteButton.tintColor = .systemGray
-        }
-        else {
-            PersistenceManager.shared.favoriteCoinsIDs.append(lastID)
-            toFavoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
-            toFavoriteButton.tintColor = .systemYellow
-        }
-    }
-    
     @objc func didTapAlertButton(_: UIButton) {
         HapticsManager.shared.vibrateSlightly()
         let addAlertVC = AddAlertVC()
@@ -301,7 +267,7 @@ private extension ChartVC {
         exchangeLabel.isHidden = true
         resolutionSegmentedControl.isHidden = true
         
-        let views = [logoView, symbolLabel, plusLabel, toFavoriteButton, addAlertButton, chartView, collectionView]
+        let views = [logoView, symbolLabel, plusLabel, addToFavoritesButton, addAlertButton, chartView, collectionView]
         for view in views {
             view.isSkeletonable = true
             view.showSkeleton(usingColor: .systemGray2, transition: .none)
@@ -312,7 +278,7 @@ private extension ChartVC {
         rankLabel.isHidden = false
         exchangeLabel.isHidden = false
         resolutionSegmentedControl.isHidden = false
-        let views = [logoView, symbolLabel, plusLabel, toFavoriteButton, addAlertButton, chartView, collectionView]
+        let views = [logoView, symbolLabel, plusLabel, addToFavoritesButton, addAlertButton, chartView, collectionView]
         for view in views {
             view.stopSkeletonAnimation()
             view.hideSkeleton()

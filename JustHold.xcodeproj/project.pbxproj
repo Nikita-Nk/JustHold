@@ -12,6 +12,7 @@
 		186BE0F7291EBB6000C38BA5 /* SettingsOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186BE0F6291EBB6000C38BA5 /* SettingsOption.swift */; };
 		186BE0F9291EBBC300C38BA5 /* SettingsSwitchOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186BE0F8291EBBC300C38BA5 /* SettingsSwitchOption.swift */; };
 		186BE0FB291EC32A00C38BA5 /* Candle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186BE0FA291EC32A00C38BA5 /* Candle.swift */; };
+		187A338F2923CE1700D9A1AB /* AddToFavoritesButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187A338E2923CE1700D9A1AB /* AddToFavoritesButton.swift */; };
 		189BD2B028AFA4CD00E5FD55 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189BD2AF28AFA4CD00E5FD55 /* SettingsVC.swift */; };
 		189BD2B428AFF6B000E5FD55 /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189BD2B328AFF6B000E5FD55 /* SettingTableViewCell.swift */; };
 		189BD2B628B0164B00E5FD55 /* SwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189BD2B528B0164B00E5FD55 /* SwitchTableViewCell.swift */; };
@@ -68,6 +69,7 @@
 		186BE0F6291EBB6000C38BA5 /* SettingsOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsOption.swift; sourceTree = "<group>"; };
 		186BE0F8291EBBC300C38BA5 /* SettingsSwitchOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSwitchOption.swift; sourceTree = "<group>"; };
 		186BE0FA291EC32A00C38BA5 /* Candle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Candle.swift; sourceTree = "<group>"; };
+		187A338E2923CE1700D9A1AB /* AddToFavoritesButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToFavoritesButton.swift; sourceTree = "<group>"; };
 		189BD2AF28AFA4CD00E5FD55 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		189BD2B328AFF6B000E5FD55 /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
 		189BD2B528B0164B00E5FD55 /* SwitchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchTableViewCell.swift; sourceTree = "<group>"; };
@@ -218,6 +220,7 @@
 				18A554E4289B0C7A00A9D48E /* LaunchScreen.storyboard */,
 				18A8A06228ABADC80092031D /* MarketsTableViewCell.swift */,
 				18A8A05628A5698C0092031D /* SearchResultTableVCell.swift */,
+				187A338E2923CE1700D9A1AB /* AddToFavoritesButton.swift */,
 				18AF376128FDC99000360AC6 /* RankLabel.swift */,
 				189BD2D328B3881800E5FD55 /* ChartView.swift */,
 				189BD2D728B3897300E5FD55 /* MetricCollectionViewCell.swift */,
@@ -421,6 +424,7 @@
 				189BD2DC28B6873100E5FD55 /* ChooseSymbolVC.swift in Sources */,
 				18A8A05528A4F7950092031D /* SearchResultsVC.swift in Sources */,
 				189BD2B428AFF6B000E5FD55 /* SettingTableViewCell.swift in Sources */,
+				187A338F2923CE1700D9A1AB /* AddToFavoritesButton.swift in Sources */,
 				18B70F0328E483A60069BDCB /* RealmManager.swift in Sources */,
 				18AF376028FB50CE00360AC6 /* AlertTableViewCellViewModel.swift in Sources */,
 				18A8A05728A5698D0092031D /* SearchResultTableVCell.swift in Sources */,

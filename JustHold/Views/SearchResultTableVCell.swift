@@ -34,12 +34,7 @@ final class SearchResultTableViewCell: UITableViewCell {
         return imageView
     }()
     
-    private lazy var toFavoriteButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(systemName: "star"), for: .normal)
-        button.backgroundColor = .clear
-        return button
-    }()
+    private lazy var addToFavoritesButton = AddToFavoritesButton()
 
     private lazy var rankLabel: RankLabel = {
         let label = RankLabel()
@@ -60,9 +55,7 @@ final class SearchResultTableViewCell: UITableViewCell {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
         
         addSubviews(logoView, nameLabel, symbolLabel, rankLabel)
-        contentView.addSubviews(toFavoriteButton)
-        
-        toFavoriteButton.addTarget(self, action: #selector(didTapFavoriteButton), for: .touchUpInside)
+        contentView.addSubview(addToFavoritesButton)
     }
     
     required init?(coder: NSCoder) {
@@ -96,7 +89,7 @@ final class SearchResultTableViewCell: UITableViewCell {
             make.centerY.equalTo(rankLabel.snp.centerY)
             make.leftMargin.equalTo(rankLabel.snp.right).offset(15)
         }
-        toFavoriteButton.snp.makeConstraints { make in
+        addToFavoritesButton.snp.makeConstraints { make in
             make.height.width.equalTo(height/2)
             make.rightMargin.equalTo(contentView.right).inset(10)
             make.centerY.equalTo(contentView.center.y)
@@ -109,48 +102,16 @@ final class SearchResultTableViewCell: UITableViewCell {
         symbolLabel.text = nil
         rankLabel.text = nil
         logoView.image = nil
-        toFavoriteButton.imageView?.image = nil
     }
+    
+    // MARK: - Public
     
     public func configure(with coin: CoinMapData) {
         self.coin = coin
-        
         nameLabel.text = coin.name
         symbolLabel.text = coin.symbol
         rankLabel.text = "\(coin.rank)"
         logoView.sd_setImage(with: URL(string: coin.logoUrl))
-        setUpFavoriteButton(inFavorites: PersistenceManager.shared.isInFavorites(coinID: coin.id))
-    }
-}
-
-// MARK: - Private
-
-private extension SearchResultTableViewCell {
-    
-    func setUpFavoriteButton(inFavorites: Bool) {
-        if inFavorites {
-            toFavoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
-            toFavoriteButton.tintColor = .systemYellow
-        } else {
-            toFavoriteButton.setImage(UIImage(systemName: "star"), for: .normal)
-            toFavoriteButton.tintColor = .systemGray
-        }
-    }
-    
-    @objc func didTapFavoriteButton() {
-        HapticsManager.shared.vibrateSlightly()
-        guard let coin = coin else { return }
-        
-        if PersistenceManager.shared.isInFavorites(coinID: coin.id) {
-            PersistenceManager.shared.removeFromFavorites(coinID: coin.id)
-            
-            toFavoriteButton.setImage(UIImage(systemName: "star"), for: .normal)
-            toFavoriteButton.tintColor = .systemGray
-        } else {
-            PersistenceManager.shared.favoriteCoinsIDs.append(coin.id)
-            
-            toFavoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
-            toFavoriteButton.tintColor = .systemYellow
-        }
+        addToFavoritesButton.configure(coinID: coin.id, forChart: false)
     }
 }
