@@ -16,10 +16,10 @@ final class APICaller {
     }
     
     private struct Constants {
-        static let day: TimeInterval = 60 * 60 * 24 // seconds * minutes * hours
-        static let mapUrl = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/map" // список всех монет
-        static let listingUrl = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest" // топ монет с котировками
-        static let quotesUrl = "https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest" // котировки монет по ID
+        static let day: TimeInterval = 60 * 60 * 24
+        static let mapUrl = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/map"
+        static let listingUrl = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest"
+        static let quotesUrl = "https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest"
         static let exchangeSymbolsUrl = "https://finnhub.io/api/v1/crypto/symbol"
         static let candlesUrl = "https://finnhub.io/api/v1/crypto/candle"
         
@@ -103,7 +103,7 @@ final class APICaller {
         guard timeToUpdate(date: lastSymbolsUpdate) else {
             return
         }
-        let exchanges = ["Binance", "COINBASE", "KRAKEN", "KUCOIN", "BITFINEX", "GEMINI", "HUOBI", "POLONIEX", "BITTREX"] // "ZB", "OKEX"
+        let exchanges = ["Binance", "COINBASE", "KRAKEN", "KUCOIN", "BITFINEX", "GEMINI", "HUOBI", "POLONIEX", "BITTREX"]
         let updatedSymbols = [Symbol]()
         
         for exchange in exchanges {
@@ -149,9 +149,9 @@ final class APICaller {
     
     //MARK: - Private
     
-    private func timeToUpdate(date: Date?) -> Bool { // ограничение на обновление раз в 6 часов, чтобы снизить количество запросов
+    private func timeToUpdate(date: Date?) -> Bool {
         let today = Date()
-        if today - (Constants.day/4) >= date ?? (today - Constants.day * 2) { // 11:00 12.08 >= 15:00 12.08
+        if today - (Constants.day/4) >= date ?? (today - Constants.day * 2) {
             print("Время обновить")
             return true
         } else {

@@ -7,11 +7,10 @@ struct ListingResponse: Codable {
 }
 
 // MARK: - CoinListingData
-// data["1"]?.quote["USD"]?.price ?? 0 // Пример доступа
 struct CoinListingData: Codable {
     let id: Int
     let name, symbol, slug: String
-    let rank: Int // cmcRank
+    let rank: Int
     let circulatingSupply, totalSupply, maxSupply: Double?
     let lastUpdated, dateAdded: String?
     let quote: [String: Quote]

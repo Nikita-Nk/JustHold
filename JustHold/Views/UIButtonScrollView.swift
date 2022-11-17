@@ -13,7 +13,6 @@ final class UIButtonScrollView: UIScrollView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // Экран скролится, даже если провожу по buttons и textField
     override func touchesShouldCancel(in view: UIView) -> Bool {
         if view.isKind(of: UIButton.self) {
           return true

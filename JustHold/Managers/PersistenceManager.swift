@@ -76,7 +76,6 @@ final class PersistenceManager {
             } else if symbol.displaySymbol == "USDT/USD" && coinSymbol.uppercased() == "USDT" {
                 symbols.append(symbol)
             }
-            // else if - можно добавить доп.проверки, чтобы выводить больше вариантов, например, пары с /ETH. И добавлять их в secondarySymbols
         }
         completion(symbols)
     }

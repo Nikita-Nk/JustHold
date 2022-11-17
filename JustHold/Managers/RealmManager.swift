@@ -15,15 +15,11 @@ final class RealmManager {
         return self.realm
     }()
     
-//    public enum Types {
-//        case AlertModel
-//    }
-    
     private init() {}
     
     //MARK: - Public
     
-    public func fetchAllAlerts() -> List<AlertModel> { // Results / List
+    public func fetchAllAlerts() -> List<AlertModel> {
         let alerts = realm.objects(AlertModel.self)
         let alertsList = List<AlertModel>()
         for alert in alerts {

@@ -32,9 +32,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     private func setUpKeyboardManager() {
         IQKeyboardManager.shared.enable = true
-        IQKeyboardManager.shared.previousNextDisplayMode = .alwaysHide // turn off previous/next
+        IQKeyboardManager.shared.previousNextDisplayMode = .alwaysHide
         IQKeyboardManager.shared.toolbarBarTintColor = .secondarySystemBackground
-        IQKeyboardManager.shared.shouldPlayInputClicks = false // turn off sounds
+        IQKeyboardManager.shared.shouldPlayInputClicks = false
     }
     
     private func checkColorMode() {

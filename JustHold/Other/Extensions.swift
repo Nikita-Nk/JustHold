@@ -115,10 +115,10 @@ extension Double {
         formatter.maximumFractionDigits = 2
         
         if self >= 100000 {
-            formatter.numberStyle = .decimal // применяю, чтобы запятые(,) были только здесь, в больших числах
+            formatter.numberStyle = .decimal
             formatter.maximumFractionDigits = 0
         }
-        else if self == floor(self) { // если вдруг число целое
+        else if self == floor(self) {
         }
         else if self < 0.10 && self > -0.10 {
             let coinPrice: Decimal = Decimal(self)

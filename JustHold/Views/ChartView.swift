@@ -16,32 +16,32 @@ final class ChartView: UIView {
     private lazy var chartView: CandleStickChartView = {
         let chart = CandleStickChartView()
         chart.backgroundColor = .systemBackground
-        chart.xAxis.axisLineColor = .systemBackground // цвет нижней линии сетки
-        chart.rightAxis.axisLineColor = .systemBackground  // цвет правой линии сетки
-        chart.rightAxis.gridColor = .systemGray4 // меняю цвета линий у сетки
+        chart.xAxis.axisLineColor = .systemBackground
+        chart.rightAxis.axisLineColor = .systemBackground
+        chart.rightAxis.gridColor = .systemGray4
         chart.xAxis.gridColor = .systemGray4
-        chart.legend.enabled = false // убираю расшифровку снизу (не сами значения)
-        chart.minOffset = 0 // отступ слева
+        chart.legend.enabled = false
+        chart.minOffset = 0
         
-        chart.xAxis.granularity = 3.0 // интервал между значениями при максимальном приближении. В каждой клетке будет 3 свечи
-        chart.xAxis.labelPosition = .bottom // xAxis значения только снизу
+        chart.xAxis.granularity = 3.0
+        chart.xAxis.labelPosition = .bottom
         chart.xAxis.labelFont = .systemFont(ofSize: 12, weight: .bold)
         chart.xAxis.setLabelCount(4, force: false)
 //        chart.xAxis.labelTextColor = .white
         
-        chart.leftAxis.enabled = false // отключаю значения слева и включаю справа
+        chart.leftAxis.enabled = false
         chart.rightAxis.enabled = true
         chart.rightAxis.labelFont = .systemFont(ofSize: 12, weight: .medium)
-        chart.rightAxis.setLabelCount(12, force: false) // количество лейблов справа
+        chart.rightAxis.setLabelCount(12, force: false)
         chart.rightAxis.labelPosition = .outsideChart
         
         chart.doubleTapToZoomEnabled = false
-//        chart.addGestureRecognizer(<#T##gestureRecognizer: UIGestureRecognizer##UIGestureRecognizer#>) // например, на долгое нажатие включать перекрестие
+//        chart.addGestureRecognizer() // например, на долгое нажатие включать перекрестие
         
-        chart.zoom(scaleX: 1.01, scaleY: 0, x: 0, y: 0) // минимальный зум, чтобы свечи сразу отображались, т.к. без этого график пустой
+        chart.zoom(scaleX: 1.01, scaleY: 0, x: 0, y: 0)
         
         chart.drawMarkers = true
-//        chart.marker // для маркера
+//        chart.marker
         
         return chart
     }()

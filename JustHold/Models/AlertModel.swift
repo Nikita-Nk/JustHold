@@ -1,16 +1,6 @@
 import UIKit
 import RealmSwift
 
-// Объект, в котором хранится List алертов. Может тогда их можно будет менять местами в списке, когда перемещаю их в tableView (AlertsVC) - в итоге вообще не сохраняются значения
-//class AlertsList: Object {
-//    @Persisted var alerts = List<AlertModel>() // @Persisted
-//    @Persisted var id = "0"
-//
-//    override class func primaryKey() -> String? {
-//        return "id"
-//    }
-//}
-
 final class AlertModel: Object {
     
     enum Condition: String, Codable {
@@ -50,6 +40,6 @@ final class AlertModel: Object {
         self.alertName = alertName
     }
     
-    override init() { // После смены на @Persisted, выдает ошибку, а если сделать такой override, то её нет
+    override init() {
     }
 }
