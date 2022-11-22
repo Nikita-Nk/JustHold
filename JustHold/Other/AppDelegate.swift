@@ -20,24 +20,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         checkColorMode()
         NotificationCenter.default.addObserver(self, selector: #selector(switchToDark), name: .switchToDark, object: nil)
         
-//        debug()
-        
         return true
     }
+}
+
+// MARK: - Private
+
+private extension AppDelegate {
     
-    //MARK: - Private
-    
-    private func debug() {
-    }
-    
-    private func setUpKeyboardManager() {
+    func setUpKeyboardManager() {
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.previousNextDisplayMode = .alwaysHide
         IQKeyboardManager.shared.toolbarBarTintColor = .secondarySystemBackground
         IQKeyboardManager.shared.shouldPlayInputClicks = false
     }
     
-    private func checkColorMode() {
+    func checkColorMode() {
         switch PersistenceManager.shared.darkModeIsOn {
         case true:
             window?.overrideUserInterfaceStyle = .dark
@@ -46,7 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    @objc private func switchToDark(_ notification: Notification) {
+    @objc func switchToDark(_ notification: Notification) {
         switch PersistenceManager.shared.darkModeIsOn {
         case true:
             window?.overrideUserInterfaceStyle = .light
@@ -57,4 +55,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 }
-
