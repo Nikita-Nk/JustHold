@@ -28,10 +28,13 @@ final class TabBarController: RAMAnimatedTabBarController {
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         HapticsManager.shared.vibrateSlightly()
     }
-    
-    //MARK: - Private
+}
 
-    private func configure() {
+// MARK: - Private
+
+private extension TabBarController {
+    
+    func configure() {
         self.tabBar.layer.cornerRadius = 30
         self.tabBar.backgroundColor = .secondarySystemBackground
         
@@ -79,4 +82,3 @@ final class TabBarController: RAMAnimatedTabBarController {
         setViewControllers([vc1, vc2, vc4, vc5], animated: false) // vc3,
     }
 }
-

@@ -63,32 +63,42 @@ private extension SecurityVC {
         HapticsManager.shared.vibrateSlightly()
         let context = LAContext()
         var error: NSError? = nil
+        
         if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
             let reasonTouchID = "Авторизируйтесь с помощью Touch ID"
             
             context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics,
                                    localizedReason: reasonTouchID) { [weak self] success, error in
-                DispatchQueue.main.async {
+                DispatchQueue.main.async { [self] in
                     guard success, error == nil else {
-                        // ошибка
-                        let alert = UIAlertController(title: "Ошибка аутентификации", message: "Пожалуйста, попробуйте снова", preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "Ок", style: .cancel, handler: nil))
-                        self?.present(alert, animated: true)
+                        self?.showAuthenticationErrorAlert()
                         return
                     }
-                    // успех
-                    let vc = TabBarController()
-                    let nav = UINavigationController(rootViewController: vc)
-                    nav.modalPresentationStyle = .fullScreen
-                    self?.present(nav, animated: true, completion: nil)
+                    self?.presentTabBarContoller()
                 }
             }
         }
         else {
-            // если пользователь не дал разрешение на использование функции
-            let alert = UIAlertController(title: "Недоступно", message: "Вы не можете использовать эту функцию. Включите FaceID в настройках приложения JustHold", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Отменить", style: .cancel, handler: nil))
-            self.present(alert, animated: true)
+            showNoPermissionErrorAlert()
         }
+    }
+    
+    func showAuthenticationErrorAlert() {
+        let alert = UIAlertController(title: "Ошибка аутентификации", message: "Пожалуйста, попробуйте снова", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ок", style: .cancel, handler: nil))
+        self.present(alert, animated: true)
+    }
+    
+    func showNoPermissionErrorAlert() {
+        let alert = UIAlertController(title: "Недоступно", message: "Вы не можете использовать эту функцию. Включите FaceID в настройках приложения JustHold", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Отменить", style: .cancel, handler: nil))
+        self.present(alert, animated: true)
+    }
+    
+    func presentTabBarContoller() {
+        let tbc = TabBarController()
+        let nav = UINavigationController(rootViewController: tbc)
+        nav.modalPresentationStyle = .fullScreen
+        self.present(nav, animated: true, completion: nil)
     }
 }
